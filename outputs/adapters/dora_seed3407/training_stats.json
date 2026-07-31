@@ -1,0 +1,8 @@
+{
+  "method": "dora",
+  "seed": 3407,
+  "budget": 512,
+  "peak_vram_gb": 15.01,
+  "epochs": 3,
+  "dataset_size": 2000
+}

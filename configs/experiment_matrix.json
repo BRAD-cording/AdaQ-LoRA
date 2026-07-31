@@ -1,0 +1,117 @@
+{
+  "experiment_matrix": {
+    "description": "AdaQ-LoRA 完整实验矩阵（手册 §四），最小集 = 实验一 + 实验二消融1 + 实验三",
+    "base_model": "meta-llama/Llama-3-8B",
+    "hardware": "NVIDIA A10 24GB",
+    "seeds": [42, 3407, 2025],
+
+    "experiments": [
+      {
+        "id": "exp1",
+        "name": "方法对比（主实验）",
+        "priority": "REQUIRED (main table)",
+        "methods": ["qlora", "dora", "adalora", "adaq"],
+        "seeds": [42, 3407, 2025],
+        "budget": 512,
+        "alignment": "total_rank_A",
+        "target_modules": ["q_proj", "v_proj"],
+        "benchmarks": ["mmlu", "gsm8k", "truthfulqa_mc1", "truthfulqa_mc2", "ifeval"],
+        "estimated_hours": 90,
+        "notes": "主表数据来源；所有方法总秩预算 R=512 对齐；DoRA 多幅度向量需注明"
+      },
+      {
+        "id": "exp2",
+        "name": "消融实验（分配策略对比）",
+        "priority": "REQUIRED (ablation, min set = exp2-ablation1)",
+        "sub_experiments": [
+          {
+            "id": "exp2-a1",
+            "name": "仅误差驱动 (r ∝ ‖E_l‖_F)",
+            "config_key": "error_only"
+          },
+          {
+            "id": "exp2-a2",
+            "name": "仅重要性驱动 (r ∝ I_l=‖W_l‖_F)",
+            "config_key": "importance_only"
+          },
+          {
+            "id": "exp2-a3",
+            "name": "乘积驱动 (r ∝ ‖E_l‖_F·I_l) [完整 AdaQ]",
+            "config_key": "product"
+          },
+          {
+            "id": "exp2-a4",
+            "name": "均匀分配 (r_l = R/N)",
+            "config_key": "uniform"
+          },
+          {
+            "id": "exp2-a5",
+            "name": "仅误差 + 重要性均权",
+            "config_key": "equal_weight"
+          }
+        ],
+        "seeds": [42, 3407, 2025],
+        "budget": 512,
+        "benchmarks": ["mmlu", "gsm8k"],
+        "estimated_hours": 60,
+        "notes": "消融只用 GSM8K + MMLU 两个最敏感指标，省 ~40% 评测时间"
+      },
+      {
+        "id": "exp3",
+        "name": "秩预算扫描",
+        "priority": "REQUIRED (min set)",
+        "budgets": [128, 256, 512, 768, 1024],
+        "methods": ["adaq", "qlora"],
+        "seeds": [42, 3407, 2025],
+        "benchmarks": ["mmlu", "gsm8k", "truthfulqa_mc1", "truthfulqa_mc2", "ifeval"],
+        "estimated_hours": 50,
+        "notes": "秩预算-性能曲线图数据来源"
+      },
+      {
+        "id": "exp4",
+        "name": "目标模块扩展",
+        "priority": "OPTIONAL (time permitting)",
+        "target_module_sets": [
+          ["q_proj", "v_proj"],
+          ["q_proj", "k_proj", "v_proj", "o_proj"],
+          ["q_proj", "v_proj", "gate_proj", "up_proj", "down_proj"],
+          "all_7_modules"
+        ],
+        "methods": ["adaq"],
+        "seeds": [42, 3407, 2025],
+        "budget": 512,
+        "benchmarks": ["mmlu", "gsm8k"],
+        "estimated_hours": 20,
+        "notes": "验证 AdaQ 在不同模块组合下的效果"
+      },
+      {
+        "id": "exp5",
+        "name": "跨模型泛化",
+        "priority": "OPTIONAL (time permitting)",
+        "models": ["meta-llama/Llama-3-8B", "mistralai/Mistral-7B-v0.3", "Qwen/Qwen2-7B"],
+        "methods": ["qlora", "adaq"],
+        "seeds": [42, 3407, 2025],
+        "budget": 512,
+        "benchmarks": ["mmlu", "gsm8k", "truthfulqa_mc1", "truthfulqa_mc2", "ifeval"],
+        "estimated_hours": 80,
+        "notes": "复用同一套秩分配脚本与评测脚本，只换模型名"
+      },
+      {
+        "id": "exp6",
+        "name": "8-bit 鲁棒性",
+        "priority": "OPTIONAL (robustness)",
+        "quantization": ["nf4", "fp4", "int8"],
+        "methods": ["adaq"],
+        "seeds": [42, 3407, 2025],
+        "budget": 512,
+        "benchmarks": ["mmlu", "gsm8k"],
+        "estimated_hours": 20,
+        "notes": "验证 AdaQ 的误差驱动分配在不同量化下的鲁棒性"
+      }
+    ],
+
+    "total_estimated_hours": 320,
+    "weeks": 10,
+    "failure_retry_margin": "30%"
+  }
+}

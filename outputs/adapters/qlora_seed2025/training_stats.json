@@ -1,0 +1,8 @@
+{
+  "method": "qlora",
+  "seed": 2025,
+  "budget": 512,
+  "peak_vram_gb": 14.8,
+  "epochs": 3,
+  "dataset_size": 2000
+}
