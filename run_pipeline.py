@@ -164,8 +164,10 @@ def step_eval():
     """批量评测（使用 adapter 模式，无需 merge）。"""
     env = os.environ.copy()
     env["EVAL_MODE"] = "adapter"
-    env["QUICK"] = env.get("QUICK", "1")
-    env["QUICK_LIMIT"] = env.get("QUICK_LIMIT", "25")  # Fast eval: 25 samples per task
+    # 默认正式全量评测：禁止静默进入 debug 模式（--limit）。
+    # 快速冒烟测试请显式设置 QUICK=1 与 QUICK_LIMIT。
+    env["QUICK"] = env.get("QUICK", "0")
+    env["QUICK_LIMIT"] = env.get("QUICK_LIMIT", "100")
     result = subprocess.run(
         ["bash", os.path.join(SCRIPTS_DIR, "run_eval_batch.sh")],
         cwd=PROJECT_ROOT, env=env

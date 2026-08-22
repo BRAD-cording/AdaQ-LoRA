@@ -67,6 +67,11 @@ def build_lora_config(method, args, ranks_file=None):
         )
         if type_ranks:
             config_kwargs["rank_pattern"] = type_ranks
+            # 非均匀秩下 α 须随 r 缩放（α_l = 2·r_l），保证各层有效学习率统一，
+            # 与 qlora/dora 的 α=2r（铁律2：公平先于领先）保持一致；仅对 target_modules 生效。
+            config_kwargs["alpha_pattern"] = {
+                mod: 2 * r for mod, r in type_ranks.items() if mod in target_modules
+            }
         return LoraConfig(**config_kwargs)
     else:
         raise ValueError(f"Unknown method: {method}")
@@ -87,7 +92,7 @@ def main():
     ap.add_argument("--target-modules", default="q_proj,v_proj")
     ap.add_argument("--ranks-file", default="ranks.json")
     ap.add_argument("--output-dir", default=None)
-    ap.add_argument("--dataset", default="tatsu-lab/alpaca")
+    ap.add_argument("--dataset", default="teknium/OpenHermes-2.5")
     ap.add_argument("--dataset-size", type=int, default=2000)
     ap.add_argument("--no-packing", dest="packing", action="store_false", default=True)
     args = ap.parse_args()
@@ -144,6 +149,21 @@ def main():
             text += "\n" + ex.get("output", "")
             return {"text": text}
         dataset = dataset.map(format_alpaca, remove_columns=dataset.column_names)
+    elif "conversations" in dataset.column_names:
+        # OpenHermes-2.5 等 chat 格式：拼接多轮 human/gpt 为单个 text 序列
+        def format_chat(ex):
+            parts = []
+            for turn in ex["conversations"]:
+                role = turn.get("from", "")
+                value = turn.get("value", "")
+                if role == "human":
+                    parts.append(f"### Human:\n{value}")
+                elif role == "gpt":
+                    parts.append(f"### Assistant:\n{value}")
+                else:
+                    parts.append(value)
+            return {"text": "\n\n".join(parts)}
+        dataset = dataset.map(format_chat, remove_columns=dataset.column_names)
 
     print(f"Dataset: {len(dataset)} samples")
 
