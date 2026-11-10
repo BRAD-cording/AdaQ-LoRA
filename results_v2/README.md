@@ -108,3 +108,26 @@ PY
   会拿到 mmlu 那份，误以为 safety 指标缺失。**按 task 内容筛文件**，不按文件名猜。
 
 结论：补跑产物落地后直接跑 `aggregate_results.py` 即可，无需人工拼接。
+
+## 9. 卡住时的确定性恢复（2026-11-11 轮 4）
+
+`logs/repair_all.sh` 是 `setsid nohup` 后台自跑。若远端 OOM、SSH 断连或机器重启
+把进程干掉，`repair_all.status` 不会有 `ALL DONE`，goal 续跑轮会在空等里耗尽预
+算（实测 4 轮 / 约 3–4 分钟一轮，30 轮约 2h，而补跑剩 5–8h）。
+
+**卡住判据**：超过 40min 无新增 `OK` 行、无新增 `results_*.json`、GPU util 掉 0，
+且 `check_eval_status.py` 仍 `INCOMPLETE`。
+
+**一条命令恢复**（幂等，脚本只写不自动调度，活着时不做任何改动）：
+
+```
+bash scripts/resume_repair.sh
+```
+
+它先 `pgrep` 确认无活跃补跑进程，再跑一次 `check_eval_status.py`；仍 INCOMPLETE
+才用 `run_eval_missing.py`（WANT=mmlu,gsm8k,safety，双卡，跑完自动聚合）幂等补
+缺失任务。**不删产物、不重置 marker、不改评分器/测试/CI**，补跑产物是新增时间戳
+json，聚合器按 mtime 去重。
+
+严禁在补跑进程仍存活时手工重启 `repair_all.sh` —— 会造成两个 `lm_eval` 同写
+同一 `output_path`。
