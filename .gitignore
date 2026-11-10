@@ -38,3 +38,6 @@ results_q25/*
 *.pth
 *.log
 __pycache__/
+
+# v2.0 驱动备份（保留本地，不入库）
+scripts/*.bak.*
