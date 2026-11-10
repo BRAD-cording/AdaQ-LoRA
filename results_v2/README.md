@@ -66,3 +66,26 @@ PY
 `eval_*.log` 尾部；529/429/OOM 会体现在 `FAIL ` 行，脚本会 `exit 2` 且不 touch marker。
 不要用 `logs/repair_all.status` 里的 `ALL DONE` 文案判断成功——批次失败时它也会写；
 以 `check_eval_status.py` 的机读结果为准。
+
+### 补：诊断命令自身的陷阱（2026-11-11 实测）
+
+曾在一条诊断命令里同时 grep「当前补跑日志」和「历史基准日志 qlora_seed42/eval_main.log」，
+输出混在一起，把历史日志的 `56168/56168 [21:31<00:00, 43.48it/s]` 误读成
+"当前首批快出结果"。**教训：核对进度时 grep 范围必须只含本次补跑的日志文件；
+历史日志只能单独查、且必须显式标注"基准"**。
+
+取当前真实最后一帧的正确做法（tqdm 用 `\r` 重绘，整段是一个超长行）：
+
+```
+python - <<'PY'
+import re
+p="results_v2/adalora_seed3407/eval_mmlu.log"
+pat=re.compile(r"Running (?:loglikelihood|generate_until) requests:\s*(\d+)%\|[^\r]*?(\d+)/(\d+) \[([0-9:]+)<([0-9:]+),\s*([\d.]+)it/s\]")
+f=pat.findall(open(p,errors="ignore").read().replace("\r","\n"))[-1]
+print(f)   # ('22','12193','56168','10:53','17:12','42.61')
+PY
+```
+
+实测（21:05 UTC）：当前两个全量 MMLU 各 21–22%、约 40 it/s、剩余 17–19min；
+历史单卡全量 MMLU 平均 43.48 it/s、推理 21:31、wall 27min24s。
+双卡并发下 40 it/s 属正常量级，**无需干预加速**，不要为了"看起来更快"去重跑。
