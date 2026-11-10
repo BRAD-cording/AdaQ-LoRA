@@ -157,3 +157,25 @@ json，聚合器按 mtime 去重。
 **结论**：BATCH1(12 个 mmlu/gsm8k) 与 BATCH2(12 个 safety) 产物全落地后，只要补跑沿用全量口径，
 `aggregate_results.py` 不会因历史/补跑混合误报 `exit 2`；`check_eval_status.py` 的 `mismatch_task_count==0` 判据可达。
 `repair_all.sh` 仅 `set -o pipefail`、无 `set -e`，BATCH1 的非零退出**不会掐断** BATCH2，批次链接健壮。
+
+
+---
+
+## 11. 统计功效边界（交付诚实红线，Round 10 追加）
+
+`summary.json` 的 `significance_test` 采用 **Wilcoxon signed-rank (paired by seed)**，
+`aggregate_results.py` 的内置门槛是 **≥6 对配对值**才计算有效 p 值；不足时只输出 note。
+
+**实测（本轮对当前 summary.json）**：全部任务均为
+`{"note": "仅 2 对配对值；Wilcoxon 需 >=6 对才有效", "n_pairs": 2}`。
+实验矩阵固定 3 个种子 `[42, 3407, 2025]`，即使全量补齐、每方法 3 seed 全配对，
+**最多也只有 3 对 < 6** —— 这是设计约束，不是数据缺失，补跑不会改变它。
+
+**因此交付措辞的硬边界**：
+- 只能给**描述性** `mean ± std (n=3)`，**禁止**「显著优于 / SOTA / p<0.05 / 统计显著」等推断性表述；
+- 显著性一律写「未检验 / 功效不足（3 seeds < 6 配对，Wilcoxon 不适用）」；
+- 与 §6「MMLU 四方法差异在种子波动内、不能当方法有效性主证据」叠加：
+  **AdaQ 的方法有效性主张目前没有统计证据支撑**，论文需扩到 ≥6 种子或改用预注册的检验并重新设计实验。
+
+聚合器已自动输出这条 note（无需改代码、不改评分器/测试/CI）；本节只把「不能说的」固化成交付口径，
+防止下游把 `significance_test` 字段误读成「已做显著性检验且通过」。
