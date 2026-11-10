@@ -41,3 +41,5 @@ __pycache__/
 
 # v2.0 驱动备份（保留本地，不入库）
 scripts/*.bak.*
+!results_v2/README.md
+!results_v2/summary.pre-repair.json
