@@ -37,3 +37,32 @@ PY
 `marker=main`，第一个任务成功后第二个被 SKIP；hf-mirror 429 导致的 mmlu 失败
 又被后续 gsm8k 的成功 touch 同一 marker 掩盖。v2.1 改为每任务独立 marker +
 产物机读校验 + 离线模式。
+
+## 7. 运行期判据与 ETA 基准（2026-11-11 补）
+
+**唯一权威判据**（按可靠性排序，`check_eval_status.py` 是交付闸门）：
+
+1. `logs/repair_main.log` / `logs/repair_safety.log` 中 `[... ] OK    gpuN` 行数
+2. `.done_mmlu` / `.done_gsm8k` / `.done_safety` 各 12 个
+3. 新增的 `results_*.json`（时间戳文件，补跑不会覆盖旧文件）
+4. `python scripts/check_eval_status.py` → exit 0 / `VERDICT: PASS`
+
+**禁止当判据的伪信号**：`eval_*.log` 里 tqdm 进度条用 `\r` 重绘，整段是**一个超长行**；
+`grep -oE '...[0-9]+%' | tail -1` 会拿到任意历史帧，既不是当前进度也不能算 ETA。
+曾据此误判"10 分钟只涨 1%"，实为测量假象。看进度只看 `OK` 行。
+
+**历史耗时基准**（本机实测，2× RTX 4090D，bf16 基座 + PEFT，全量）：
+
+| 任务 | 实测 | 出处 |
+|:---|:---|:---|
+| MMLU 全量 14042 | 27min24s | `qlora_seed42/eval_main.log` 05:55:49→06:23:13 |
+| GSM8K 全量 1319 | 约 22min | 历史批次日志 |
+| 冒烟 LIMIT=8（mmlu+gsm8k+safety 三任务） | 243s（88.8+95.0+58.9） | `logs/smoke_v21.log` |
+
+按 12 任务 / 双卡串行估算：BATCH1 约 2.5–3h，BATCH2 因 IFEval 541 题生成约 3–5h，
+总计 5–8h（估算，非承诺）。
+
+**卡住判据**：超过 40min 无新增 `OK` 行且 `nvidia-smi` util 掉到 0 → 查对应
+`eval_*.log` 尾部；529/429/OOM 会体现在 `FAIL ` 行，脚本会 `exit 2` 且不 touch marker。
+不要用 `logs/repair_all.status` 里的 `ALL DONE` 文案判断成功——批次失败时它也会写；
+以 `check_eval_status.py` 的机读结果为准。
