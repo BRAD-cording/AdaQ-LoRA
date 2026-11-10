@@ -1,0 +1,67 @@
+# AdaQ-LoRA 统一训练超参配置（所有方法共享，铁律2：公平先于领先）
+# 依据：sota-comparison-protocol.md §2 统一训练超参表
+
+base_model: "meta-llama/Llama-3-8B"
+
+# --- 量化配置（所有方法统一）---
+quantization:
+  load_in_4bit: true
+  bnb_4bit_quant_type: "nf4"
+  bnb_4bit_compute_dtype: "bfloat16"
+  bnb_4bit_use_double_quant: true
+
+# --- LoRA 通用配置 ---
+lora:
+  alpha: 16            # α = 2r (r=8 baseline)
+  dropout: 0.05
+  target_modules: ["q_proj", "v_proj"]  # 口径A: 64位点 → r̄=8
+
+# --- 训练配置 ---
+training:
+  num_train_epochs: 3
+  per_device_train_batch_size: 4
+  gradient_accumulation_steps: 4  # 有效 batch = 16
+  learning_rate: 2.0e-4
+  lr_scheduler_type: "cosine"
+  warmup_ratio: 0.03
+  weight_dropout: 0.0
+  max_grad_norm: 1.0
+  max_seq_length: 2048
+  packing: true
+  dataloader_num_workers: 4
+  save_strategy: "epoch"
+  save_only_model: true
+  logging_steps: 10
+  seed: 42  # 覆盖为 [42, 3407, 2025]
+
+# --- 优化配置（按 training-optimization.md §2 顺序）---
+optimization:
+  attn_implementation: "flash_attention_2"  # 或 "sdpa" 作 fallback
+  gradient_checkpointing: true
+  gradient_checkpointing_kwargs:
+    use_reentrant: false
+  optim: "paged_adamw_8bit"
+  liger_kernel: true
+
+# --- 秩预算 ---
+rank_budget: 512
+r_min: 4
+r_max: 128
+
+# --- 种子列表 ---
+seeds: [42, 3407, 2025]
+
+# --- 方法特定覆盖 ---
+method_overrides:
+  qlora:
+    r: 8
+    alpha: 16
+  dora:
+    r: 8
+    alpha: 16
+    use_dora: true
+  adalora:
+    total_rank: 512
+  adaq:
+    ranks_file: "ranks.json"  # adaq_precompute.py 输出
+    allocation_scheme: "A"    # 方案A: 按模块类型聚合

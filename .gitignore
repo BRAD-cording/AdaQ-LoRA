@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Caches
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+wandb/
+runs/
+
+# ---- AdaQ-LoRA: 大体积产物与可再生成的中间件（不入库）----
+models/
+outputs/
+logs/
+data/
+results/*
+!results/summary.json
+results_v2/*
+!results_v2/summary.json
+results_q25/*
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.log
+__pycache__/

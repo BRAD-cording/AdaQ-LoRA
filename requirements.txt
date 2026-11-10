@@ -1,0 +1,28 @@
+# AdaQ-LoRA: Core dependencies
+# Install: pip install -r requirements.txt
+
+# --- LLM Training ---
+torch>=2.1.0
+transformers>=4.40.0
+peft>=0.10.0
+trl>=0.9.0
+bitsandbytes>=0.43.0
+accelerate>=0.29.0
+datasets>=2.19.0
+
+# --- Flash Attention ---
+# Install separately: pip install flash-attn --no-build-isolation
+flash-attn>=2.5.0; sys_platform == "linux"
+
+# --- Liger Kernel ---
+liger-kernel>=0.1.0
+
+# --- Evaluation ---
+lm-eval>=0.4.0
+
+# --- Scientific Computing ---
+numpy>=1.24.0
+scipy>=1.10.0
+
+# --- Utilities ---
+pyyaml>=6.0
