@@ -131,3 +131,29 @@ json，聚合器按 mtime 去重。
 
 严禁在补跑进程仍存活时手工重启 `repair_all.sh` —— 会造成两个 `lm_eval` 同写
 同一 `output_path`。
+
+
+---
+
+## 10. 全量混合产物聚合只读预演（Round 7 追加，排除交付返工）
+
+轮 3 的合并预演用的是 `results_smoke/`（LIMIT=8 冒烟产物），**不是**「历史全量产物 + 全量补跑产物」的混合。
+本次用真实 `results_v2` 做只读预演，输出写到 `/tmp/agg_preview/summary.json`，**未碰** `results_v2/summary.json`：
+
+| 项 | 实测值 |
+| --- | --- |
+| 命令 | `aggregate_results.py --results-dir results_v2 --out /tmp/agg_preview/summary.json` |
+| 退出码 | `0` |
+| `_audit.mismatch_task_count` | `0` |
+| `_audit.sample_len_mismatch` | `[]` |
+| `_audit.duplicate_files` | `[]` |
+| `n_files / n_runs` | `14 / 12`（预演时点） |
+
+**排除「假绿」**：`norm_keys` 只丢非数值键，`results[task].sample_len` 是数值故被保留；
+实测 `mmlu: {'14042': 10 份}`、`gsm8k: {'1319': 4 份}` —— 值真实存在且各自统一，
+`mismatch_task_count=0` 是**真绿**，不是「全 None 所以审计不触发」的假绿。
+注意顶层 `n-samples` 对 mmlu 是 `null`、对 gsm8k 是字典，**不能拿它当口径判据**，判据只认 `results[task].sample_len`。
+
+**结论**：BATCH1(12 个 mmlu/gsm8k) 与 BATCH2(12 个 safety) 产物全落地后，只要补跑沿用全量口径，
+`aggregate_results.py` 不会因历史/补跑混合误报 `exit 2`；`check_eval_status.py` 的 `mismatch_task_count==0` 判据可达。
+`repair_all.sh` 仅 `set -o pipefail`、无 `set -e`，BATCH1 的非零退出**不会掐断** BATCH2，批次链接健壮。
