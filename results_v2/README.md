@@ -89,3 +89,22 @@ PY
 实测（21:05 UTC）：当前两个全量 MMLU 各 21–22%、约 40 it/s、剩余 17–19min；
 历史单卡全量 MMLU 平均 43.48 it/s、推理 21:31、wall 27min24s。
 双卡并发下 40 it/s 属正常量级，**无需干预加速**，不要为了"看起来更快"去重跑。
+
+## 8. 补跑前的链路预验证（2026-11-11 轮 3，隔离目录，不碰运行中的 results_v2）
+
+补跑会产出「旧残缺 json + 新补跑 json」共存的目录，聚合器必须正确合并。
+在 `/tmp/agg_sim*` 用真实产物做过预验证，结论：
+
+- `verify_eval_artifact.py` 对**全量**产物 7 组测试全过：历史全量 mmlu/gsm8k 正向
+  exit 0；只有 gsm8k 的 run 查 mmlu、只有 mmlu 的 run 查 gsm8k、未跑 safety 的 run
+  查 safety、不存在目录 → 全部 exit 1（即 v2.0 的残缺能被抓住）。
+- `aggregate_results.py` 同一 run 目录多份 `results_*.json` → **按 task 键合并全部文件**，
+  同一 (run, task) 取 mtime 最新。注入 decoy(acc=0.9999, mtime 最旧) 后仍取真实
+  0.6532，去重生效。
+- 明确用 3 份真实产物（mmlu/gsm8k/safety）合并，`qlora` 一次拿到 5 个指标：
+  mmlu/acc, gsm8k/exact_match,strict-match, truthfulqa_mc1/acc, truthfulqa_mc2/acc,
+  ifeval/inst_level_strict_acc —— `ALL_5_METRICS_PRESENT: True`。
+- 踩过的坑（仅诊断脚本，非产物）：冒烟目录有 3 份 results json，`find | head -1`
+  会拿到 mmlu 那份，误以为 safety 指标缺失。**按 task 内容筛文件**，不按文件名猜。
+
+结论：补跑产物落地后直接跑 `aggregate_results.py` 即可，无需人工拼接。
