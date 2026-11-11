@@ -16,9 +16,15 @@ PY=/home/ubuntu/miniconda3/envs/pytorch_gpu/bin/python
 STATUS=logs/repair_all.status
 
 alive() {
-  pgrep -f "bash logs/repair_all.sh" >/dev/null 2>&1 && return 0
-  pgrep -f "python scripts/run_eval_missing.py" >/dev/null 2>&1 && return 0
-  pgrep -f "lm_eval --model" >/dev/null 2>&1 && return 0
+  # 用宽松 basename 模式：真实 cmdline 是
+  #   /home/ubuntu/miniconda3/envs/pytorch_gpu/bin/python -W ignore scripts/run_eval_missing.py
+  # 旧写法 "python scripts/run_eval_missing.py" 因中间夹了 "-W ignore" 永远不命中（实测 0 命中），
+  # 会在 canary->放量空档误判「无人在跑」而重复拉起第二个驱动，两个驱动同时抢同一张卡。
+  pgrep -f "repair_all\.sh"        >/dev/null 2>&1 && return 0
+  pgrep -f "repair_safety_v2\.sh"  >/dev/null 2>&1 && return 0
+  pgrep -f "run_eval_missing\.py"  >/dev/null 2>&1 && return 0
+  pgrep -f "finalize_watch\.sh"    >/dev/null 2>&1 && return 0
+  pgrep -f "lm_eval --model"        >/dev/null 2>&1 && return 0
   return 1
 }
 
