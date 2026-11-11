@@ -480,3 +480,18 @@ A_EXIT=0  A_REPORT=NO
 **教训（可复用）**：验证脚本副本时，要显式断开它对外部世界的三个耦合
 ——**进程表（pgrep）**、**硬编码工作目录**、**真实数据目录**。否则"测过了"测的是
 另一个程序。判据是：**四个场景的输出必须互不相同**；输出雷同就说明没进分支。
+
+
+## §19 REST 派工 makespan 分析（静态轮转 vs 最优，及 dora 慢的机制证据）
+
+14:29 UTC 静态推演（10 个剩余 run，按 run_eval_missing.py 源码字母序轮转派工复刻）：
+- GPU0 = adalora_seed3407(94m16s) + adaq_seed2025(68m21s) + adaq_seed42(63m16s) + dora_seed3407(161m15s) + qlora_seed2025(67m48s) = 454m56s
+- GPU1 = adalora_seed42(90m25s) + adaq_seed3407(67m31s) + dora_seed2025(157m56s) + dora_seed42(156m27s) + qlora_seed3407(63m35s) = 535m54s
+- makespan = 535m54s ≈ 8.93h；理想均分 8.26h；穷举最优二分 499m04s ≈ 8.32h
+- 结论：调顺序最多省 36min（6.9%），改驱动需重启、风险大于收益 → 保持现状。
+
+dora 慢的机制证据（eval_safety.log 100% 帧）：
+- adaq_seed42 7.02 s/it（1:03:16）、adalora_seed42 10.03 s/it（1:30:25）、dora_seed42 17.35 s/it（2:36:27）
+- dora 逐帧速率 2–59 s/it 剧烈波动 → 生成长度差异极大，部分 prompt 生成到 max_gen_toks=1280 满额
+- 判读：DoRA lora_magnitude_vector 每步额外归一化使长生成显著变慢，不是卡死/异常
+- 佐证缺口：本 lm_eval 版本不输出 Total from start tokens / ms/token；历史 safety 产物全在 metric 阶段崩溃，无 ifeval 结果可核生成长度分布
