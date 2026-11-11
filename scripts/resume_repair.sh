@@ -23,7 +23,11 @@ alive() {
   pgrep -f "repair_all\.sh"        >/dev/null 2>&1 && return 0
   pgrep -f "repair_safety_v2\.sh"  >/dev/null 2>&1 && return 0
   pgrep -f "run_eval_missing\.py"  >/dev/null 2>&1 && return 0
-  pgrep -f "finalize_watch\.sh"    >/dev/null 2>&1 && return 0
+  # finalize_watch 会**调用**本脚本；若把它算作「驱动还活着」，恢复就永远不触发
+  # （它 pgrep 得到自己）。故由看门狗调用时用 ADAQ_INVOKED_BY 显式排除调用者。
+  if [ "${ADAQ_INVOKED_BY:-}" != "finalize_watch" ]; then
+    pgrep -f "finalize_watch\.sh"  >/dev/null 2>&1 && return 0
+  fi
   pgrep -f "lm_eval --model"        >/dev/null 2>&1 && return 0
   return 1
 }

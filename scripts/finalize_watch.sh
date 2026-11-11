@@ -41,7 +41,7 @@ for i in $(seq 1 200); do
   elif [ "$recovered" -lt 2 ]; then
     recovered=$((recovered+1))
     log "r$i 收口未通过 rc=$rc 且驱动已死 -> 触发幂等恢复 #$recovered"
-    bash scripts/resume_repair.sh >> "$LOG" 2>&1
+    ADAQ_INVOKED_BY=finalize_watch bash scripts/resume_repair.sh >> "$LOG" 2>&1
     log "r$i 恢复脚本已执行，等 120s"
   else
     log "r$i 收口未通过 rc=$rc，恢复已用尽 -> 只等不复活（避免反复烧卡）"
