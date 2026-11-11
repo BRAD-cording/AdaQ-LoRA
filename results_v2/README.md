@@ -255,3 +255,65 @@ results_v2/<run>/eval_safety.log:
 => 约 1/8–1/5 的样本会真正走 `nltk.word_tokenize` / `count_sentences`。
 当年 `--limit 8` 冒烟只跑 8 条，命中概率 ≈ 8×(64/541) ≈ 0.95 条，
 **期望不到 1 条**——这就是它必然漏检的定量解释。
+
+## 14. safety 放量阶段的两个结构性风险（均已在启动前排除）
+
+### 14.1 `resume_repair.sh` 的 `alive()` 谓词本来永远不命中
+
+原写法 `pgrep -f "python scripts/run_eval_missing.py"`。真实 cmdline 是
+
+```
+/home/ubuntu/miniconda3/envs/pytorch_gpu/bin/python -W ignore scripts/run_eval_missing.py
+```
+
+中间夹着 `-W ignore`，**模式不匹配**。实测：真实进程数 `1`，旧模式命中 `0`。
+
+后果：canary 通过 → 放量之间的空档里，`alive()` 会误判「无人在跑」，于是
+`resume_repair.sh` 拉起**第二个驱动**。两个 `run_eval_missing.py` 同时按
+`GPUS=0,1` 抢同一张卡 → 显存打爆或互相拖慢，且两边都会看到「任务缺失」而重复跑。
+
+修复（commit `3651c7b`）：改宽松 basename 模式，并把 `repair_safety_v2.sh`、
+`finalize_watch.sh` 一并纳入判活名单：
+
+```bash
+pgrep -f "repair_all\.sh"        && return 0
+pgrep -f "repair_safety_v2\.sh"  && return 0
+pgrep -f "run_eval_missing\.py"  && return 0
+pgrep -f "finalize_watch\.sh"    && return 0
+pgrep -f "lm_eval --model"       && return 0
+```
+
+正向实测（canary 在跑时执行）：输出「补跑仍在运行，不做任何改动」，`RESUME_EXIT=0`，
+之后 `run_eval_missing` 进程数仍为 **1**、`lm_eval` 仍为 **2** —— 没有多拉一个驱动。
+
+### 14.2 放量会不会把 canary 那两个 run 再跑一遍？
+
+会问这个问题是因为：`build_jobs()` 的跳过条件有两条（`.done_<marker>` 存在，或
+`tasks_in()` 已含全部所需 task）。canary 通过后这两条都成立，理论上会跳过；
+但「理论上」不算证据。
+
+沙箱实证（`/tmp/sim_rest`，合成 12 个 run 目录，其中 `qlora_seed42` /
+`adalora_seed2025` 标记为 canary 已完成）：
+
+```
+SIM_JOBS=10   (期望 10：canary 两 run 必须被跳过)
+REPEATED= 无重复
+TARGETS= adalora_seed3407, adalora_seed42, adaq_seed2025, adaq_seed3407,
+         adaq_seed42, dora_seed2025, dora_seed3407, dora_seed42,
+         qlora_seed2025, qlora_seed3407
+```
+
+结论：放量阶段精确落在那 10 个未完成 run 上，不重跑 canary。
+
+### 14.3 承载余量（放量前实测）
+
+| 项 | 实测 | 判断 |
+| --- | --- | --- |
+| 磁盘 `/` | 148G used / 321G avail (32%) | 充足 |
+| 单个 run 产物 | 均值 0.1MB | 10 run 约 1MB，可忽略 |
+| GPU 显存 | 16072 / 24564 MiB per card | 单卡单进程，未逼近上限 |
+| 系统内存 | used 9G / total 125G，available 116G | 充足 |
+| `batch_size` 判定 | loglikelihood 32 / generate_until **1** | IFEval 的瓶颈，不调（避免 OOM 与中途换方案） |
+
+**ETA**：`max_gen_toks=1280` 且 generate_until batch=1，单 run 实测速率 2.7–6.7 s/it，
+推得单 run 约 48–61 min；canary 2 个 → 放量 10 个 = 5 波 × ~50–60 min ≈ **4.2–5 h**。
