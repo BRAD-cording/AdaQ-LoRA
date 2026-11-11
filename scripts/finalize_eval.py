@@ -72,6 +72,33 @@ def run_gate() -> tuple[int, str]:
     return proc.returncode, (proc.stdout or "") + (proc.stderr or "")
 
 
+MARKERS = ("mmlu", "gsm8k", "safety")
+
+
+def audit_markers() -> dict:
+    """统计 12 个 run 的 .done_* marker。
+
+    说明：闸门 check_eval_status.py 判的是**产物内容**（更强），marker 只是补跑脚本
+    「已验证通过」的记账位。这里把 marker 数显式报出来，避免交付时只能口头声称
+    「marker 齐全」而无据可查；marker 缺失但产物齐全不算失败，只作为观察项记录。
+    """
+    per_run: dict[str, list[str]] = {}
+    for m in METHODS:
+        for s in SEEDS:
+            run = f"{m}_seed{s}"
+            d = os.path.join(OUT, run)
+            have = [k for k in MARKERS if os.path.isfile(os.path.join(d, f".done_{k}"))]
+            per_run[run] = have
+    counts = {k: sum(1 for v in per_run.values() if k in v) for k in MARKERS}
+    complete = sum(1 for v in per_run.values() if len(v) == len(MARKERS))
+    return {
+        "counts": counts,
+        "runs_complete": complete,
+        "runs_total": len(per_run),
+        "incomplete_runs": {k: v for k, v in per_run.items() if len(v) != len(MARKERS)},
+    }
+
+
 def build_report(summary: dict) -> str:
     lines: list[str] = []
     a = lines.append
@@ -120,7 +147,24 @@ def build_report(summary: dict) -> str:
       "`summary.json` 的 `significance_test` 已对每任务标注样本不足。"
       "因此本报告只给描述性统计，**禁止**「显著优于 / SOTA / p<0.05」类表述。")
     a("")
-    a("## 4. 可复现命令")
+    mk = audit_markers()
+    a("## 4. 补跑记账位（.done_* marker 核对）")
+    a("")
+    a("闸门判据是**产物内容**（更强）；marker 是补跑脚本「已验证通过」的记账位。")
+    a("")
+    a("| marker | 齐全 run 数 / 12 |")
+    a("| --- | --- |")
+    for k in MARKERS:
+        a(f"| `.done_{k}` | {mk['counts'][k]} |")
+    a("")
+    a(f"三 marker 全齐的 run：**{mk['runs_complete']}/{mk['runs_total']}**")
+    if mk["incomplete_runs"]:
+        a("")
+        a("未齐的 run（观察项，不阻断交付——产物内容已由闸门判定）：")
+        for r, v in sorted(mk["incomplete_runs"].items()):
+            a(f"- `{r}`: {v or '无 marker'}")
+    a("")
+    a("## 5. 可复现命令")
     a("")
     a("```bash")
     a("bash scripts/run_eval_missing.py            # 幂等补缺失（WANT/OUT_DIR 见文件头）")
@@ -158,6 +202,7 @@ def main() -> int:
             os.path.getmtime(SUMMARY), timezone.utc
         ).strftime("%Y-%m-%d %H:%M:%S UTC"),
         "audit": {k: v for k, v in audit.items() if k != "per_run_dirs"},
+        "markers": audit_markers(),
         "report_generated": False,
     }
 
