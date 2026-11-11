@@ -390,3 +390,36 @@ VERDICT: INCOMPLETE 继续等待/补跑
    值确实会动，只是幅度（0.11 sd）远小于抽样噪声；
 3. 因此论文里**不能**写「秩分配对种子不敏感」，只能写「三种子 GSM8K 差异 0.0009 std，
    在抽样噪声内」这类描述性表述。
+
+## 17. safety 单 run 耗时的结构性差异 + 看门狗预算修正（200 轮 → 420 轮）
+
+12 个 run 的 `eval_safety.log` 都完整跑完了生成阶段（只是最后 metric 阶段因 punkt_tab 崩掉），
+所以可以从 100% 帧反推**真实**单 run safety 耗时，不用猜：
+
+| run | TruthfulQA | IFEval | 合计 |
+| --- | --- | --- | --- |
+| qlora_seed42 | 2m37s | 70m18s | 72m55s |
+| qlora_seed3407 | 2m33s | 63m35s | 66m08s |
+| qlora_seed2025 | 2m37s | 67m48s | 70m25s |
+| dora_seed42 | 2m42s | **156m27s** | **159m09s** |
+| dora_seed3407 | 2m47s | **161m15s** | **164m02s** |
+| dora_seed2025 | 2m43s | **157m56s** | **160m39s** |
+| adalora_seed42 | 2m32s | 90m25s | 92m57s |
+| adalora_seed3407 | 2m36s | 94m16s | 96m52s |
+| adalora_seed2025 | 2m31s | 85m14s | 87m45s |
+| adaq_seed42 | 2m36s | 63m16s | 65m52s |
+| adaq_seed3407 | 2m32s | 67m31s | 70m03s |
+| adaq_seed2025 | 2m37s | 68m21s | 70m58s |
+
+**结构性事实**：TruthfulQA 三个任务里只占 ~2.5min（9996 个 loglikelihood 请求，batch=32），
+而 IFEval 占 63–161min（541 条 generate_until，batch **=1**，`max_gen_toks:1280`）。
+**dora 的三个 seed 全部 >159min，是其他方法的 2.2–2.5 倍**——说明 DoRA 的 adapter
+在长文本生成上明显更慢（`lora_magnitude_vector` 每步额外归一化）。
+队列里 dora 三个 run 会把 2 卡负载拉成尖峰，这是 ETA 从「4.2–5h」修正到「≈10h」的唯一原因。
+
+**看门狗预算缺陷（本轮修）**：`scripts/finalize_watch.sh` 原为 `200 轮 × 180s = 10.0h`。
+按上表在线贪心分配（2 卡、12 run）实测推演 makespan ≈9.2h，加 canary 剩余 ≈1.6h
+→ 需要 **≈10.8h**，即原预算会**正好卡在最后约 27 分钟 TIMEOUT**，整个无人值守链白跑。
+修法：`200 → 420` 轮（21h），`bash -n` 通过，备份 `scripts/finalize_watch.sh.bak.pre-budget-*`。
+**必须用新脚本重启看门狗**（bash 按需分块读脚本，不重启仍是旧逻辑）→ 旧 PID 3839641 已 kill，
+新 **PID 3849420**，`logs/finalize_watch.status` 首行确认 `rounds<=420 interval=180s budget=21h`。

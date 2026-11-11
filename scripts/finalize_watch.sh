@@ -4,6 +4,9 @@
 #   没 lm_eval     -> 跑 finalize_eval.py（闸门 PASS 才生成 FINAL_REPORT.md）
 #   rc!=0          -> 若驱动进程已死且无 GPU 任务，才触发幂等恢复；否则继续等
 # 关键：canary 与放量之间的空档会拿到 INCOMPLETE(rc=2)，这**不是失败**，继续等即可。
+# 预算算术（实测反推）：420 轮 × 180s = 21h。依据：12 个 run 的完整 safety 日志显示单 run
+# 65m52s~164m02s（dora 三 seed 都 >159min，IFEval 生成长），canary 2 + REST 10 在 2 卡上
+  # 在线贪心 makespan 实测推演 ≈9.2h，加 canary 余量约 10.8h；原 200 轮 = 10.0h 会卡在末尾超时。
 set -o pipefail
 cd /home/ubuntu/AdaQ-LoRA || exit 1
 PY=/home/ubuntu/miniconda3/envs/pytorch_gpu/bin/python
@@ -20,9 +23,9 @@ driver_alive(){
   return 1
 }
 
-log "FINALIZE-WATCH START rounds<=200 interval=180s"
+log "FINALIZE-WATCH START rounds<=420 interval=180s budget=21h"
 recovered=0
-for i in $(seq 1 200); do
+for i in $(seq 1 420); do
   if pgrep -f "lm_eval --model" > /dev/null 2>&1; then
     log "r$i 有 lm_eval 在跑 -> 等 180s"
     sleep 180
@@ -48,5 +51,5 @@ for i in $(seq 1 200); do
   fi
   sleep 180
 done
-log "FINALIZE-WATCH TIMEOUT 200 轮"
+log "FINALIZE-WATCH TIMEOUT 420 轮"
 exit 1
