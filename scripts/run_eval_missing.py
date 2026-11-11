@@ -116,6 +116,8 @@ def run_one(job, gpu):
         "HF_HUB_OFFLINE": "1",
         "HF_DATASETS_OFFLINE": "1",
         "ADAQ_MODEL_PATH": BASE,
+        # nltk 3.10.4 只信任 go-w 的私有目录；显式固定，避免子进程 HOME 差异导致找不到 punkt_tab
+        "NLTK_DATA": os.environ.get("NLTK_DATA", "/home/ubuntu/nltk_data"),
     })
     cmd = [
         PY, "-m", "lm_eval",
@@ -159,6 +161,26 @@ def main():
     if not os.path.isdir(BASE):
         print(f"[FATAL] base model not found: {BASE}", file=sys.stderr)
         return 1
+    if "safety" in WANT:
+        print(f"[{now()}] preflight: safety metric path (GPU-free) ...", flush=True)
+        pf_env = os.environ.copy()
+        pf_env.update({
+            "HF_DATASETS_OFFLINE": "1",
+            "HF_HUB_OFFLINE": "1",
+            "NLTK_DATA": os.environ.get("NLTK_DATA", "/home/ubuntu/nltk_data"),
+        })
+        rc_pf = subprocess.call(
+            [PY, os.path.join(ROOT, "scripts", "preflight_safety_metrics.py")], env=pf_env
+        )
+        if rc_pf != 0:
+            print(
+                f"[{now()}] preflight FAILED rc={rc_pf} -> refuse to launch safety GPU jobs "
+                f"(metric path is broken; fix it instead of burning hours)",
+                file=sys.stderr, flush=True,
+            )
+            return 3
+        print(f"[{now()}] preflight PASS", flush=True)
+
     jobs = build_jobs()
     print(f"[{now()}] OUT={OUT} WANT={WANT} GPUS={GPUS} LIMIT={LIMIT or 'full'} jobs={len(jobs)}", flush=True)
     for j in jobs:

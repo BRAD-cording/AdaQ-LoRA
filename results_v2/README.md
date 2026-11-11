@@ -179,3 +179,49 @@ json，聚合器按 mtime 去重。
 
 聚合器已自动输出这条 note（无需改代码、不改评分器/测试/CI）；本节只把「不能说的」固化成交付口径，
 防止下游把 `significance_test` 字段误读成「已做显著性检验且通过」。
+
+## §12 BATCH2 safety 全灭复盘（2026-11-11）
+
+### 现象
+`logs/repair_safety.log`：12/12 `FAIL rc=1`，每个耗时 3979.8–9865.2s；
+`repair_all.status` 仍写 `BATCH2 exit=2 (summary.json 完整表已落)` + `ALL DONE` —— **文案与事实相反**，
+再次印证「status 文件不作判据，只认 OK 行 + 机读闸门」。
+
+### 根因（12/12 同一根因，逐字证据）
+```
+results_v2/<run>/eval_safety.log:
+  [nltk_data] Error loading punkt_tab: <urlopen error [Errno 104] Connection reset by peer>
+  Downloaded punkt_tab on rank 0            <-- 假成功：download 失败也打印这句
+  ...
+  LookupError:
+    Resource 'punkt_tab' not found.
+    Attempted to load 'tokenizers/punkt_tab/english/'
+```
+链路：`lm_eval/tasks/ifeval/instructions_util.py:36 download_nltk_resources()`
+→ `:45 nltk.data.find("tokenizers/punkt_tab")` 找不到 → `:48 nltk.download("punkt_tab")`
+→ 需要 `raw.githubusercontent.com`（本机 `Errno 104`，实测 `000ERR`）→ 失败仍 `:49 print("Downloaded ...")`
+→ 生成阶段跑完 1–2.7h 后，算 metric 时 `:1692 count_sentences` / `:1587 nltk.word_tokenize` 抛 LookupError
+→ 进程 rc=1，**predictions 全在内存里丢失**，02:34 之后落盘产物 = 0。
+
+排除项（均 0/12）：`Killed` / `CUDA out of memory` / `Traceback` 之外的 CUDA 错误。
+
+### 为什么 LIMIT=8 冒烟没抓到
+冒烟只跑 8 条 IFEval，恰好没命中调用 `word_tokenize` / `count_sentences` 的指令；
+`instructions_util` import 成功 ≠ metric 计算成功。**冒烟粒度不足 = 没冒烟。**
+
+### 修复（只补数据，不改 lm_eval 源码/评分逻辑）
+1. 从 `ghproxy.net` / `gh-proxy.com` 拉 `punkt_tab.zip`(4.3MB) + `punkt.zip`(13.9MB)
+   （官方 `raw.githubusercontent.com` 与 hf-mirror 对应路径均不可用）
+2. 解压到 `/home/ubuntu/nltk_data/tokenizers/`（不是 `nltk_data/` 根，否则 nltk 找不到 `tokenizers/` 前缀）
+3. `chmod -R go-w`：nltk 3.10.4 拒读 group/other-writable 目录
+4. `scripts/preflight_safety_metrics.py`（新增）：无 GPU 跑**全量 541 条** `process_results`，
+   校验 4 个 metric 键 + 2 个 nltk 资源 + TaskManager 可解析 → `VERDICT: READY/BLOCKED`
+5. `scripts/run_eval_missing.py`：`WANT` 含 safety 时先跑 preflight，`rc!=0` 直接 `return 3` 拒绝启动；
+   并显式注入 `NLTK_DATA=/home/ubuntu/nltk_data`
+6. `logs/repair_safety_v2.sh`：**2-run canary 门控** → 2/2 产物校验通过才放量剩余 10 run
+
+### 教训（可复用）
+- 「下载成功」的 print 不能当证据，要看资源 `nltk.data.find()` 是否真能解析。
+- 评测类任务的门控必须打在**最容易崩且最贵的那一段**（这里是 metric，不是 generation），
+  且必须用**全量样本**驱动，不能用小 limit 抽样。
+- 长任务里任何「跑完才报错」的依赖缺失，都应在启动前用 CPU 侧打靶提前暴露。
