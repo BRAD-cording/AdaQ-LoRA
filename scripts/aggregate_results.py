@@ -165,9 +165,11 @@ def main():
     # 4) 汇总 mean ± std
     agg = defaultdict(lambda: defaultdict(list))   # method -> "task/metric" -> values
     lens = defaultdict(lambda: defaultdict(list))  # method -> "task/metric" -> sample_len
+    per_seed = defaultdict(lambda: defaultdict(dict))  # method -> key -> {seed: value}
     for (method, seed, task), (_, path, val, sample_len, name) in chosen.items():
         key = f"{task}/{name}"
         agg[method][key].append(val)
+        per_seed[method][key][seed] = round(val, 4)
         if sample_len is not None:
             lens[method][key].append(sample_len)
 
@@ -182,6 +184,10 @@ def main():
                 "std": round(std, 4),
                 "n_seeds": len(values),
                 "all_values": [round(v, 4) for v in values],
+                # per_seed: 把每个数值绑回它的种子，否则 mean±std 不可复核、
+                # 后续扩到 >=6 种子做配对检验时也无法重算
+                "per_seed": {str(k): per_seed[method][metric][k]
+                             for k in sorted(per_seed[method][metric])},
                 "sample_len": sorted(set(lens[method][metric])),
             }
 
