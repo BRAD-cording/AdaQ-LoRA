@@ -423,3 +423,60 @@ VERDICT: INCOMPLETE 继续等待/补跑
 修法：`200 → 420` 轮（21h），`bash -n` 通过，备份 `scripts/finalize_watch.sh.bak.pre-budget-*`。
 **必须用新脚本重启看门狗**（bash 按需分块读脚本，不重启仍是旧逻辑）→ 旧 PID 3839641 已 kill，
 新 **PID 3849420**，`logs/finalize_watch.status` 首行确认 `rounds<=420 interval=180s budget=21h`。
+
+## 18. 判据绿 ≠ 交付闭合：`resume_repair.sh` 在 PASS 时不肯生成报告（本轮修）
+
+### 漏洞
+
+`scripts/resume_repair.sh:45-48`（修前）是：
+
+```
+if [[ $rc -eq 0 ]]; then
+  echo "判据已 PASS，无需恢复。"
+  exit 0
+fi
+```
+
+`rc==0` 只代表**数据齐了**，不代表 `FINAL_REPORT.md` 生成过。若看门狗先死、数据后补齐
+（例如机器重启后手工/定时补跑收尾），运维按 §9 执行这条"一条命令恢复"，看到
+`VERDICT: PASS` 就停手 —— **报告永远不会生成，交付卡死在最后一步**，而所有机读信号
+（闸门 exit 0、marker 齐、summary.json 完整）都显示"没问题"。这是最难发现的一类缺陷：
+**门是绿的，货没出**。
+
+### 修法
+
+`rc==0` 分支再判 `results_v2/FINAL_REPORT.md`：
+
+- 报告已存在 → 打印字节数，`exit 0`（**不重复跑** finalize）；
+- 报告不存在 → 跑 `finalize_eval.py`，成功且文件落地 `exit 0`；失败 `exit 3` 并指向
+  `logs/resume_finalize.log`。
+
+### 四场景沙箱实证（`/tmp/rr_sb`，绝不碰真实 `results_v2`）
+
+| 场景 | 构造 | 期望 | 实测 |
+| --- | --- | --- | --- |
+| A 判据绿 + 无报告 | stub gate `exit 0`，stub finalize 写文件 | 调 finalize 并生成 | `A_EXIT=0`、`A_REPORT=YES`、日志含「只差收口」 |
+| B 判据绿 + 有报告 | stub finalize 改成 `exit("BUG")` | 不重复调用 | `B_EXIT=0`，打印「12 字节，交付已闭合」，**未触发 BUG** |
+| C 判据绿 + finalize 失败 | stub finalize `exit 2` | `exit 3` | `C_EXIT=3`，日志「报告生成失败 rc=2」 |
+| D 判据 INCOMPLETE | stub gate `exit 1`，补跑命令替换为 noop | 走原补跑分支 | `D_EXIT=0`，打印 `SANDBOX_NOOP_NO_GPU`，未碰报告 |
+
+### 测试构造的两条陷阱（本轮真踩了，四次全假绿）
+
+第一次跑四场景，**四个全部在第一行就退出**，输出一模一样：
+
+```
+[14:27:20] 补跑仍在运行，不做任何改动。
+A_EXIT=0  A_REPORT=NO
+```
+
+两个原因叠加：
+
+1. **`alive()` 命中真实进程**：沙箱外 `lm_eval --model` 还在跑（2 个），`pgrep` 是全局的，
+   `return 0` 直接把脚本挡在 `if alive` 前面。→ 沙箱内必须显式注入 `alive() { return 1; }`。
+2. **`cd /home/ubuntu/AdaQ-LoRA` 是硬编码的**：拷贝到 `/tmp/rr_sb/scripts/` 的副本
+   仍然 `cd` 回**真实项目目录**，所以它读的是真 `results_v2`（当时 INCOMPLETE）。
+   → 沙箱内必须把 `cd` 改写成沙箱根。
+
+**教训（可复用）**：验证脚本副本时，要显式断开它对外部世界的三个耦合
+——**进程表（pgrep）**、**硬编码工作目录**、**真实数据目录**。否则"测过了"测的是
+另一个程序。判据是：**四个场景的输出必须互不相同**；输出雷同就说明没进分支。

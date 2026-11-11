@@ -43,8 +43,24 @@ echo "[$(date '+%F %T')] 检测到无活跃补跑进程，检查交付判据…"
 rc=$?
 head -1 /tmp/resume_check.out; tail -1 /tmp/resume_check.out
 if [[ $rc -eq 0 ]]; then
-  echo "[$(date '+%F %T')] 判据已 PASS，无需恢复。"
-  exit 0
+  echo "[$(date '+%F %T')] 判据已 PASS。"
+  # 判据绿 != 交付已闭合：数据齐全但 FINAL_REPORT.md 未生成，交付仍卡在最后一步。
+  # （典型场景：看门狗先死、数据后补齐；此时跑本脚本若只报 PASS 就走，报告永不生成。）
+  REPORT=results_v2/FINAL_REPORT.md
+  if [[ -f "$REPORT" ]]; then
+    echo "[$(date '+%F %T')] FINAL_REPORT.md 已存在（$(stat -c%s "$REPORT" 2>/dev/null) 字节），交付已闭合。"
+    exit 0
+  fi
+  echo "[$(date '+%F %T')] 但 FINAL_REPORT.md 不存在 -> 生成交付报告（数据已绿，只差收口）"
+  mkdir -p logs
+  "$PY" scripts/finalize_eval.py >> logs/resume_finalize.log 2>&1
+  frc=$?
+  if [[ $frc -eq 0 && -f "$REPORT" ]]; then
+    echo "[$(date '+%F %T')] FINAL_REPORT.md 生成成功（$(stat -c%s "$REPORT" 2>/dev/null) 字节）。"
+    exit 0
+  fi
+  echo "[$(date '+%F %T')] 报告生成失败 rc=$frc，详见 logs/resume_finalize.log"
+  exit 3
 fi
 
 echo "[$(date '+%F %T')] 判据仍 INCOMPLETE，幂等重启缺失任务（双卡）。"
