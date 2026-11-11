@@ -134,10 +134,12 @@
 ### §4.6 跨模型泛化（实验五，可选）
 - 表 4: Llama-3-8B / Mistral-7B / Qwen2-7B
 
-### §4.7 统计显著性
-- Wilcoxon 符号秩检验 (AdaQ vs 最强基线)
-- MMLU 逐任务 bootstrap
-- 报告 p 值
+### §4.7 统计报告（当前为描述性，非推断性）
+- 主表只报 `mean ± std (n=3)` + 每格 `per_seed` 明细（来自 summary.json，不手抄）
+- MMLU 逐任务 bootstrap 可作为**探索性**分析，需注明 57 任务多重比较未校正
+- **不写** Wilcoxon：3 种子下最小双侧 p=0.25，达不到 p<0.05，
+  详见 `docs/sota-comparison-protocol.md` §显著性检验 的功效硬约束
+- 若审稿要求显著性：扩到 ≥6 种子重跑，或改报效应量 + 置信区间并明确标注探索性
 
 ## §5 Analysis (~1 page)
 
