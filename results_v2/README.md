@@ -317,3 +317,51 @@ TARGETS= adalora_seed3407, adalora_seed42, adaq_seed2025, adaq_seed3407,
 
 **ETA**：`max_gen_toks=1280` 且 generate_until batch=1，单 run 实测速率 2.7–6.7 s/it，
 推得单 run 约 48–61 min；canary 2 个 → 放量 10 个 = 5 波 × ~50–60 min ≈ **4.2–5 h**。
+
+## 15. 我在「修 alive()」时自己引入的一个死锁（已修）
+
+§14.1 修完 `alive()` 之后，我把 `finalize_watch.sh` 也加进了判活名单——理由是
+「看门狗活着说明流程还在推进」。这条推理在**调用方向**上是错的：
+
+```
+finalize_watch.sh  --(驱动猝死时)-->  bash scripts/resume_repair.sh
+                                          └─ alive() 里 pgrep "finalize_watch\.sh"
+                                             → 命中调用者自己 → alive=YES → 直接退出
+```
+
+即：看门狗一旦调用恢复脚本，恢复脚本就会 pgrep 到**正在调用它的看门狗**，判定
+「还有人在干活」，于是永远不恢复。整条无人值守链在最关键的那一步静默失效，
+而且日志上看起来完全正常（「补跑仍在运行，不做任何改动」）。
+
+修复（commit `adc5f15`）：调用方传 `ADAQ_INVOKED_BY=finalize_watch`，判活时显式排除调用者。
+
+```bash
+if [ "${ADAQ_INVOKED_BY:-}" != "finalize_watch" ]; then
+  pgrep -f "finalize_watch\.sh" >/dev/null 2>&1 && return 0
+fi
+```
+
+**语义单测**（驱动全死、仅看门狗存活）：
+
+| 版本 | `alive()` | 结果 |
+| --- | --- | --- |
+| 带 watchdog 判活（旧） | YES | 永不恢复 ← 死锁 |
+| `ADAQ_INVOKED_BY=finalize_watch`（新） | NO | 正确进入恢复分支 |
+
+**恢复分支端到端实证**（沙箱：强制 `alive()=false` + `OUT_DIR=/tmp/sim_rest2`
++ `RUNS=__none__`，绝不起 GPU 任务）：
+
+```
+[14:21:02] 检测到无活跃补跑进程，检查交付判据…
+run 完整度: 24/36 任务组齐全
+VERDICT: INCOMPLETE 继续等待/补跑
+[14:21:02] 判据仍 INCOMPLETE，幂等重启缺失任务（双卡）。
+→ preflight PASS → OUT=/tmp/sim_rest2 WANT=['safety'] jobs=0
+→ nothing to do
+```
+
+真实 GPU 任务数全程保持 `lm_eval=2 / run_eval_missing=1` 未受影响；
+真实 `resume_repair.sh` 无 `SANDBOX TEST` 残留（`grep -c` = 0）。
+
+看门狗已用新脚本重启（旧 PID 3829581 → 新 PID 3839641）：bash 读的是脚本字节码，
+**不重启就还是旧逻辑**，这一点和改配置必须重启同理。
