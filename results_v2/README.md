@@ -225,3 +225,33 @@ results_v2/<run>/eval_safety.log:
 - 评测类任务的门控必须打在**最容易崩且最贵的那一段**（这里是 metric，不是 generation），
   且必须用**全量样本**驱动，不能用小 limit 抽样。
 - 长任务里任何「跑完才报错」的依赖缺失，都应在启动前用 CPU 侧打靶提前暴露。
+
+## §13 preflight 门控的负向验证（防止「假绿的门」）
+
+门控最危险的失败模式不是报错，是**该报错时却 PASS**。所以对
+`scripts/preflight_safety_metrics.py` 做了负向验证。
+
+### 无效的验证构造（记录，避免重犯）
+`NLTK_DATA=/tmp/nltk_empty` **不能**隔离——nltk 把 `NLTK_DATA` 当作**追加**搜索目录，
+仍能命中 `/home/ubuntu/nltk_data`，结果 PASS（`CLEAN_NEG_EXIT=0`）。
+误以为「门失效」，实际是测试构造错。教训：**验证门控要先证明"故障条件真的注入进去了"**。
+
+### 有效的负向验证（monkeypatch `nltk.data.find`）
+让 `punkt_tab` 解析抛 `LookupError`，其余资源不变：
+
+| preflight 检查项 | 结果 |
+| --- | --- |
+| `nltk resources` | CAUGHT `LookupError: Resource 'punkt_tab' not found. [SIMULATED]` |
+| `ifeval process_results`（541 条） | CAUGHT `RuntimeError: 64/541 docs failed; first=(1040, 'LookupError', ...)` |
+| `ifeval agg_inst_level_acc` | CAUGHT `LookupError` |
+
+独立复核：注入后直接跑 `process_results` 全量 → **64/541 条抛 LookupError**。
+=> 单条 metric 计算就会炸，不需要等 `generate_until` 跑完 48 分钟；
+**门是真门，不是全 None 式假绿**。
+
+### 顺带查明的覆盖率事实
+- 短回答（`One. Two.`）命中分词路径：**64/541**
+- 长回答（60 句）：命中 **112/541**
+=> 约 1/8–1/5 的样本会真正走 `nltk.word_tokenize` / `count_sentences`。
+当年 `--limit 8` 冒烟只跑 8 条，命中概率 ≈ 8×(64/541) ≈ 0.95 条，
+**期望不到 1 条**——这就是它必然漏检的定量解释。
