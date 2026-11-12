@@ -57,21 +57,48 @@ def build_lora_config(method, args, ranks_file=None):
             sys.exit(1)
         with open(ranks_file) as f:
             ranks_data = json.load(f)
-        type_ranks = ranks_data.get("per_module_type_ranks (方案A, PEFT 直接使用)", {})
-        if not type_ranks:
-            print("WARNING: No type_ranks found in ranks.json, falling back to uniform", file=sys.stderr)
-            type_ranks = None
+
+        def _to_pattern_key(k):
+            # ranks.json 的 per_layer_ranks key 形如 model.layers.N.self_attn.q_proj.weight
+            # PEFT rank_pattern 用后缀正则 (.*\.)?({key})$ 匹配 current_key
+            # （current_key = named_modules 的模块名，形如 base_model.model.model.layers.N.self_attn.q_proj，不含 .weight）
+            # 故需去掉 .weight 后缀 + 去掉前导 "model."，才能 64/64 精确匹配逐层。
+            k2 = k.replace(".weight", "")
+            if k2.startswith("model."):
+                k2 = k2[len("model."):]
+            return k2
+
+        # 优先逐层分配（方案B，论文「逐层 ε_l 异质性驱动」的真实语义）。
+        # PEFT 原生支持 rank_pattern 为逐层/正则 key（见 LoraConfig.rank_pattern docstring）。
+        per_layer = ranks_data.get("per_layer_ranks", {})
+        if per_layer:
+            rank_pattern = {_to_pattern_key(k): int(v) for k, v in per_layer.items()}
+            alpha_pattern = {k: 2 * v for k, v in rank_pattern.items()}
+            scheme = "per_layer"
+        else:
+            # 回退：模块类型聚合（方案A），兼容旧 ranks.json
+            type_ranks = ranks_data.get("per_module_type_ranks (方案A, PEFT 直接使用)", {})
+            if not type_ranks:
+                print("WARNING: No per_layer_ranks / type_ranks in ranks.json, falling back to uniform", file=sys.stderr)
+                type_ranks = None
+            rank_pattern = type_ranks
+            alpha_pattern = (
+                {mod: 2 * r for mod, r in type_ranks.items() if mod in target_modules}
+                if type_ranks else None
+            )
+            scheme = "per_module_type" if type_ranks else "uniform"
+
         config_kwargs = dict(
             r=args.base_rank, lora_alpha=args.base_rank * 2, lora_dropout=0.05,
             target_modules=target_modules, bias="none", task_type="CAUSAL_LM",
         )
-        if type_ranks:
-            config_kwargs["rank_pattern"] = type_ranks
+        if rank_pattern:
+            config_kwargs["rank_pattern"] = rank_pattern
             # 非均匀秩下 α 须随 r 缩放（α_l = 2·r_l），保证各层有效学习率统一，
-            # 与 qlora/dora 的 α=2r（铁律2：公平先于领先）保持一致；仅对 target_modules 生效。
-            config_kwargs["alpha_pattern"] = {
-                mod: 2 * r for mod, r in type_ranks.items() if mod in target_modules
-            }
+            # 与 qlora/dora 的 α=2r（铁律2：公平先于领先）保持一致。
+            if alpha_pattern:
+                config_kwargs["alpha_pattern"] = alpha_pattern
+        print(f"[AdaQ] rank scheme={scheme}, rank_pattern entries={len(rank_pattern) if rank_pattern else 0}", file=sys.stderr)
         return LoraConfig(**config_kwargs)
     else:
         raise ValueError(f"Unknown method: {method}")
@@ -120,7 +147,7 @@ def main():
         args.model,
         quantization_config=bnb_config,
         device_map="auto",
-        attn_implementation="flash_attention_2",
+        attn_implementation="sdpa",
     )
     model = prepare_model_for_kbit_training(model)
     model.config.use_cache = False
@@ -178,18 +205,20 @@ def main():
         warmup_ratio=0.03,
         max_grad_norm=1.0,
         logging_steps=10,
-        save_strategy="epoch",
-        save_only_model=True,
+        save_strategy="steps",
+        save_steps=10,
+        save_total_limit=3,
+        save_only_model=False,
         bf16=True,
         gradient_checkpointing=True,
         gradient_checkpointing_kwargs={"use_reentrant": False},
         optim="paged_adamw_8bit",
         dataloader_num_workers=4,
         seed=args.seed,
-        max_length=args.max_length,
+        max_seq_length=args.max_length,
         packing=args.packing,
         dataset_text_field="text",
-        use_liger_kernel=True,
+        use_liger_kernel=False,
         report_to="none",
     )
 
@@ -202,7 +231,19 @@ def main():
     )
 
     print(f"\n=== Training {args.method} (seed={args.seed}, budget={args.budget}) ===")
-    trainer.train()
+
+    # --- 断点续训：检测 output_dir 下最近的 checkpoint-*，自动 resume ---
+    resume_ckpt = None
+    if os.path.isdir(args.output_dir):
+        ckpts = sorted(
+            [d for d in os.listdir(args.output_dir) if d.startswith("checkpoint-")],
+            key=lambda d: int(d.split("-")[1]),
+        )
+        if ckpts:
+            resume_ckpt = os.path.join(args.output_dir, ckpts[-1])
+            print(f"[resume] 发现断点 {resume_ckpt}，从断点续训", file=sys.stderr)
+
+    trainer.train(resume_from_checkpoint=resume_ckpt)
 
     # --- 保存 adapter ---
     trainer.save_model(args.output_dir)
