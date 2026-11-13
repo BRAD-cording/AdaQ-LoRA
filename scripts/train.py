@@ -21,7 +21,7 @@ MODEL_PATH = os.environ.get(
 )
 
 
-def build_lora_config(method, args, ranks_file=None):
+def build_lora_config(method, args, ranks_file=None, rank_scheme="auto"):
     """根据方法构建 PEFT 配置。"""
     from peft import LoraConfig
 
@@ -68,9 +68,11 @@ def build_lora_config(method, args, ranks_file=None):
                 k2 = k2[len("model."):]
             return k2
 
-        # 优先逐层分配（方案B，论文「逐层 ε_l 异质性驱动」的真实语义）。
-        # PEFT 原生支持 rank_pattern 为逐层/正则 key（见 LoraConfig.rank_pattern docstring）。
-        per_layer = ranks_data.get("per_layer_ranks", {})
+        # rank_scheme 控制秩分配粒度：
+        #   auto             —— 优先逐层（方案B），无逐层才回退模块类型（方案A）
+        #   per_layer        —— 强制逐层（方案B）
+        #   per_module_type  —— 强制模块类型（方案A），复刻主实验早期行为
+        per_layer = ranks_data.get("per_layer_ranks", {}) if rank_scheme != "per_module_type" else {}
         if per_layer:
             rank_pattern = {_to_pattern_key(k): int(v) for k, v in per_layer.items()}
             alpha_pattern = {k: 2 * v for k, v in rank_pattern.items()}
@@ -82,10 +84,14 @@ def build_lora_config(method, args, ranks_file=None):
                 print("WARNING: No per_layer_ranks / type_ranks in ranks.json, falling back to uniform", file=sys.stderr)
                 type_ranks = None
             rank_pattern = type_ranks
-            alpha_pattern = (
-                {mod: 2 * r for mod, r in type_ranks.items() if mod in target_modules}
-                if type_ranks else None
-            )
+            if rank_scheme == "per_module_type":
+                # 严格复刻主实验早期行为：只用 rank_pattern，不写 alpha_pattern
+                alpha_pattern = None
+            else:
+                alpha_pattern = (
+                    {mod: 2 * r for mod, r in type_ranks.items() if mod in target_modules}
+                    if type_ranks else None
+                )
             scheme = "per_module_type" if type_ranks else "uniform"
 
         config_kwargs = dict(
@@ -118,6 +124,8 @@ def main():
     ap.add_argument("--max-length", type=int, default=2048)
     ap.add_argument("--target-modules", default="q_proj,v_proj")
     ap.add_argument("--ranks-file", default="ranks.json")
+    ap.add_argument("--rank-scheme", default="auto", choices=["auto", "per_layer", "per_module_type"],
+                    help="秩分配粒度：auto=优先逐层回退模块类型；per_layer=强制逐层；per_module_type=强制模块类型(方案A)")
     ap.add_argument("--output-dir", default=None)
     ap.add_argument("--dataset", default="teknium/OpenHermes-2.5")
     ap.add_argument("--dataset-size", type=int, default=2000)
@@ -157,7 +165,7 @@ def main():
         tokenizer.pad_token = tokenizer.eos_token
 
     # --- PEFT 配置 ---
-    peft_config = build_lora_config(args.method, args, ranks_file=args.ranks_file)
+    peft_config = build_lora_config(args.method, args, ranks_file=args.ranks_file, rank_scheme=args.rank_scheme)
     model = get_peft_model(model, peft_config)
     model.print_trainable_parameters()
 

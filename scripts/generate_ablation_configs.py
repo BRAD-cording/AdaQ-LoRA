@@ -7,6 +7,7 @@
   product:        r_l ∝ ‖E_l‖_F · ‖W_l‖_F  (完整 AdaQ)
   uniform:        r_l = R / N
   equal_weight:   r_l ∝ (‖E_l‖_F + ‖W_l‖_F)  (等权消融)
+  random:         r_l ~ 随机置换（均匀预算的随机扰动，多 seed 平均）
 
 用法: python generate_ablation_configs.py --base-ranks ranks.json --budget 512
 """
@@ -47,6 +48,13 @@ def generate_strategy(stats, strategy, budget, r_min=4, r_max=128):
         min_score = min(scores.values())
         if min_score < 0:
             scores = {n: v - min_score + 1e-8 for n, v in scores.items()}
+    elif strategy == "random":
+        # 随机秩分配：把 uniform 的预算在 [r_min, r_max] 内随机打散，
+        # 但保持总量守恒（用 allocate_ranks 的随机 score 实现）。
+        # 关键：必须总量守恒 + 边界合法，否则无法与 uniform 公平对比。
+        import random as _rnd
+        names = list(stats)
+        scores = {name: _rnd.random() for name in names}
     else:
         raise ValueError(f"Unknown strategy: {strategy}")
 
@@ -71,7 +79,7 @@ def main():
         base = json.load(f)
 
     stats = base["layer_stats"]
-    strategies = ["error_only", "importance_only", "product", "uniform", "equal_weight"]
+    strategies = ["error_only", "importance_only", "product", "uniform", "equal_weight", "random"]
 
     os.makedirs(args.out_dir, exist_ok=True)
 
