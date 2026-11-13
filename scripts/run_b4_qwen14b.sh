@@ -5,7 +5,7 @@ cd /home/ubuntu/AdaQ-LoRA
 export HF_ENDPOINT=https://hf-mirror.com
 export HF_HUB_OFFLINE=0
 PY=/home/ubuntu/miniconda3/envs/pytorch_gpu/bin/python
-MODEL=/home/ubuntu/AdaQ-LoRA/models/models/Qwen--Qwen2.5-14B-Instruct
+MODEL=/home/ubuntu/AdaQ-LoRA/models/models/Qwen--Qwen2.5-14B-Instruct/snapshots/master
 OUTBASE=outputs/adapters_qwen14b
 RANKS=ranks_qwen14b.json
 

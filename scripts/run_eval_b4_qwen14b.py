@@ -4,7 +4,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 PY = "/home/ubuntu/miniconda3/envs/pytorch_gpu/bin/python"
 BASE = "/home/ubuntu/AdaQ-LoRA"
-MODEL = os.path.join(BASE, "models/models/Qwen--Qwen2.5-14B-Instruct")
+MODEL = os.path.join(BASE, "models/models/Qwen--Qwen2.5-14B-Instruct/snapshots/master")
 ADAPTER_DIR = os.path.join(BASE, "outputs/adapters_qwen14b")
 OUT = os.environ.get("OUT_DIR", os.path.join(BASE, "results_v2_qwen14b"))
 GPUS = [int(x) for x in os.environ.get("GPUS", "0,1").split(",")]
