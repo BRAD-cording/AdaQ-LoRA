@@ -92,3 +92,26 @@ AdaQ 在 GSM8K 上是五个里最差，且低于不分配（baseline）。若主
 
 - **P1-B4 Qwen2.5-14B**（训练中）：用于检验"换到 14B 是否仍无增益"。若 14B 上 product 明显领先，则结论变为"效应随规模出现"；若无，则负面结论更硬。**在它出数前，摘要里不写任何规模泛化从句**。
 - 论文正文尚未改动，等作者确认本提案。
+
+---
+
+## 第 4 节：P1-B4 规模泛化实验（Qwen2.5-14B-Instruct，单种子 seed42）
+
+**设置**：Qwen2.5-14B-Instruct；SFT 数据 `teknium/OpenHermes-2.5[:2000]`；3 epoch、lr 2e-4、max-length 512、batch 2×grad-accum 8；评测统一 **NF4**（`load_in_4bit=True`，`bnb_4bit_quant_type=nf4`，`double_quant=True`，compute bfloat16）。结果文件 `results_v2_qwen14b/summary.json`。
+
+| method | adapter 参数 | MMLU (acc) | GSM8K strict | GSM8K flexible |
+| --- | --- | --- | --- | --- |
+| adaq | 4.62 M | 0.7843 | 0.1827 | **0.6588** |
+| qlora | 6.29 M | 0.7837 | 0.1304 | 0.5254 |
+
+**可以写进论文的（措辞上限）**
+
+> 在 14B 规模上，AdaQ 以少 26.5% 的 adapter 参数取得与 QLoRA 持平的 MMLU（.7843 vs .7837），并在 GSM8K 上观察到单种子的正向差异（flexible-extract .6588 vs .5254）。
+
+**必须同时写进 Limitations 的三条**
+
+1. **单种子**（seed42），无重复，不构成统计证据；8B 双种子为阴性，14B 单种子为正向 → **规模依赖的迹象，不是稳健增益**。
+2. **strict-match 不可用**：两种方法 strict 都只有 .18/.13，而 flexible 到 .66/.53。Qwen-Instruct 的默认输出格式不满足 `#### N` 约束，strict 度量的是格式合规性而非推理能力。**14B 表格必须用 flexible-extract 并注明**。
+3. **绝对水位偏低**：14B base + 2000 条 OpenHermes SFT 后 GSM8K flexible 只有 .53–.66，提示小样本 SFT 带来格式漂移与能力回退；该绝对值不能与官方 Qwen2.5-14B 成绩比较。
+
+**因此：第 3 节里"B4 出数前不写规模泛化从句"的限制现在可以解除，但只能按上面"措辞上限"那一句写，且必须带 Limitations 三条。禁止写成"AdaQ 在 14B 上优于 QLoRA"或"AdaQ 具备规模可扩展性"。**

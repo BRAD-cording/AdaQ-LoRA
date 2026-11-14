@@ -1,0 +1,30 @@
+{
+  "adaq": {
+    "params": 4620288,
+    "mmlu": 0.7842899871813132,
+    "gsm8k": {
+      "strict": 0.18271417740712662,
+      "flexible": 0.6588324488248674
+    }
+  },
+  "qlora": {
+    "params": 6291456,
+    "mmlu": 0.7837202677681242,
+    "gsm8k": {
+      "strict": 0.13040181956027294,
+      "flexible": 0.5253980288097043
+    }
+  },
+  "_meta": {
+    "model": "Qwen2.5-14B-Instruct",
+    "seed": 42,
+    "eval": "NF4 (load_in_4bit, double_quant)",
+    "train_data": "teknium/OpenHermes-2.5[:2000]",
+    "n_seeds": 1,
+    "notes": [
+      "单种子，仅描述性",
+      "strict-match 对 Qwen-Instruct 格式不友好，flexible-extract 更可信",
+      "adaq 参数量少 26.5%"
+    ]
+  }
+}
