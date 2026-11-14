@@ -1,0 +1,294 @@
+{
+  "seeds": [
+    3407,
+    2025
+  ],
+  "strategies": [
+    "error_only",
+    "importance_only",
+    "product",
+    "uniform",
+    "equal_weight",
+    "random"
+  ],
+  "tasks": [
+    "mmlu",
+    "gsm8k"
+  ],
+  "per_seed": {
+    "3407": {
+      "error_only/gsm8k": {
+        "value": 0.3934799090219864,
+        "file": "/home/ubuntu/AdaQ-LoRA/results_v2_ablation_schemeA_s3407/error_only/__home__ubuntu__AdaQ-LoRA__outputs__ablation_adapters_schemeA_s3407__error_only/results_2026-11-14T10-08-35.488174.json",
+        "metric": "exact_match,strict-match",
+        "sample_len": 1319
+      },
+      "error_only/mmlu": {
+        "value": 0.64663153396952,
+        "file": "/home/ubuntu/AdaQ-LoRA/results_v2_ablation_schemeA_s3407/error_only/__home__ubuntu__AdaQ-LoRA__outputs__ablation_adapters_schemeA_s3407__error_only/results_2026-11-14T09-04-25.203949.json",
+        "metric": "acc",
+        "sample_len": 14042
+      },
+      "importance_only/gsm8k": {
+        "value": 0.3100833965125095,
+        "file": "/home/ubuntu/AdaQ-LoRA/results_v2_ablation_schemeA_s3407/importance_only/__home__ubuntu__AdaQ-LoRA__outputs__ablation_adapters_schemeA_s3407__importance_only/results_2026-11-14T11-43-02.453024.json",
+        "metric": "exact_match,strict-match",
+        "sample_len": 1319
+      },
+      "importance_only/mmlu": {
+        "value": 0.6447799458766558,
+        "file": "/home/ubuntu/AdaQ-LoRA/results_v2_ablation_schemeA_s3407/importance_only/__home__ubuntu__AdaQ-LoRA__outputs__ablation_adapters_schemeA_s3407__importance_only/results_2026-11-14T10-34-41.401222.json",
+        "metric": "acc",
+        "sample_len": 14042
+      },
+      "product/mmlu": {
+        "value": 0.6486255519156815,
+        "file": "/home/ubuntu/AdaQ-LoRA/results_v2_ablation_schemeA_s3407/product/__home__ubuntu__AdaQ-LoRA__outputs__ablation_adapters_schemeA_s3407__product/results_2026-11-14T10-33-42.511686.json",
+        "metric": "acc",
+        "sample_len": 14042
+      },
+      "product/gsm8k": {
+        "value": 0.42532221379833207,
+        "file": "/home/ubuntu/AdaQ-LoRA/results_v2_ablation_schemeA_s3407/product/__home__ubuntu__AdaQ-LoRA__outputs__ablation_adapters_schemeA_s3407__product/results_2026-11-14T11-39-00.805524.json",
+        "metric": "exact_match,strict-match",
+        "sample_len": 1319
+      },
+      "uniform/mmlu": {
+        "value": 0.6452072354365475,
+        "file": "/home/ubuntu/AdaQ-LoRA/results_v2_ablation_schemeA_s3407/uniform/__home__ubuntu__AdaQ-LoRA__outputs__ablation_adapters_schemeA_s3407__uniform/results_2026-11-14T12-04-05.025163.json",
+        "metric": "acc",
+        "sample_len": 14042
+      },
+      "uniform/gsm8k": {
+        "value": 0.38286580742987114,
+        "file": "/home/ubuntu/AdaQ-LoRA/results_v2_ablation_schemeA_s3407/uniform/__home__ubuntu__AdaQ-LoRA__outputs__ablation_adapters_schemeA_s3407__uniform/results_2026-11-14T13-08-59.755335.json",
+        "metric": "exact_match,strict-match",
+        "sample_len": 1319
+      },
+      "equal_weight/gsm8k": {
+        "value": 0.41470811220621684,
+        "file": "/home/ubuntu/AdaQ-LoRA/results_v2_ablation_schemeA_s3407/equal_weight/__home__ubuntu__AdaQ-LoRA__outputs__ablation_adapters_schemeA_s3407__equal_weight/results_2026-11-14T10-10-09.564053.json",
+        "metric": "exact_match,strict-match",
+        "sample_len": 1319
+      },
+      "equal_weight/mmlu": {
+        "value": 0.6453496652898447,
+        "file": "/home/ubuntu/AdaQ-LoRA/results_v2_ablation_schemeA_s3407/equal_weight/__home__ubuntu__AdaQ-LoRA__outputs__ablation_adapters_schemeA_s3407__equal_weight/results_2026-11-14T09-03-47.461969.json",
+        "metric": "acc",
+        "sample_len": 14042
+      },
+      "random/gsm8k": {
+        "value": 0.40561031084154664,
+        "file": "/home/ubuntu/AdaQ-LoRA/results_v2_ablation_schemeA_s3407/random/__home__ubuntu__AdaQ-LoRA__outputs__ablation_adapters_schemeA_s3407__random/results_2026-11-14T13-14-14.345734.json",
+        "metric": "exact_match,strict-match",
+        "sample_len": 1319
+      },
+      "random/mmlu": {
+        "value": 0.6449935906566017,
+        "file": "/home/ubuntu/AdaQ-LoRA/results_v2_ablation_schemeA_s3407/random/__home__ubuntu__AdaQ-LoRA__outputs__ablation_adapters_schemeA_s3407__random/results_2026-11-14T12-07-34.500950.json",
+        "metric": "acc",
+        "sample_len": 14042
+      }
+    },
+    "2025": {
+      "error_only/mmlu": {
+        "value": 0.6448511608033044,
+        "file": "/home/ubuntu/AdaQ-LoRA/results_v2_ablation_schemeA_s2025/error_only/__home__ubuntu__AdaQ-LoRA__outputs__ablation_adapters_schemeA_s2025__error_only/results_2026-11-14T13-40-55.549264.json",
+        "metric": "acc",
+        "sample_len": 14042
+      },
+      "error_only/gsm8k": {
+        "value": 0.444275966641395,
+        "file": "/home/ubuntu/AdaQ-LoRA/results_v2_ablation_schemeA_s2025/error_only/__home__ubuntu__AdaQ-LoRA__outputs__ablation_adapters_schemeA_s2025__error_only/results_2026-11-14T14-44-40.552282.json",
+        "metric": "exact_match,strict-match",
+        "sample_len": 1319
+      },
+      "importance_only/mmlu": {
+        "value": 0.6464891041162227,
+        "file": "/home/ubuntu/AdaQ-LoRA/results_v2_ablation_schemeA_s2025/importance_only/__home__ubuntu__AdaQ-LoRA__outputs__ablation_adapters_schemeA_s2025__importance_only/results_2026-11-14T15-09-44.504674.json",
+        "metric": "acc",
+        "sample_len": 14042
+      },
+      "importance_only/gsm8k": {
+        "value": 0.42987111448066717,
+        "file": "/home/ubuntu/AdaQ-LoRA/results_v2_ablation_schemeA_s2025/importance_only/__home__ubuntu__AdaQ-LoRA__outputs__ablation_adapters_schemeA_s2025__importance_only/results_2026-11-14T16-13-54.160191.json",
+        "metric": "exact_match,strict-match",
+        "sample_len": 1319
+      },
+      "product/mmlu": {
+        "value": 0.6441390115368181,
+        "file": "/home/ubuntu/AdaQ-LoRA/results_v2_ablation_schemeA_s2025/product/__home__ubuntu__AdaQ-LoRA__outputs__ablation_adapters_schemeA_s2025__product/results_2026-11-14T15-09-49.005573.json",
+        "metric": "acc",
+        "sample_len": 14042
+      },
+      "product/gsm8k": {
+        "value": 0.42077331311599697,
+        "file": "/home/ubuntu/AdaQ-LoRA/results_v2_ablation_schemeA_s2025/product/__home__ubuntu__AdaQ-LoRA__outputs__ablation_adapters_schemeA_s2025__product/results_2026-11-14T16-12-08.984845.json",
+        "metric": "exact_match,strict-match",
+        "sample_len": 1319
+      },
+      "uniform/mmlu": {
+        "value": 0.6456345249964393,
+        "file": "/home/ubuntu/AdaQ-LoRA/results_v2_ablation_schemeA_s2025/uniform/__home__ubuntu__AdaQ-LoRA__outputs__ablation_adapters_schemeA_s2025__uniform/results_2026-11-14T16-37-18.684261.json",
+        "metric": "acc",
+        "sample_len": 14042
+      },
+      "uniform/gsm8k": {
+        "value": 0.44655041698256254,
+        "file": "/home/ubuntu/AdaQ-LoRA/results_v2_ablation_schemeA_s2025/uniform/__home__ubuntu__AdaQ-LoRA__outputs__ablation_adapters_schemeA_s2025__uniform/results_2026-11-14T17-41-27.113946.json",
+        "metric": "exact_match,strict-match",
+        "sample_len": 1319
+      },
+      "equal_weight/gsm8k": {
+        "value": 0.41015921152388174,
+        "file": "/home/ubuntu/AdaQ-LoRA/results_v2_ablation_schemeA_s2025/equal_weight/__home__ubuntu__AdaQ-LoRA__outputs__ablation_adapters_schemeA_s2025__equal_weight/results_2026-11-14T14-45-14.025254.json",
+        "metric": "exact_match,strict-match",
+        "sample_len": 1319
+      },
+      "equal_weight/mmlu": {
+        "value": 0.6458481697763852,
+        "file": "/home/ubuntu/AdaQ-LoRA/results_v2_ablation_schemeA_s2025/equal_weight/__home__ubuntu__AdaQ-LoRA__outputs__ablation_adapters_schemeA_s2025__equal_weight/results_2026-11-14T13-40-27.668019.json",
+        "metric": "acc",
+        "sample_len": 14042
+      },
+      "random/mmlu": {
+        "value": 0.6478421877225466,
+        "file": "/home/ubuntu/AdaQ-LoRA/results_v2_ablation_schemeA_s2025/random/__home__ubuntu__AdaQ-LoRA__outputs__ablation_adapters_schemeA_s2025__random/results_2026-11-14T16-38-26.808379.json",
+        "metric": "acc",
+        "sample_len": 14042
+      },
+      "random/gsm8k": {
+        "value": 0.4586808188021228,
+        "file": "/home/ubuntu/AdaQ-LoRA/results_v2_ablation_schemeA_s2025/random/__home__ubuntu__AdaQ-LoRA__outputs__ablation_adapters_schemeA_s2025__random/results_2026-11-14T17-40-50.773483.json",
+        "metric": "exact_match,strict-match",
+        "sample_len": 1319
+      }
+    }
+  },
+  "aggregate": {
+    "error_only/mmlu": {
+      "mean": 0.6457,
+      "n_seeds": 2,
+      "values": [
+        0.6466,
+        0.6449
+      ],
+      "std": 0.0013,
+      "range": 0.0018
+    },
+    "error_only/gsm8k": {
+      "mean": 0.4189,
+      "n_seeds": 2,
+      "values": [
+        0.3935,
+        0.4443
+      ],
+      "std": 0.0359,
+      "range": 0.0508
+    },
+    "importance_only/mmlu": {
+      "mean": 0.6456,
+      "n_seeds": 2,
+      "values": [
+        0.6448,
+        0.6465
+      ],
+      "std": 0.0012,
+      "range": 0.0017
+    },
+    "importance_only/gsm8k": {
+      "mean": 0.37,
+      "n_seeds": 2,
+      "values": [
+        0.3101,
+        0.4299
+      ],
+      "std": 0.0847,
+      "range": 0.1198
+    },
+    "product/mmlu": {
+      "mean": 0.6464,
+      "n_seeds": 2,
+      "values": [
+        0.6486,
+        0.6441
+      ],
+      "std": 0.0032,
+      "range": 0.0045
+    },
+    "product/gsm8k": {
+      "mean": 0.423,
+      "n_seeds": 2,
+      "values": [
+        0.4253,
+        0.4208
+      ],
+      "std": 0.0032,
+      "range": 0.0045
+    },
+    "uniform/mmlu": {
+      "mean": 0.6454,
+      "n_seeds": 2,
+      "values": [
+        0.6452,
+        0.6456
+      ],
+      "std": 0.0003,
+      "range": 0.0004
+    },
+    "uniform/gsm8k": {
+      "mean": 0.4147,
+      "n_seeds": 2,
+      "values": [
+        0.3829,
+        0.4466
+      ],
+      "std": 0.045,
+      "range": 0.0637
+    },
+    "equal_weight/mmlu": {
+      "mean": 0.6456,
+      "n_seeds": 2,
+      "values": [
+        0.6453,
+        0.6458
+      ],
+      "std": 0.0004,
+      "range": 0.0005
+    },
+    "equal_weight/gsm8k": {
+      "mean": 0.4124,
+      "n_seeds": 2,
+      "values": [
+        0.4147,
+        0.4102
+      ],
+      "std": 0.0032,
+      "range": 0.0045
+    },
+    "random/mmlu": {
+      "mean": 0.6464,
+      "n_seeds": 2,
+      "values": [
+        0.645,
+        0.6478
+      ],
+      "std": 0.002,
+      "range": 0.0028
+    },
+    "random/gsm8k": {
+      "mean": 0.4321,
+      "n_seeds": 2,
+      "values": [
+        0.4056,
+        0.4587
+      ],
+      "std": 0.0375,
+      "range": 0.0531
+    }
+  },
+  "_audit": {
+    "warnings": [],
+    "n_seeds": 2
+  }
+}
