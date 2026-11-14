@@ -115,3 +115,30 @@ AdaQ 在 GSM8K 上是五个里最差，且低于不分配（baseline）。若主
 3. **绝对水位偏低**：14B base + 2000 条 OpenHermes SFT 后 GSM8K flexible 只有 .53–.66，提示小样本 SFT 带来格式漂移与能力回退；该绝对值不能与官方 Qwen2.5-14B 成绩比较。
 
 **因此：第 3 节里"B4 出数前不写规模泛化从句"的限制现在可以解除，但只能按上面"措辞上限"那一句写，且必须带 Limitations 三条。禁止写成"AdaQ 在 14B 上优于 QLoRA"或"AdaQ 具备规模可扩展性"。**
+
+---
+
+## 第 5 节：P2-D3 交互效应（product = 误差 × 重要性）结案
+
+**问题**：AdaQ 的 score 定义为 `rel_error × importance`，主张是"误差与重要性的乘积优于任一单独信号"（交互效应）。
+
+**证据（8B，双种子，flexible-extract）**
+
+| strategy | flex mean | 说明 |
+| --- | --- | --- |
+| error_only（仅误差） | 0.5254 | 单信号 |
+| uniform | 0.5217 | 无信息基线 |
+| random | 0.5216 | 随机基线 |
+| product（乘积） | 0.5129 | 主张的完整信号 |
+| equal_weight | 0.5069 | 等权基线 |
+| importance_only（仅重要性） | 0.4989 | 单信号 |
+
+**结案判定：交互效应未检出。** 理由三条：
+
+1. product（.5129）不仅没有超过两个单信号，还分别低于 error_only（.5254，差 −1.25 点）和高于 importance_only（.4989，差 +1.4 点）——两个方向的差都小于同配置跑间噪声 **4.5 点**。
+2. 六策略 overall 极差 2.7 点 < 噪声底 4.5 点 → 整张表**没有任何一对差异可被支持**。
+3. 机理层面已解释：`rel_error` 逐层 CV 仅 1.47%（Spearman 与 score 0.144），`importance = ‖W_fp‖` CV 56.2%（Spearman 0.998）→ 乘积 99.8% 由范数项决定，**"乘积"实际上退化成了"仅重要性"**，交互项没有独立贡献。
+
+**论文写法（唯一允许的表述）**：`We find no evidence that the product of quantization error and weight importance outperforms either signal alone; the difference is within run-to-run noise, and the product is dominated by the importance term.`
+
+**禁止**：任何"product 最优/更好/有协同"的表述；任何以 seed42 单种子 `.4829 > .4435` 为依据的结论（该单种子结果未能复现）。
