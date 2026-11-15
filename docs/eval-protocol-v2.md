@@ -117,3 +117,14 @@ python scripts/aggregate_results.py --results-dir results_v2 --out results_v2/su
   只是幅度远小于抽样噪声。论文只能写"三种子差异在抽样噪声内"的描述性表述。
 - `results_v2/summary.json` 的 `_audit` 必须 `mismatch_task_count == 0`，
   且每个方法每个任务的 `n_seeds == 3`，才能进入论文表。
+
+
+---
+
+## §9 [2026-11-16 八专家评审裁定·更正与命名规范]
+
+1. **RTN 命名（F1）**：`results_v2_ptq_nf4` 的 `baseline_nf4` 实为 **bnb NF4+double-quant 无校准量化（=QLoRA 基座量化器，无 adapter）**，不是 PTQ 文献语境的 RTN（INT4 sym/asym, g=128）。任何文档/论文不得将其简称为 RTN；真 INT4-RTN 参照臂为投稿前 P0 补做项（review/fair-baseline.md F18）。
+2. **延迟数字撤回**：「adaq 2.33 s/it vs dora 5.75 s/it」全仓库无制品（仅 tqdm 瞬态，system_metrics.json 无 latency 字段），在按协议补测前禁止出现在任何材料中。
+3. **三表三口径声明**：8B 主表（seq2048/21 步/NF4 训练+**BF16 干净基座**评测）、PTQ 表（同 adapter/NF4 基座评测）、14B 表（seq512/255 步/NF4 评测）协议互不相同，**禁止任何跨表比较或叙述**（同一 adaq adapter GSM8K strict BF16 .4766 vs NF4 .4064，差 7 点纯协议效应）。8B 主表血统问题（training_args.bin 与 repo 代码矛盾）见 review/repro-eng.md。
+4. **strict/flex 政策（F7）**：预注册主指标 strict-match 对 Instruct/chat 基座失效（14B 实测 .1827/.1304 vs 官方≈0.94），自 2026-11-15 起 flexible-extract 为主判据、strict 无条件并列报告且永不单独作判据；脚本只出数据不出结论（aggregate_b4_3seeds.py 的裁定文字已按预注册 docs/preregistration-14b-3seeds.md 冻结）。
+5. **few-shot 审计口径（F10）**：机读核查须读 `configs[task].num_fewshot`（顶层 `config.num_fewshot` 为 None），mmlu=5 / gsm8k=4。

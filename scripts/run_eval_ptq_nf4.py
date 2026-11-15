@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# [2026-11-16 评审裁定 F1] 命名更正：本脚本的 baseline_nf4 = bnb NF4+double-quant 无校准量化（无 adapter），
+# 不是 PTQ 文献的 RTN(INT4,g=128)。产物键名保留 baseline_nf4 以兼容既有 summary.json，
+# 一切文档/论文表述必须写 'NF4+DQ base, no adapter'；真 INT4-RTN 参照臂见 review/fair-baseline.md F18。
 """P0-B1: NF4 加载口径下的 PTQ 基线对比评测。
 
 背景：主实验评测用 BF16 全精度（dtype=bfloat16 无 load_in_4bit），

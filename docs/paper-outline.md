@@ -7,7 +7,8 @@
 
 ## Title
 
-**AdaQ-LoRA: Quantization-Aware Adaptive Rank Allocation for Parameter-Efficient Fine-Tuning of LLMs**
+**Norm-Aware Rank Budgeting for LoRA Fine-Tuning on NF4-Quantized LLMs: Mechanism, Negative Result, and Detectable-Effect Boundaries**
+> [2026-11-16 评审裁定改题] 原题 *AdaQ-LoRA: Quantization-Aware Adaptive Rank Allocation for Parameter-Efficient Fine-Tuning of LLMs*——「Quantization-Aware」名不副实（score 99.8% 范数驱动）、「Parameter-Efficient」等秩下反号（+11.5%）。
 
 （备选：Error-Driven Rank Budgeting for 4-bit Quantized LoRA Fine-Tuning）
 
@@ -18,7 +19,7 @@
 - 方法：预计算 NF4 逐层误差 → 误差驱动秩分配
 - 理论：严格扰动界 + 谱抬升命题 + 代理质量诊断
 - 实验：[填充实验后] 4 benchmark × 3 seed × 4 方法，公平对齐
-- 结论：零额外开销下的参数效率提升
+- 结论 [2026-11-16 评审裁定撤回]：等秩下无参数效率优势（adaq +11.5% 参数、adalora 臂 2× 预算未剪枝）。结论重构=阴性结果 + 结构性机制解释 + 可检出效应边界。
 
 ## §1 Introduction (~1 page)
 
@@ -27,7 +28,7 @@
 - **¶1**: LLM 微调的量化 + 低秩范式（QLoRA 开创）。4-bit 基座 + LoRA 适配器 = 单卡可训练。但现有方法对所有层均匀分配秩——**Gap-1: 量化误差的层间异质性被忽视**。
 - **¶2**: 量化误差补偿的已有工作仅做初始化补偿（LoftQ）或梯度幅度缩放（QA-LoRA），未做秩容量分配——**Gap-2**。
 - **¶3**: AdaLoRA 的自适应秩在 4-bit 基座上重要性分数不可靠——**Gap-3**。NF4 对不同模块类型的量化误差可差数倍——**Gap-4**。
-- **¶4**: 本文提出 AdaQ-LoRA。核心洞察：量化误差 E_l 已知且固定（QLoRA 冻结量化），可作为秩分配信号。
+- **¶4** [重构]：原「核心洞察」（量化误差可作秩分配信号）被证伪——ε_l 近常数是 NF4 块定标的结构性后果，score 实为范数驱动。重构为：Lemma ‖E_l‖_F=ε_l‖W_l‖_F 且 ε≈const ⇒ 误差分配可证明退化为范数分配；给出该机制 + 收敛阴性 + 功效边界（噪声底为区间 [0.9,11.5] 点，非单点 4.5）。
 - **¶5**: 贡献总结（3 点：方法、理论、实验）。
 - **图 1**: 方法概览图（预计算 ε_l → 分配 r_l → QLoRA 训练）。
 
@@ -125,7 +126,7 @@
 
 ### §4.4 秩预算分析（实验三）
 - 图 2: R-性能曲线 (R ∈ {128, 256, 512, 768, 1024})
-- 分析: AdaQ 在各预算下 vs QLoRA 的优势趋势
+- 分析: AdaQ 在各预算下 vs QLoRA 的趋势 [未执行——R 曲线 R∈{128,256,512,768,1024} 0 产物，投稿前 P0 补做项，见 review/fair-baseline.md F17-M4]
 
 ### §4.5 效率分析
 - 表 3: 峰值显存 / 每 epoch 时长 / 预计算耗时 / 推理吞吐

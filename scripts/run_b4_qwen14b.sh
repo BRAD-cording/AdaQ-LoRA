@@ -1,5 +1,7 @@
 #!/bin/bash
-# P1-B4: Qwen2.5-14B 规模泛化验证（adaq vs qlora 两方法，同预算 512 rank）
+# P1-B4: Qwen2.5-14B 规模泛化验证（adaq vs qlora 两方法）
+# [2026-11-16 评审裁定更正标签] 非「同预算 512」：实测 sum-of-ranks adaq=528 / qlora=768（1.45x），
+# --budget 是装饰参数从不进入 build_lora_config（train.py:117）；training_stats.json 的 "budget":512 为假标签。
 set -euo pipefail
 cd /home/ubuntu/AdaQ-LoRA
 export HF_ENDPOINT=https://hf-mirror.com

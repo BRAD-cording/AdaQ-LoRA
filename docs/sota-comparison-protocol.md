@@ -87,7 +87,7 @@ Llama-3-8B 架构：32 层 × 7 模块类型 = 224 个适配位点
 |:---|:---|:---|:---|
 | QLoRA | PEFT `LoraConfig` + bitsandbytes NF4 | `r=8, alpha=16, dropout=0.05, target_modules=[q_proj,v_proj]` | 必须开 `bnb_4bit_use_double_quant=True` |
 | DoRA | PEFT `LoraConfig(use_dora=True)` | 同 QLoRA 配置 + `use_dora=True` | DoRA 多幅度向量，参数略多——报告时注明 |
-| AdaLoRA | PEFT `AdaLoraConfig` | 全局预算对齐到 R=512 | 4-bit 基座上重要性分数不可靠正是 Gap-3，按官方实现跑，结果差是预期证据 |
+| AdaLoRA | PEFT `AdaLoraConfig` | 全局预算对齐到 R=512 | 4-bit 基座上重要性分数不可靠正是 Gap-3，按官方默认调度复现；[2026-11-16 评审裁定撤回]「结果差是预期证据」属预承诺结论。实测三种子 lora_E 秩恒 16、sum-of-ranks 1024=2× 预算（tinit=20>max_steps=21 剪枝未触发、token_acc .4990→.4955 未收敛），该臂不能支撑任何关于 AdaLoRA 的结论；Gap-3 已撤回 |
 | AdaQ-LoRA | `adaq_precompute.py` 输出秩 + 方案 A 分组 | `budget=512, r_min=4, r_max=128` | 与 QLoRA 的唯一差异只能是秩分配，其余逐行对齐 |
 
 ### AdaQ-LoRA 接入 PEFT 的方式
@@ -124,7 +124,7 @@ config = LoraConfig(
 | 任务 | 设置 | 指标 | 备注 |
 |:---|:---|:---|:---|
 | MMLU | 5-shot | acc | 57 任务汇总 |
-| GSM8K | 4-shot | strict-match acc | 对数值精度最敏感，AdaQ 优势主战场 |
+| GSM8K | 4-shot | strict-match acc | 对数值精度敏感；[2026-11-16 评审裁定撤回「优势主战场」预承诺] 本实验未观察到超噪声底的方法差异；strict-match 对 Instruct 基座失效（14B 实测 .18/.13 vs 官方≈0.94），永不作判据，flexible-extract 为主判据且须人工审计 |
 | TruthfulQA | 0-shot | MC1/MC2 | 幻觉检测 |
 | IFEval | 0-shot | prompt-level acc | 指令遵循 |
 
@@ -194,10 +194,10 @@ python -m lm_eval --model hf --model_args pretrained=<base>,peft=<adapter_path>,
 
 | Method | Budget | Params (M) | MMLU↑ | GSM8K↑ | TruthfulQA(MC1)↑ | IFEval↑ |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|
-| QLoRA (r=8) | 512 | 2.7 | — | — | — | — |
-| DoRA (r=8) | 512 | 2.7† | — | — | — | — |
-| AdaLoRA | 512 | 2.7 | — | — | — | — |
-| **AdaQ-LoRA** | **512** | **2.7** | — | — | — | — |
+| QLoRA (r=8) | 512 | 3.41（实测 3,407,872；Params/QLoRA=1.000） | — | — | — | — |
+| DoRA (r=8) | 512 | 3.57（实测 3,571,712；1.048×） | — | — | — | — |
+| AdaLoRA | 512→实测1024（剪枝未触发） | 6.82（实测 6,816,768；2.000×） | — | — | — | — |
+| **AdaQ-LoRA** | **512** | **3.80（实测 3,801,088；1.115×）** | — | — | — | — |
 
 † DoRA 多幅度向量，参数略多。
 
