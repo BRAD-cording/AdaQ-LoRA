@@ -115,9 +115,9 @@
 
 **证据/说明**：Related Work §2.3 已划清边界。这是 future work 的自然延伸。
 
-### L4：A10 单卡约束
+### L4：RTX 4090D 单卡约束
 
-**表述**：实验受限于 A10 24GB 单卡，未验证在更大模型（如 70B）上的效果。
+**表述**：实验受限于 RTX 4090D 24GB 单卡，未验证在更大模型（如 70B）上的效果。
 
 **证据/说明**：显存预算模型（docs/training-optimization-plan.md §1）可外推；但实际效果需多卡环境验证。
 
@@ -153,6 +153,6 @@
 |:---|:---|
 | "分配公式只是启发式" | 诚实标注为 Allocation Rule，配消融实验和 Spearman 诊断 |
 | "为什么不联合训练量化参数" | Related Work 划清边界，作为 future work |
-| "A10 单卡结果不够" | 坦承为 Limitation L4，提供外推分析 |
+| "RTX 4090D 单卡结果不够" | 坦承为 Limitation L4，提供外推分析 |
 | "提升幅度小" | 转向"零额外开销下的 Pareto 前沿"叙事 |
 | "理论部分太弱" | Theorem 1 严格成立 + Proposition 1' 有数值验证 |

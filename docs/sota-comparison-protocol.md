@@ -132,7 +132,7 @@ config = LoraConfig(
 
 - 用 `scripts/run_benchmarks.sh` 生成命令
 - **混合 shot 数问题**：MMLU=5-shot, GSM8K=4-shot, TruthfulQA/IFEval=0-shot，须分批运行
-- batch_size = 4（A10 bf16 推理）
+- batch_size = 4（RTX 4090D bf16 推理）
 - 每模型固定输出到 `results/<method>_<seed>/<task>.json`
 - **原始 json 全部保留，论文数值只能从 json 汇总生成，禁止手抄**
 

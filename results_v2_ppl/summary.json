@@ -1,0 +1,38 @@
+{
+ "qlora": {
+  "word_perplexity": 7.434077847835933,
+  "byte_perplexity": 1.455203811578808,
+  "bits_per_byte": 0.5412212269218848,
+  "sample_len": 62
+ },
+ "dora": {
+  "word_perplexity": 7.4356798272340985,
+  "byte_perplexity": 1.45526244818443,
+  "bits_per_byte": 0.5412793583225655,
+  "sample_len": 62
+ },
+ "adalora": {
+  "word_perplexity": 7.440241196787947,
+  "byte_perplexity": 1.455429349917461,
+  "bits_per_byte": 0.5414448092321951,
+  "sample_len": 62
+ },
+ "adaq": {
+  "word_perplexity": 7.431367592000248,
+  "byte_perplexity": 1.4551045857823433,
+  "bits_per_byte": 0.5411228507053483,
+  "sample_len": 62
+ },
+ "qlora_nf4": {
+  "word_perplexity": 7.969130935772799,
+  "byte_perplexity": 1.4742405612173757,
+  "bits_per_byte": 0.5599719573760563,
+  "sample_len": 62
+ },
+ "adaq_nf4": {
+  "word_perplexity": 7.96606057135855,
+  "byte_perplexity": 1.4741343259877402,
+  "bits_per_byte": 0.559867991601762,
+  "sample_len": 62
+ }
+}

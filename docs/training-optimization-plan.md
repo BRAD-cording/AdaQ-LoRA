@@ -1,7 +1,7 @@
-# A10 单卡训练效率优化计划（AdaQ-LoRA）
+# RTX 4090D 单卡训练效率优化计划（AdaQ-LoRA）
 
 > 依据：adaq-lora-research-pipeline/references/training-optimization.md
-> 硬件约束：NVIDIA A10 24GB 单卡
+> 硬件约束：NVIDIA RTX 4090D 24GB 单卡
 > 目标：Llama-3-8B QLoRA 级训练峰值显存 ≤ 23GB
 
 ---
@@ -30,7 +30,7 @@
 | 序号 | 优化项 | 配置 | 预期收益 | 风险 | 验证方法 |
 |:---:|:---|:---|:---|:---|:---|
 | 1 | NF4 + 双重量化 + bf16 compute | `bnb_4bit_use_double_quant=True, bnb_4bit_compute_dtype=bfloat16` | 标配 | 无 | 基线，不验证 |
-| 2 | FlashAttention-2 | `attn_implementation="flash_attention_2"` | 省 VRAM + 提速 20-30% | A10 Ampere 可能不兼容 | 失败退 `sdpa`，差距 <10% |
+| 2 | FlashAttention-2 | `attn_implementation="flash_attention_2"` | 省 VRAM + 提速 20-30% | RTX 4090D Ampere 可能不兼容 | 失败退 `sdpa`，差距 <10% |
 | 3 | 序列打包（packing） | `SFTConfig(packing=True, max_length=2048)` | 吞吐 1.5-2× | 跨样本注意力泄漏 | FA2 + position_ids 重置（TRL ≥0.9 默认） |
 | 4 | 梯度检查点 | `gradient_checkpointing=True, use_reentrant=False` | 激活 VRAM 降至 1/3 | 时间 +30-40% | batch×seq 翻倍后净吞吐为正 |
 | 5 | Liger kernel | `apply_liger_kernel_to_llama()` | 省 1-2GB + 提速 ~10% | 融合 CE 是显存大头（vocab 128k） | loss 曲线一致 |
@@ -52,7 +52,7 @@ micro-batch 4 + grad-accum 4 (有效 batch 16) + 检查点 + packing
   - 用 `scripts/profile_training.py` 自动完成
 - **lr 扫描**：用 1/10 数据 + 1 epoch 快速完成（约 2-3h），禁止在全量实验上扫参
 - **checkpoint**：只存 LoRA adapter（几十 MB），`save_only_model=True`
-- **断点续训**：A10 单卡环境下长实验被抢占/断电是常态，断点续训脚本常备
+- **断点续训**：RTX 4090D 单卡环境下长实验被抢占/断电是常态，断点续训脚本常备
 
 ---
 

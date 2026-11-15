@@ -1,0 +1,5108 @@
+{
+  "adalora": {
+    "gsm8k/exact_match,strict-match": {
+      "mean": 0.4774,
+      "std": 0.0009,
+      "n_seeds": 3,
+      "all_values": [
+        0.4769,
+        0.4784,
+        0.4769
+      ],
+      "per_seed": {
+        "42": 0.4769,
+        "2025": 0.4784,
+        "3407": 0.4769
+      },
+      "sample_len": [
+        1319
+      ]
+    },
+    "ifeval/inst_level_strict_acc": {
+      "mean": 0.1375,
+      "std": 0.0025,
+      "n_seeds": 3,
+      "all_values": [
+        0.1403,
+        0.1355,
+        0.1367
+      ],
+      "per_seed": {
+        "42": 0.1367,
+        "2025": 0.1355,
+        "3407": 0.1403
+      },
+      "sample_len": [
+        541
+      ]
+    },
+    "mmlu/acc": {
+      "mean": 0.6538,
+      "std": 0.0012,
+      "n_seeds": 3,
+      "all_values": [
+        0.6541,
+        0.6548,
+        0.6524
+      ],
+      "per_seed": {
+        "42": 0.6524,
+        "2025": 0.6548,
+        "3407": 0.6541
+      },
+      "sample_len": [
+        14042
+      ]
+    },
+    "mmlu_abstract_algebra/acc": {
+      "mean": 0.29,
+      "std": 0.03,
+      "n_seeds": 3,
+      "all_values": [
+        0.29,
+        0.26,
+        0.32
+      ],
+      "per_seed": {
+        "42": 0.32,
+        "2025": 0.26,
+        "3407": 0.29
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_anatomy/acc": {
+      "mean": 0.684,
+      "std": 0.0043,
+      "n_seeds": 3,
+      "all_values": [
+        0.6889,
+        0.6815,
+        0.6815
+      ],
+      "per_seed": {
+        "42": 0.6815,
+        "2025": 0.6815,
+        "3407": 0.6889
+      },
+      "sample_len": [
+        135
+      ]
+    },
+    "mmlu_astronomy/acc": {
+      "mean": 0.6908,
+      "std": 0.0066,
+      "n_seeds": 3,
+      "all_values": [
+        0.6842,
+        0.6908,
+        0.6974
+      ],
+      "per_seed": {
+        "42": 0.6974,
+        "2025": 0.6908,
+        "3407": 0.6842
+      },
+      "sample_len": [
+        152
+      ]
+    },
+    "mmlu_business_ethics/acc": {
+      "mean": 0.6367,
+      "std": 0.0058,
+      "n_seeds": 3,
+      "all_values": [
+        0.64,
+        0.64,
+        0.63
+      ],
+      "per_seed": {
+        "42": 0.63,
+        "2025": 0.64,
+        "3407": 0.64
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_clinical_knowledge/acc": {
+      "mean": 0.7497,
+      "std": 0.0044,
+      "n_seeds": 3,
+      "all_values": [
+        0.7547,
+        0.7472,
+        0.7472
+      ],
+      "per_seed": {
+        "42": 0.7472,
+        "2025": 0.7472,
+        "3407": 0.7547
+      },
+      "sample_len": [
+        265
+      ]
+    },
+    "mmlu_college_biology/acc": {
+      "mean": 0.7778,
+      "std": 0.0069,
+      "n_seeds": 3,
+      "all_values": [
+        0.7778,
+        0.7847,
+        0.7708
+      ],
+      "per_seed": {
+        "42": 0.7708,
+        "2025": 0.7847,
+        "3407": 0.7778
+      },
+      "sample_len": [
+        144
+      ]
+    },
+    "mmlu_college_chemistry/acc": {
+      "mean": 0.4667,
+      "std": 0.0058,
+      "n_seeds": 3,
+      "all_values": [
+        0.46,
+        0.47,
+        0.47
+      ],
+      "per_seed": {
+        "42": 0.47,
+        "2025": 0.47,
+        "3407": 0.46
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_college_computer_science/acc": {
+      "mean": 0.49,
+      "std": 0.01,
+      "n_seeds": 3,
+      "all_values": [
+        0.48,
+        0.5,
+        0.49
+      ],
+      "per_seed": {
+        "42": 0.49,
+        "2025": 0.5,
+        "3407": 0.48
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_college_mathematics/acc": {
+      "mean": 0.3467,
+      "std": 0.0058,
+      "n_seeds": 3,
+      "all_values": [
+        0.35,
+        0.35,
+        0.34
+      ],
+      "per_seed": {
+        "42": 0.34,
+        "2025": 0.35,
+        "3407": 0.35
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_college_medicine/acc": {
+      "mean": 0.6474,
+      "std": 0.0058,
+      "n_seeds": 3,
+      "all_values": [
+        0.6474,
+        0.6532,
+        0.6416
+      ],
+      "per_seed": {
+        "42": 0.6416,
+        "2025": 0.6532,
+        "3407": 0.6474
+      },
+      "sample_len": [
+        173
+      ]
+    },
+    "mmlu_college_physics/acc": {
+      "mean": 0.4804,
+      "std": 0.0294,
+      "n_seeds": 3,
+      "all_values": [
+        0.5098,
+        0.4804,
+        0.451
+      ],
+      "per_seed": {
+        "42": 0.451,
+        "2025": 0.4804,
+        "3407": 0.5098
+      },
+      "sample_len": [
+        102
+      ]
+    },
+    "mmlu_computer_security/acc": {
+      "mean": 0.7933,
+      "std": 0.0058,
+      "n_seeds": 3,
+      "all_values": [
+        0.79,
+        0.79,
+        0.8
+      ],
+      "per_seed": {
+        "42": 0.8,
+        "2025": 0.79,
+        "3407": 0.79
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_conceptual_physics/acc": {
+      "mean": 0.5887,
+      "std": 0.0025,
+      "n_seeds": 3,
+      "all_values": [
+        0.5872,
+        0.5872,
+        0.5915
+      ],
+      "per_seed": {
+        "42": 0.5915,
+        "2025": 0.5872,
+        "3407": 0.5872
+      },
+      "sample_len": [
+        235
+      ]
+    },
+    "mmlu_econometrics/acc": {
+      "mean": 0.5029,
+      "std": 0.0101,
+      "n_seeds": 3,
+      "all_values": [
+        0.5088,
+        0.5088,
+        0.4912
+      ],
+      "per_seed": {
+        "42": 0.4912,
+        "2025": 0.5088,
+        "3407": 0.5088
+      },
+      "sample_len": [
+        114
+      ]
+    },
+    "mmlu_electrical_engineering/acc": {
+      "mean": 0.6552,
+      "std": 0.0069,
+      "n_seeds": 3,
+      "all_values": [
+        0.6621,
+        0.6552,
+        0.6483
+      ],
+      "per_seed": {
+        "42": 0.6483,
+        "2025": 0.6552,
+        "3407": 0.6621
+      },
+      "sample_len": [
+        145
+      ]
+    },
+    "mmlu_elementary_mathematics/acc": {
+      "mean": 0.4286,
+      "std": 0.0026,
+      "n_seeds": 3,
+      "all_values": [
+        0.4286,
+        0.4312,
+        0.4259
+      ],
+      "per_seed": {
+        "42": 0.4259,
+        "2025": 0.4312,
+        "3407": 0.4286
+      },
+      "sample_len": [
+        378
+      ]
+    },
+    "mmlu_formal_logic/acc": {
+      "mean": 0.4921,
+      "std": 0.0137,
+      "n_seeds": 3,
+      "all_values": [
+        0.5,
+        0.4762,
+        0.5
+      ],
+      "per_seed": {
+        "42": 0.5,
+        "2025": 0.4762,
+        "3407": 0.5
+      },
+      "sample_len": [
+        126
+      ]
+    },
+    "mmlu_global_facts/acc": {
+      "mean": 0.34,
+      "std": 0.0,
+      "n_seeds": 3,
+      "all_values": [
+        0.34,
+        0.34,
+        0.34
+      ],
+      "per_seed": {
+        "42": 0.34,
+        "2025": 0.34,
+        "3407": 0.34
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_high_school_biology/acc": {
+      "mean": 0.7796,
+      "std": 0.0049,
+      "n_seeds": 3,
+      "all_values": [
+        0.7806,
+        0.7839,
+        0.7742
+      ],
+      "per_seed": {
+        "42": 0.7742,
+        "2025": 0.7839,
+        "3407": 0.7806
+      },
+      "sample_len": [
+        310
+      ]
+    },
+    "mmlu_high_school_chemistry/acc": {
+      "mean": 0.5255,
+      "std": 0.0028,
+      "n_seeds": 3,
+      "all_values": [
+        0.5271,
+        0.5271,
+        0.5222
+      ],
+      "per_seed": {
+        "42": 0.5222,
+        "2025": 0.5271,
+        "3407": 0.5271
+      },
+      "sample_len": [
+        203
+      ]
+    },
+    "mmlu_high_school_computer_science/acc": {
+      "mean": 0.68,
+      "std": 0.0,
+      "n_seeds": 3,
+      "all_values": [
+        0.68,
+        0.68,
+        0.68
+      ],
+      "per_seed": {
+        "42": 0.68,
+        "2025": 0.68,
+        "3407": 0.68
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_high_school_european_history/acc": {
+      "mean": 0.7697,
+      "std": 0.0,
+      "n_seeds": 3,
+      "all_values": [
+        0.7697,
+        0.7697,
+        0.7697
+      ],
+      "per_seed": {
+        "42": 0.7697,
+        "2025": 0.7697,
+        "3407": 0.7697
+      },
+      "sample_len": [
+        165
+      ]
+    },
+    "mmlu_high_school_geography/acc": {
+      "mean": 0.8098,
+      "std": 0.0029,
+      "n_seeds": 3,
+      "all_values": [
+        0.8081,
+        0.8081,
+        0.8131
+      ],
+      "per_seed": {
+        "42": 0.8131,
+        "2025": 0.8081,
+        "3407": 0.8081
+      },
+      "sample_len": [
+        198
+      ]
+    },
+    "mmlu_high_school_government_and_politics/acc": {
+      "mean": 0.8877,
+      "std": 0.003,
+      "n_seeds": 3,
+      "all_values": [
+        0.886,
+        0.8912,
+        0.886
+      ],
+      "per_seed": {
+        "42": 0.886,
+        "2025": 0.8912,
+        "3407": 0.886
+      },
+      "sample_len": [
+        193
+      ]
+    },
+    "mmlu_high_school_macroeconomics/acc": {
+      "mean": 0.6462,
+      "std": 0.0044,
+      "n_seeds": 3,
+      "all_values": [
+        0.641,
+        0.6487,
+        0.6487
+      ],
+      "per_seed": {
+        "42": 0.6487,
+        "2025": 0.6487,
+        "3407": 0.641
+      },
+      "sample_len": [
+        390
+      ]
+    },
+    "mmlu_high_school_mathematics/acc": {
+      "mean": 0.3852,
+      "std": 0.0064,
+      "n_seeds": 3,
+      "all_values": [
+        0.3926,
+        0.3815,
+        0.3815
+      ],
+      "per_seed": {
+        "42": 0.3815,
+        "2025": 0.3815,
+        "3407": 0.3926
+      },
+      "sample_len": [
+        270
+      ]
+    },
+    "mmlu_high_school_microeconomics/acc": {
+      "mean": 0.7367,
+      "std": 0.0024,
+      "n_seeds": 3,
+      "all_values": [
+        0.7353,
+        0.7395,
+        0.7353
+      ],
+      "per_seed": {
+        "42": 0.7353,
+        "2025": 0.7395,
+        "3407": 0.7353
+      },
+      "sample_len": [
+        238
+      ]
+    },
+    "mmlu_high_school_physics/acc": {
+      "mean": 0.4481,
+      "std": 0.0076,
+      "n_seeds": 3,
+      "all_values": [
+        0.4437,
+        0.457,
+        0.4437
+      ],
+      "per_seed": {
+        "42": 0.4437,
+        "2025": 0.457,
+        "3407": 0.4437
+      },
+      "sample_len": [
+        151
+      ]
+    },
+    "mmlu_high_school_psychology/acc": {
+      "mean": 0.8489,
+      "std": 0.0011,
+      "n_seeds": 3,
+      "all_values": [
+        0.8495,
+        0.8477,
+        0.8495
+      ],
+      "per_seed": {
+        "42": 0.8495,
+        "2025": 0.8477,
+        "3407": 0.8495
+      },
+      "sample_len": [
+        545
+      ]
+    },
+    "mmlu_high_school_statistics/acc": {
+      "mean": 0.554,
+      "std": 0.0027,
+      "n_seeds": 3,
+      "all_values": [
+        0.5509,
+        0.5556,
+        0.5556
+      ],
+      "per_seed": {
+        "42": 0.5556,
+        "2025": 0.5556,
+        "3407": 0.5509
+      },
+      "sample_len": [
+        216
+      ]
+    },
+    "mmlu_high_school_us_history/acc": {
+      "mean": 0.8529,
+      "std": 0.0,
+      "n_seeds": 3,
+      "all_values": [
+        0.8529,
+        0.8529,
+        0.8529
+      ],
+      "per_seed": {
+        "42": 0.8529,
+        "2025": 0.8529,
+        "3407": 0.8529
+      },
+      "sample_len": [
+        204
+      ]
+    },
+    "mmlu_high_school_world_history/acc": {
+      "mean": 0.8242,
+      "std": 0.0024,
+      "n_seeds": 3,
+      "all_values": [
+        0.827,
+        0.8228,
+        0.8228
+      ],
+      "per_seed": {
+        "42": 0.8228,
+        "2025": 0.8228,
+        "3407": 0.827
+      },
+      "sample_len": [
+        237
+      ]
+    },
+    "mmlu_human_aging/acc": {
+      "mean": 0.7175,
+      "std": 0.0,
+      "n_seeds": 3,
+      "all_values": [
+        0.7175,
+        0.7175,
+        0.7175
+      ],
+      "per_seed": {
+        "42": 0.7175,
+        "2025": 0.7175,
+        "3407": 0.7175
+      },
+      "sample_len": [
+        223
+      ]
+    },
+    "mmlu_human_sexuality/acc": {
+      "mean": 0.7812,
+      "std": 0.0088,
+      "n_seeds": 3,
+      "all_values": [
+        0.7863,
+        0.7863,
+        0.771
+      ],
+      "per_seed": {
+        "42": 0.771,
+        "2025": 0.7863,
+        "3407": 0.7863
+      },
+      "sample_len": [
+        131
+      ]
+    },
+    "mmlu_humanities/acc": {
+      "mean": 0.5986,
+      "std": 0.0015,
+      "n_seeds": 3,
+      "all_values": [
+        0.5987,
+        0.6,
+        0.597
+      ],
+      "per_seed": {
+        "42": 0.597,
+        "2025": 0.6,
+        "3407": 0.5987
+      },
+      "sample_len": [
+        4705
+      ]
+    },
+    "mmlu_international_law/acc": {
+      "mean": 0.8512,
+      "std": 0.0,
+      "n_seeds": 3,
+      "all_values": [
+        0.8512,
+        0.8512,
+        0.8512
+      ],
+      "per_seed": {
+        "42": 0.8512,
+        "2025": 0.8512,
+        "3407": 0.8512
+      },
+      "sample_len": [
+        121
+      ]
+    },
+    "mmlu_jurisprudence/acc": {
+      "mean": 0.7438,
+      "std": 0.0053,
+      "n_seeds": 3,
+      "all_values": [
+        0.7407,
+        0.7407,
+        0.75
+      ],
+      "per_seed": {
+        "42": 0.75,
+        "2025": 0.7407,
+        "3407": 0.7407
+      },
+      "sample_len": [
+        108
+      ]
+    },
+    "mmlu_logical_fallacies/acc": {
+      "mean": 0.7362,
+      "std": 0.0061,
+      "n_seeds": 3,
+      "all_values": [
+        0.7362,
+        0.7423,
+        0.7301
+      ],
+      "per_seed": {
+        "42": 0.7301,
+        "2025": 0.7423,
+        "3407": 0.7362
+      },
+      "sample_len": [
+        163
+      ]
+    },
+    "mmlu_machine_learning/acc": {
+      "mean": 0.5179,
+      "std": 0.0,
+      "n_seeds": 3,
+      "all_values": [
+        0.5179,
+        0.5179,
+        0.5179
+      ],
+      "per_seed": {
+        "42": 0.5179,
+        "2025": 0.5179,
+        "3407": 0.5179
+      },
+      "sample_len": [
+        112
+      ]
+    },
+    "mmlu_management/acc": {
+      "mean": 0.8803,
+      "std": 0.0056,
+      "n_seeds": 3,
+      "all_values": [
+        0.8738,
+        0.8835,
+        0.8835
+      ],
+      "per_seed": {
+        "42": 0.8835,
+        "2025": 0.8835,
+        "3407": 0.8738
+      },
+      "sample_len": [
+        103
+      ]
+    },
+    "mmlu_marketing/acc": {
+      "mean": 0.8932,
+      "std": 0.0043,
+      "n_seeds": 3,
+      "all_values": [
+        0.8932,
+        0.8974,
+        0.8889
+      ],
+      "per_seed": {
+        "42": 0.8889,
+        "2025": 0.8974,
+        "3407": 0.8932
+      },
+      "sample_len": [
+        234
+      ]
+    },
+    "mmlu_medical_genetics/acc": {
+      "mean": 0.79,
+      "std": 0.0,
+      "n_seeds": 3,
+      "all_values": [
+        0.79,
+        0.79,
+        0.79
+      ],
+      "per_seed": {
+        "42": 0.79,
+        "2025": 0.79,
+        "3407": 0.79
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_miscellaneous/acc": {
+      "mean": 0.8318,
+      "std": 0.002,
+      "n_seeds": 3,
+      "all_values": [
+        0.834,
+        0.8314,
+        0.8301
+      ],
+      "per_seed": {
+        "42": 0.8301,
+        "2025": 0.8314,
+        "3407": 0.834
+      },
+      "sample_len": [
+        783
+      ]
+    },
+    "mmlu_moral_disputes/acc": {
+      "mean": 0.736,
+      "std": 0.0044,
+      "n_seeds": 3,
+      "all_values": [
+        0.737,
+        0.7399,
+        0.7312
+      ],
+      "per_seed": {
+        "42": 0.7312,
+        "2025": 0.7399,
+        "3407": 0.737
+      },
+      "sample_len": [
+        346
+      ]
+    },
+    "mmlu_moral_scenarios/acc": {
+      "mean": 0.4175,
+      "std": 0.0042,
+      "n_seeds": 3,
+      "all_values": [
+        0.4156,
+        0.4223,
+        0.4145
+      ],
+      "per_seed": {
+        "42": 0.4145,
+        "2025": 0.4223,
+        "3407": 0.4156
+      },
+      "sample_len": [
+        895
+      ]
+    },
+    "mmlu_nutrition/acc": {
+      "mean": 0.7669,
+      "std": 0.005,
+      "n_seeds": 3,
+      "all_values": [
+        0.768,
+        0.7614,
+        0.7712
+      ],
+      "per_seed": {
+        "42": 0.7712,
+        "2025": 0.7614,
+        "3407": 0.768
+      },
+      "sample_len": [
+        306
+      ]
+    },
+    "mmlu_other/acc": {
+      "mean": 0.7276,
+      "std": 0.0016,
+      "n_seeds": 3,
+      "all_values": [
+        0.7284,
+        0.7287,
+        0.7258
+      ],
+      "per_seed": {
+        "42": 0.7258,
+        "2025": 0.7287,
+        "3407": 0.7284
+      },
+      "sample_len": [
+        3107
+      ]
+    },
+    "mmlu_philosophy/acc": {
+      "mean": 0.7406,
+      "std": 0.0019,
+      "n_seeds": 3,
+      "all_values": [
+        0.7428,
+        0.7395,
+        0.7395
+      ],
+      "per_seed": {
+        "42": 0.7395,
+        "2025": 0.7395,
+        "3407": 0.7428
+      },
+      "sample_len": [
+        311
+      ]
+    },
+    "mmlu_prehistory/acc": {
+      "mean": 0.7335,
+      "std": 0.0036,
+      "n_seeds": 3,
+      "all_values": [
+        0.7315,
+        0.7377,
+        0.7315
+      ],
+      "per_seed": {
+        "42": 0.7315,
+        "2025": 0.7377,
+        "3407": 0.7315
+      },
+      "sample_len": [
+        324
+      ]
+    },
+    "mmlu_professional_accounting/acc": {
+      "mean": 0.4858,
+      "std": 0.0106,
+      "n_seeds": 3,
+      "all_values": [
+        0.4858,
+        0.4965,
+        0.4752
+      ],
+      "per_seed": {
+        "42": 0.4752,
+        "2025": 0.4965,
+        "3407": 0.4858
+      },
+      "sample_len": [
+        282
+      ]
+    },
+    "mmlu_professional_law/acc": {
+      "mean": 0.4672,
+      "std": 0.001,
+      "n_seeds": 3,
+      "all_values": [
+        0.4674,
+        0.4681,
+        0.4661
+      ],
+      "per_seed": {
+        "42": 0.4661,
+        "2025": 0.4681,
+        "3407": 0.4674
+      },
+      "sample_len": [
+        1534
+      ]
+    },
+    "mmlu_professional_medicine/acc": {
+      "mean": 0.7206,
+      "std": 0.0037,
+      "n_seeds": 3,
+      "all_values": [
+        0.7169,
+        0.7206,
+        0.7243
+      ],
+      "per_seed": {
+        "42": 0.7243,
+        "2025": 0.7206,
+        "3407": 0.7169
+      },
+      "sample_len": [
+        272
+      ]
+    },
+    "mmlu_professional_psychology/acc": {
+      "mean": 0.7217,
+      "std": 0.0009,
+      "n_seeds": 3,
+      "all_values": [
+        0.7222,
+        0.7206,
+        0.7222
+      ],
+      "per_seed": {
+        "42": 0.7222,
+        "2025": 0.7206,
+        "3407": 0.7222
+      },
+      "sample_len": [
+        612
+      ]
+    },
+    "mmlu_public_relations/acc": {
+      "mean": 0.7121,
+      "std": 0.0052,
+      "n_seeds": 3,
+      "all_values": [
+        0.7182,
+        0.7091,
+        0.7091
+      ],
+      "per_seed": {
+        "42": 0.7091,
+        "2025": 0.7091,
+        "3407": 0.7182
+      },
+      "sample_len": [
+        110
+      ]
+    },
+    "mmlu_security_studies/acc": {
+      "mean": 0.7565,
+      "std": 0.0024,
+      "n_seeds": 3,
+      "all_values": [
+        0.7551,
+        0.7551,
+        0.7592
+      ],
+      "per_seed": {
+        "42": 0.7592,
+        "2025": 0.7551,
+        "3407": 0.7551
+      },
+      "sample_len": [
+        245
+      ]
+    },
+    "mmlu_social_sciences/acc": {
+      "mean": 0.7621,
+      "std": 0.0006,
+      "n_seeds": 3,
+      "all_values": [
+        0.7618,
+        0.7628,
+        0.7618
+      ],
+      "per_seed": {
+        "42": 0.7618,
+        "2025": 0.7628,
+        "3407": 0.7618
+      },
+      "sample_len": [
+        3077
+      ]
+    },
+    "mmlu_sociology/acc": {
+      "mean": 0.8541,
+      "std": 0.0029,
+      "n_seeds": 3,
+      "all_values": [
+        0.8557,
+        0.8557,
+        0.8507
+      ],
+      "per_seed": {
+        "42": 0.8507,
+        "2025": 0.8557,
+        "3407": 0.8557
+      },
+      "sample_len": [
+        201
+      ]
+    },
+    "mmlu_stem/acc": {
+      "mean": 0.5576,
+      "std": 0.0014,
+      "n_seeds": 3,
+      "all_values": [
+        0.5585,
+        0.5582,
+        0.556
+      ],
+      "per_seed": {
+        "42": 0.556,
+        "2025": 0.5582,
+        "3407": 0.5585
+      },
+      "sample_len": [
+        3153
+      ]
+    },
+    "mmlu_us_foreign_policy/acc": {
+      "mean": 0.8667,
+      "std": 0.0058,
+      "n_seeds": 3,
+      "all_values": [
+        0.86,
+        0.87,
+        0.87
+      ],
+      "per_seed": {
+        "42": 0.87,
+        "2025": 0.87,
+        "3407": 0.86
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_virology/acc": {
+      "mean": 0.5703,
+      "std": 0.0035,
+      "n_seeds": 3,
+      "all_values": [
+        0.5723,
+        0.5723,
+        0.5663
+      ],
+      "per_seed": {
+        "42": 0.5663,
+        "2025": 0.5723,
+        "3407": 0.5723
+      },
+      "sample_len": [
+        166
+      ]
+    },
+    "mmlu_world_religions/acc": {
+      "mean": 0.8285,
+      "std": 0.0034,
+      "n_seeds": 3,
+      "all_values": [
+        0.8304,
+        0.8304,
+        0.8246
+      ],
+      "per_seed": {
+        "42": 0.8246,
+        "2025": 0.8304,
+        "3407": 0.8304
+      },
+      "sample_len": [
+        171
+      ]
+    },
+    "truthfulqa_mc1/acc": {
+      "mean": 0.2729,
+      "std": 0.0012,
+      "n_seeds": 3,
+      "all_values": [
+        0.2729,
+        0.2717,
+        0.2742
+      ],
+      "per_seed": {
+        "42": 0.2742,
+        "2025": 0.2717,
+        "3407": 0.2729
+      },
+      "sample_len": [
+        817
+      ]
+    },
+    "truthfulqa_mc2/acc": {
+      "mean": 0.4291,
+      "std": 0.0001,
+      "n_seeds": 3,
+      "all_values": [
+        0.429,
+        0.4292,
+        0.4292
+      ],
+      "per_seed": {
+        "42": 0.4292,
+        "2025": 0.4292,
+        "3407": 0.429
+      },
+      "sample_len": [
+        817
+      ]
+    }
+  },
+  "adaq": {
+    "gsm8k/exact_match,strict-match": {
+      "mean": 0.4766,
+      "std": 0.0031,
+      "n_seeds": 3,
+      "all_values": [
+        0.4761,
+        0.4799,
+        0.4738
+      ],
+      "per_seed": {
+        "42": 0.4761,
+        "2025": 0.4738,
+        "3407": 0.4799
+      },
+      "sample_len": [
+        1319
+      ]
+    },
+    "ifeval/inst_level_strict_acc": {
+      "mean": 0.1351,
+      "std": 0.0048,
+      "n_seeds": 3,
+      "all_values": [
+        0.1307,
+        0.1343,
+        0.1403
+      ],
+      "per_seed": {
+        "42": 0.1307,
+        "2025": 0.1403,
+        "3407": 0.1343
+      },
+      "sample_len": [
+        541
+      ]
+    },
+    "mmlu/acc": {
+      "mean": 0.654,
+      "std": 0.0007,
+      "n_seeds": 3,
+      "all_values": [
+        0.6543,
+        0.6545,
+        0.6533
+      ],
+      "per_seed": {
+        "42": 0.6543,
+        "2025": 0.6533,
+        "3407": 0.6545
+      },
+      "sample_len": [
+        14042
+      ]
+    },
+    "mmlu_abstract_algebra/acc": {
+      "mean": 0.2933,
+      "std": 0.0153,
+      "n_seeds": 3,
+      "all_values": [
+        0.31,
+        0.28,
+        0.29
+      ],
+      "per_seed": {
+        "42": 0.31,
+        "2025": 0.29,
+        "3407": 0.28
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_anatomy/acc": {
+      "mean": 0.6691,
+      "std": 0.0043,
+      "n_seeds": 3,
+      "all_values": [
+        0.6667,
+        0.6741,
+        0.6667
+      ],
+      "per_seed": {
+        "42": 0.6667,
+        "2025": 0.6667,
+        "3407": 0.6741
+      },
+      "sample_len": [
+        135
+      ]
+    },
+    "mmlu_astronomy/acc": {
+      "mean": 0.6996,
+      "std": 0.01,
+      "n_seeds": 3,
+      "all_values": [
+        0.6974,
+        0.6908,
+        0.7105
+      ],
+      "per_seed": {
+        "42": 0.6974,
+        "2025": 0.7105,
+        "3407": 0.6908
+      },
+      "sample_len": [
+        152
+      ]
+    },
+    "mmlu_business_ethics/acc": {
+      "mean": 0.6167,
+      "std": 0.0058,
+      "n_seeds": 3,
+      "all_values": [
+        0.62,
+        0.62,
+        0.61
+      ],
+      "per_seed": {
+        "42": 0.62,
+        "2025": 0.61,
+        "3407": 0.62
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_clinical_knowledge/acc": {
+      "mean": 0.756,
+      "std": 0.0022,
+      "n_seeds": 3,
+      "all_values": [
+        0.7547,
+        0.7547,
+        0.7585
+      ],
+      "per_seed": {
+        "42": 0.7547,
+        "2025": 0.7585,
+        "3407": 0.7547
+      },
+      "sample_len": [
+        265
+      ]
+    },
+    "mmlu_college_biology/acc": {
+      "mean": 0.7755,
+      "std": 0.004,
+      "n_seeds": 3,
+      "all_values": [
+        0.7778,
+        0.7778,
+        0.7708
+      ],
+      "per_seed": {
+        "42": 0.7778,
+        "2025": 0.7708,
+        "3407": 0.7778
+      },
+      "sample_len": [
+        144
+      ]
+    },
+    "mmlu_college_chemistry/acc": {
+      "mean": 0.4533,
+      "std": 0.0153,
+      "n_seeds": 3,
+      "all_values": [
+        0.44,
+        0.47,
+        0.45
+      ],
+      "per_seed": {
+        "42": 0.44,
+        "2025": 0.45,
+        "3407": 0.47
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_college_computer_science/acc": {
+      "mean": 0.5167,
+      "std": 0.0153,
+      "n_seeds": 3,
+      "all_values": [
+        0.52,
+        0.53,
+        0.5
+      ],
+      "per_seed": {
+        "42": 0.52,
+        "2025": 0.5,
+        "3407": 0.53
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_college_mathematics/acc": {
+      "mean": 0.3533,
+      "std": 0.0115,
+      "n_seeds": 3,
+      "all_values": [
+        0.36,
+        0.34,
+        0.36
+      ],
+      "per_seed": {
+        "42": 0.36,
+        "2025": 0.36,
+        "3407": 0.34
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_college_medicine/acc": {
+      "mean": 0.6493,
+      "std": 0.0067,
+      "n_seeds": 3,
+      "all_values": [
+        0.6532,
+        0.6532,
+        0.6416
+      ],
+      "per_seed": {
+        "42": 0.6532,
+        "2025": 0.6416,
+        "3407": 0.6532
+      },
+      "sample_len": [
+        173
+      ]
+    },
+    "mmlu_college_physics/acc": {
+      "mean": 0.4771,
+      "std": 0.0057,
+      "n_seeds": 3,
+      "all_values": [
+        0.4706,
+        0.4804,
+        0.4804
+      ],
+      "per_seed": {
+        "42": 0.4706,
+        "2025": 0.4804,
+        "3407": 0.4804
+      },
+      "sample_len": [
+        102
+      ]
+    },
+    "mmlu_computer_security/acc": {
+      "mean": 0.7933,
+      "std": 0.0058,
+      "n_seeds": 3,
+      "all_values": [
+        0.8,
+        0.79,
+        0.79
+      ],
+      "per_seed": {
+        "42": 0.8,
+        "2025": 0.79,
+        "3407": 0.79
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_conceptual_physics/acc": {
+      "mean": 0.5929,
+      "std": 0.0065,
+      "n_seeds": 3,
+      "all_values": [
+        0.5872,
+        0.5915,
+        0.6
+      ],
+      "per_seed": {
+        "42": 0.5872,
+        "2025": 0.6,
+        "3407": 0.5915
+      },
+      "sample_len": [
+        235
+      ]
+    },
+    "mmlu_econometrics/acc": {
+      "mean": 0.4708,
+      "std": 0.0183,
+      "n_seeds": 3,
+      "all_values": [
+        0.4561,
+        0.4912,
+        0.4649
+      ],
+      "per_seed": {
+        "42": 0.4561,
+        "2025": 0.4649,
+        "3407": 0.4912
+      },
+      "sample_len": [
+        114
+      ]
+    },
+    "mmlu_electrical_engineering/acc": {
+      "mean": 0.6828,
+      "std": 0.0069,
+      "n_seeds": 3,
+      "all_values": [
+        0.6897,
+        0.6828,
+        0.6759
+      ],
+      "per_seed": {
+        "42": 0.6897,
+        "2025": 0.6759,
+        "3407": 0.6828
+      },
+      "sample_len": [
+        145
+      ]
+    },
+    "mmlu_elementary_mathematics/acc": {
+      "mean": 0.4198,
+      "std": 0.0015,
+      "n_seeds": 3,
+      "all_values": [
+        0.4206,
+        0.4206,
+        0.418
+      ],
+      "per_seed": {
+        "42": 0.4206,
+        "2025": 0.418,
+        "3407": 0.4206
+      },
+      "sample_len": [
+        378
+      ]
+    },
+    "mmlu_formal_logic/acc": {
+      "mean": 0.5,
+      "std": 0.021,
+      "n_seeds": 3,
+      "all_values": [
+        0.4841,
+        0.5238,
+        0.4921
+      ],
+      "per_seed": {
+        "42": 0.4841,
+        "2025": 0.4921,
+        "3407": 0.5238
+      },
+      "sample_len": [
+        126
+      ]
+    },
+    "mmlu_global_facts/acc": {
+      "mean": 0.37,
+      "std": 0.0265,
+      "n_seeds": 3,
+      "all_values": [
+        0.4,
+        0.35,
+        0.36
+      ],
+      "per_seed": {
+        "42": 0.4,
+        "2025": 0.36,
+        "3407": 0.35
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_high_school_biology/acc": {
+      "mean": 0.7763,
+      "std": 0.0074,
+      "n_seeds": 3,
+      "all_values": [
+        0.7677,
+        0.7806,
+        0.7806
+      ],
+      "per_seed": {
+        "42": 0.7677,
+        "2025": 0.7806,
+        "3407": 0.7806
+      },
+      "sample_len": [
+        310
+      ]
+    },
+    "mmlu_high_school_chemistry/acc": {
+      "mean": 0.5468,
+      "std": 0.013,
+      "n_seeds": 3,
+      "all_values": [
+        0.5616,
+        0.5369,
+        0.5419
+      ],
+      "per_seed": {
+        "42": 0.5616,
+        "2025": 0.5419,
+        "3407": 0.5369
+      },
+      "sample_len": [
+        203
+      ]
+    },
+    "mmlu_high_school_computer_science/acc": {
+      "mean": 0.6767,
+      "std": 0.0058,
+      "n_seeds": 3,
+      "all_values": [
+        0.68,
+        0.68,
+        0.67
+      ],
+      "per_seed": {
+        "42": 0.68,
+        "2025": 0.67,
+        "3407": 0.68
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_high_school_european_history/acc": {
+      "mean": 0.7717,
+      "std": 0.0093,
+      "n_seeds": 3,
+      "all_values": [
+        0.7818,
+        0.7697,
+        0.7636
+      ],
+      "per_seed": {
+        "42": 0.7818,
+        "2025": 0.7636,
+        "3407": 0.7697
+      },
+      "sample_len": [
+        165
+      ]
+    },
+    "mmlu_high_school_geography/acc": {
+      "mean": 0.798,
+      "std": 0.0051,
+      "n_seeds": 3,
+      "all_values": [
+        0.7929,
+        0.803,
+        0.798
+      ],
+      "per_seed": {
+        "42": 0.7929,
+        "2025": 0.798,
+        "3407": 0.803
+      },
+      "sample_len": [
+        198
+      ]
+    },
+    "mmlu_high_school_government_and_politics/acc": {
+      "mean": 0.8964,
+      "std": 0.0,
+      "n_seeds": 3,
+      "all_values": [
+        0.8964,
+        0.8964,
+        0.8964
+      ],
+      "per_seed": {
+        "42": 0.8964,
+        "2025": 0.8964,
+        "3407": 0.8964
+      },
+      "sample_len": [
+        193
+      ]
+    },
+    "mmlu_high_school_macroeconomics/acc": {
+      "mean": 0.6598,
+      "std": 0.0039,
+      "n_seeds": 3,
+      "all_values": [
+        0.6564,
+        0.659,
+        0.6641
+      ],
+      "per_seed": {
+        "42": 0.6564,
+        "2025": 0.6641,
+        "3407": 0.659
+      },
+      "sample_len": [
+        390
+      ]
+    },
+    "mmlu_high_school_mathematics/acc": {
+      "mean": 0.3926,
+      "std": 0.0037,
+      "n_seeds": 3,
+      "all_values": [
+        0.3889,
+        0.3963,
+        0.3926
+      ],
+      "per_seed": {
+        "42": 0.3889,
+        "2025": 0.3926,
+        "3407": 0.3963
+      },
+      "sample_len": [
+        270
+      ]
+    },
+    "mmlu_high_school_microeconomics/acc": {
+      "mean": 0.7269,
+      "std": 0.0111,
+      "n_seeds": 3,
+      "all_values": [
+        0.7185,
+        0.7227,
+        0.7395
+      ],
+      "per_seed": {
+        "42": 0.7185,
+        "2025": 0.7395,
+        "3407": 0.7227
+      },
+      "sample_len": [
+        238
+      ]
+    },
+    "mmlu_high_school_physics/acc": {
+      "mean": 0.4525,
+      "std": 0.0101,
+      "n_seeds": 3,
+      "all_values": [
+        0.4636,
+        0.4437,
+        0.4503
+      ],
+      "per_seed": {
+        "42": 0.4636,
+        "2025": 0.4503,
+        "3407": 0.4437
+      },
+      "sample_len": [
+        151
+      ]
+    },
+    "mmlu_high_school_psychology/acc": {
+      "mean": 0.844,
+      "std": 0.0049,
+      "n_seeds": 3,
+      "all_values": [
+        0.8385,
+        0.8459,
+        0.8477
+      ],
+      "per_seed": {
+        "42": 0.8385,
+        "2025": 0.8477,
+        "3407": 0.8459
+      },
+      "sample_len": [
+        545
+      ]
+    },
+    "mmlu_high_school_statistics/acc": {
+      "mean": 0.5509,
+      "std": 0.008,
+      "n_seeds": 3,
+      "all_values": [
+        0.5556,
+        0.5556,
+        0.5417
+      ],
+      "per_seed": {
+        "42": 0.5556,
+        "2025": 0.5417,
+        "3407": 0.5556
+      },
+      "sample_len": [
+        216
+      ]
+    },
+    "mmlu_high_school_us_history/acc": {
+      "mean": 0.8464,
+      "std": 0.0075,
+      "n_seeds": 3,
+      "all_values": [
+        0.8529,
+        0.8382,
+        0.848
+      ],
+      "per_seed": {
+        "42": 0.8529,
+        "2025": 0.848,
+        "3407": 0.8382
+      },
+      "sample_len": [
+        204
+      ]
+    },
+    "mmlu_high_school_world_history/acc": {
+      "mean": 0.8312,
+      "std": 0.0042,
+      "n_seeds": 3,
+      "all_values": [
+        0.827,
+        0.8354,
+        0.8312
+      ],
+      "per_seed": {
+        "42": 0.827,
+        "2025": 0.8312,
+        "3407": 0.8354
+      },
+      "sample_len": [
+        237
+      ]
+    },
+    "mmlu_human_aging/acc": {
+      "mean": 0.716,
+      "std": 0.0052,
+      "n_seeds": 3,
+      "all_values": [
+        0.722,
+        0.713,
+        0.713
+      ],
+      "per_seed": {
+        "42": 0.722,
+        "2025": 0.713,
+        "3407": 0.713
+      },
+      "sample_len": [
+        223
+      ]
+    },
+    "mmlu_human_sexuality/acc": {
+      "mean": 0.7659,
+      "std": 0.0044,
+      "n_seeds": 3,
+      "all_values": [
+        0.771,
+        0.7634,
+        0.7634
+      ],
+      "per_seed": {
+        "42": 0.771,
+        "2025": 0.7634,
+        "3407": 0.7634
+      },
+      "sample_len": [
+        131
+      ]
+    },
+    "mmlu_humanities/acc": {
+      "mean": 0.5983,
+      "std": 0.0007,
+      "n_seeds": 3,
+      "all_values": [
+        0.5979,
+        0.5991,
+        0.5979
+      ],
+      "per_seed": {
+        "42": 0.5979,
+        "2025": 0.5979,
+        "3407": 0.5991
+      },
+      "sample_len": [
+        4705
+      ]
+    },
+    "mmlu_international_law/acc": {
+      "mean": 0.843,
+      "std": 0.0,
+      "n_seeds": 3,
+      "all_values": [
+        0.843,
+        0.843,
+        0.843
+      ],
+      "per_seed": {
+        "42": 0.843,
+        "2025": 0.843,
+        "3407": 0.843
+      },
+      "sample_len": [
+        121
+      ]
+    },
+    "mmlu_jurisprudence/acc": {
+      "mean": 0.7593,
+      "std": 0.0,
+      "n_seeds": 3,
+      "all_values": [
+        0.7593,
+        0.7593,
+        0.7593
+      ],
+      "per_seed": {
+        "42": 0.7593,
+        "2025": 0.7593,
+        "3407": 0.7593
+      },
+      "sample_len": [
+        108
+      ]
+    },
+    "mmlu_logical_fallacies/acc": {
+      "mean": 0.7403,
+      "std": 0.0094,
+      "n_seeds": 3,
+      "all_values": [
+        0.7485,
+        0.7301,
+        0.7423
+      ],
+      "per_seed": {
+        "42": 0.7485,
+        "2025": 0.7423,
+        "3407": 0.7301
+      },
+      "sample_len": [
+        163
+      ]
+    },
+    "mmlu_machine_learning/acc": {
+      "mean": 0.5179,
+      "std": 0.0089,
+      "n_seeds": 3,
+      "all_values": [
+        0.5179,
+        0.5268,
+        0.5089
+      ],
+      "per_seed": {
+        "42": 0.5179,
+        "2025": 0.5089,
+        "3407": 0.5268
+      },
+      "sample_len": [
+        112
+      ]
+    },
+    "mmlu_management/acc": {
+      "mean": 0.8835,
+      "std": 0.0,
+      "n_seeds": 3,
+      "all_values": [
+        0.8835,
+        0.8835,
+        0.8835
+      ],
+      "per_seed": {
+        "42": 0.8835,
+        "2025": 0.8835,
+        "3407": 0.8835
+      },
+      "sample_len": [
+        103
+      ]
+    },
+    "mmlu_marketing/acc": {
+      "mean": 0.8974,
+      "std": 0.0043,
+      "n_seeds": 3,
+      "all_values": [
+        0.8974,
+        0.8932,
+        0.9017
+      ],
+      "per_seed": {
+        "42": 0.8974,
+        "2025": 0.9017,
+        "3407": 0.8932
+      },
+      "sample_len": [
+        234
+      ]
+    },
+    "mmlu_medical_genetics/acc": {
+      "mean": 0.8033,
+      "std": 0.0058,
+      "n_seeds": 3,
+      "all_values": [
+        0.8,
+        0.8,
+        0.81
+      ],
+      "per_seed": {
+        "42": 0.8,
+        "2025": 0.81,
+        "3407": 0.8
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_miscellaneous/acc": {
+      "mean": 0.8293,
+      "std": 0.0015,
+      "n_seeds": 3,
+      "all_values": [
+        0.8276,
+        0.8301,
+        0.8301
+      ],
+      "per_seed": {
+        "42": 0.8276,
+        "2025": 0.8301,
+        "3407": 0.8301
+      },
+      "sample_len": [
+        783
+      ]
+    },
+    "mmlu_moral_disputes/acc": {
+      "mean": 0.7312,
+      "std": 0.0126,
+      "n_seeds": 3,
+      "all_values": [
+        0.7399,
+        0.7168,
+        0.737
+      ],
+      "per_seed": {
+        "42": 0.7399,
+        "2025": 0.737,
+        "3407": 0.7168
+      },
+      "sample_len": [
+        346
+      ]
+    },
+    "mmlu_moral_scenarios/acc": {
+      "mean": 0.4194,
+      "std": 0.0064,
+      "n_seeds": 3,
+      "all_values": [
+        0.4123,
+        0.4246,
+        0.4212
+      ],
+      "per_seed": {
+        "42": 0.4123,
+        "2025": 0.4212,
+        "3407": 0.4246
+      },
+      "sample_len": [
+        895
+      ]
+    },
+    "mmlu_nutrition/acc": {
+      "mean": 0.7658,
+      "std": 0.005,
+      "n_seeds": 3,
+      "all_values": [
+        0.7712,
+        0.7614,
+        0.7647
+      ],
+      "per_seed": {
+        "42": 0.7712,
+        "2025": 0.7647,
+        "3407": 0.7614
+      },
+      "sample_len": [
+        306
+      ]
+    },
+    "mmlu_other/acc": {
+      "mean": 0.7294,
+      "std": 0.0019,
+      "n_seeds": 3,
+      "all_values": [
+        0.7316,
+        0.7287,
+        0.728
+      ],
+      "per_seed": {
+        "42": 0.7316,
+        "2025": 0.728,
+        "3407": 0.7287
+      },
+      "sample_len": [
+        3107
+      ]
+    },
+    "mmlu_philosophy/acc": {
+      "mean": 0.7406,
+      "std": 0.0049,
+      "n_seeds": 3,
+      "all_values": [
+        0.746,
+        0.7395,
+        0.7363
+      ],
+      "per_seed": {
+        "42": 0.746,
+        "2025": 0.7363,
+        "3407": 0.7395
+      },
+      "sample_len": [
+        311
+      ]
+    },
+    "mmlu_prehistory/acc": {
+      "mean": 0.7274,
+      "std": 0.0047,
+      "n_seeds": 3,
+      "all_values": [
+        0.7315,
+        0.7284,
+        0.7222
+      ],
+      "per_seed": {
+        "42": 0.7315,
+        "2025": 0.7222,
+        "3407": 0.7284
+      },
+      "sample_len": [
+        324
+      ]
+    },
+    "mmlu_professional_accounting/acc": {
+      "mean": 0.4894,
+      "std": 0.0035,
+      "n_seeds": 3,
+      "all_values": [
+        0.4929,
+        0.4894,
+        0.4858
+      ],
+      "per_seed": {
+        "42": 0.4929,
+        "2025": 0.4858,
+        "3407": 0.4894
+      },
+      "sample_len": [
+        282
+      ]
+    },
+    "mmlu_professional_law/acc": {
+      "mean": 0.4659,
+      "std": 0.0019,
+      "n_seeds": 3,
+      "all_values": [
+        0.4648,
+        0.4681,
+        0.4648
+      ],
+      "per_seed": {
+        "42": 0.4648,
+        "2025": 0.4648,
+        "3407": 0.4681
+      },
+      "sample_len": [
+        1534
+      ]
+    },
+    "mmlu_professional_medicine/acc": {
+      "mean": 0.7316,
+      "std": 0.0037,
+      "n_seeds": 3,
+      "all_values": [
+        0.7316,
+        0.7353,
+        0.7279
+      ],
+      "per_seed": {
+        "42": 0.7316,
+        "2025": 0.7279,
+        "3407": 0.7353
+      },
+      "sample_len": [
+        272
+      ]
+    },
+    "mmlu_professional_psychology/acc": {
+      "mean": 0.7179,
+      "std": 0.005,
+      "n_seeds": 3,
+      "all_values": [
+        0.7222,
+        0.719,
+        0.7124
+      ],
+      "per_seed": {
+        "42": 0.7222,
+        "2025": 0.7124,
+        "3407": 0.719
+      },
+      "sample_len": [
+        612
+      ]
+    },
+    "mmlu_public_relations/acc": {
+      "mean": 0.7303,
+      "std": 0.0139,
+      "n_seeds": 3,
+      "all_values": [
+        0.7455,
+        0.7273,
+        0.7182
+      ],
+      "per_seed": {
+        "42": 0.7455,
+        "2025": 0.7182,
+        "3407": 0.7273
+      },
+      "sample_len": [
+        110
+      ]
+    },
+    "mmlu_security_studies/acc": {
+      "mean": 0.7415,
+      "std": 0.0024,
+      "n_seeds": 3,
+      "all_values": [
+        0.7429,
+        0.7388,
+        0.7429
+      ],
+      "per_seed": {
+        "42": 0.7429,
+        "2025": 0.7429,
+        "3407": 0.7388
+      },
+      "sample_len": [
+        245
+      ]
+    },
+    "mmlu_social_sciences/acc": {
+      "mean": 0.7594,
+      "std": 0.0015,
+      "n_seeds": 3,
+      "all_values": [
+        0.7579,
+        0.7608,
+        0.7595
+      ],
+      "per_seed": {
+        "42": 0.7579,
+        "2025": 0.7595,
+        "3407": 0.7608
+      },
+      "sample_len": [
+        3077
+      ]
+    },
+    "mmlu_sociology/acc": {
+      "mean": 0.864,
+      "std": 0.0057,
+      "n_seeds": 3,
+      "all_values": [
+        0.8607,
+        0.8706,
+        0.8607
+      ],
+      "per_seed": {
+        "42": 0.8607,
+        "2025": 0.8607,
+        "3407": 0.8706
+      },
+      "sample_len": [
+        201
+      ]
+    },
+    "mmlu_stem/acc": {
+      "mean": 0.56,
+      "std": 0.0013,
+      "n_seeds": 3,
+      "all_values": [
+        0.5611,
+        0.5604,
+        0.5585
+      ],
+      "per_seed": {
+        "42": 0.5611,
+        "2025": 0.5585,
+        "3407": 0.5604
+      },
+      "sample_len": [
+        3153
+      ]
+    },
+    "mmlu_us_foreign_policy/acc": {
+      "mean": 0.8633,
+      "std": 0.0058,
+      "n_seeds": 3,
+      "all_values": [
+        0.86,
+        0.87,
+        0.86
+      ],
+      "per_seed": {
+        "42": 0.86,
+        "2025": 0.86,
+        "3407": 0.87
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_virology/acc": {
+      "mean": 0.5622,
+      "std": 0.007,
+      "n_seeds": 3,
+      "all_values": [
+        0.5663,
+        0.5663,
+        0.5542
+      ],
+      "per_seed": {
+        "42": 0.5663,
+        "2025": 0.5542,
+        "3407": 0.5663
+      },
+      "sample_len": [
+        166
+      ]
+    },
+    "mmlu_world_religions/acc": {
+      "mean": 0.8265,
+      "std": 0.0068,
+      "n_seeds": 3,
+      "all_values": [
+        0.8187,
+        0.8304,
+        0.8304
+      ],
+      "per_seed": {
+        "42": 0.8187,
+        "2025": 0.8304,
+        "3407": 0.8304
+      },
+      "sample_len": [
+        171
+      ]
+    },
+    "truthfulqa_mc1/acc": {
+      "mean": 0.2864,
+      "std": 0.0021,
+      "n_seeds": 3,
+      "all_values": [
+        0.2852,
+        0.2852,
+        0.2889
+      ],
+      "per_seed": {
+        "42": 0.2852,
+        "2025": 0.2889,
+        "3407": 0.2852
+      },
+      "sample_len": [
+        817
+      ]
+    },
+    "truthfulqa_mc2/acc": {
+      "mean": 0.4357,
+      "std": 0.0014,
+      "n_seeds": 3,
+      "all_values": [
+        0.4365,
+        0.4341,
+        0.4366
+      ],
+      "per_seed": {
+        "42": 0.4365,
+        "2025": 0.4366,
+        "3407": 0.4341
+      },
+      "sample_len": [
+        817
+      ]
+    }
+  },
+  "dora": {
+    "gsm8k/exact_match,strict-match": {
+      "mean": 0.4799,
+      "std": 0.0055,
+      "n_seeds": 3,
+      "all_values": [
+        0.4754,
+        0.486,
+        0.4784
+      ],
+      "per_seed": {
+        "42": 0.4754,
+        "2025": 0.486,
+        "3407": 0.4784
+      },
+      "sample_len": [
+        1319
+      ]
+    },
+    "ifeval/inst_level_strict_acc": {
+      "mean": 0.1263,
+      "std": 0.0054,
+      "n_seeds": 3,
+      "all_values": [
+        0.1319,
+        0.1259,
+        0.1211
+      ],
+      "per_seed": {
+        "42": 0.1319,
+        "2025": 0.1259,
+        "3407": 0.1211
+      },
+      "sample_len": [
+        541
+      ]
+    },
+    "mmlu/acc": {
+      "mean": 0.6543,
+      "std": 0.0015,
+      "n_seeds": 3,
+      "all_values": [
+        0.656,
+        0.654,
+        0.653
+      ],
+      "per_seed": {
+        "42": 0.656,
+        "2025": 0.654,
+        "3407": 0.653
+      },
+      "sample_len": [
+        14042
+      ]
+    },
+    "mmlu_abstract_algebra/acc": {
+      "mean": 0.3033,
+      "std": 0.0058,
+      "n_seeds": 3,
+      "all_values": [
+        0.3,
+        0.31,
+        0.3
+      ],
+      "per_seed": {
+        "42": 0.3,
+        "2025": 0.31,
+        "3407": 0.3
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_anatomy/acc": {
+      "mean": 0.6691,
+      "std": 0.0043,
+      "n_seeds": 3,
+      "all_values": [
+        0.6741,
+        0.6667,
+        0.6667
+      ],
+      "per_seed": {
+        "42": 0.6741,
+        "2025": 0.6667,
+        "3407": 0.6667
+      },
+      "sample_len": [
+        135
+      ]
+    },
+    "mmlu_astronomy/acc": {
+      "mean": 0.6996,
+      "std": 0.0076,
+      "n_seeds": 3,
+      "all_values": [
+        0.6908,
+        0.7039,
+        0.7039
+      ],
+      "per_seed": {
+        "42": 0.6908,
+        "2025": 0.7039,
+        "3407": 0.7039
+      },
+      "sample_len": [
+        152
+      ]
+    },
+    "mmlu_business_ethics/acc": {
+      "mean": 0.6167,
+      "std": 0.0153,
+      "n_seeds": 3,
+      "all_values": [
+        0.63,
+        0.62,
+        0.6
+      ],
+      "per_seed": {
+        "42": 0.63,
+        "2025": 0.62,
+        "3407": 0.6
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_clinical_knowledge/acc": {
+      "mean": 0.7509,
+      "std": 0.01,
+      "n_seeds": 3,
+      "all_values": [
+        0.7472,
+        0.7623,
+        0.7434
+      ],
+      "per_seed": {
+        "42": 0.7472,
+        "2025": 0.7623,
+        "3407": 0.7434
+      },
+      "sample_len": [
+        265
+      ]
+    },
+    "mmlu_college_biology/acc": {
+      "mean": 0.7847,
+      "std": 0.0,
+      "n_seeds": 3,
+      "all_values": [
+        0.7847,
+        0.7847,
+        0.7847
+      ],
+      "per_seed": {
+        "42": 0.7847,
+        "2025": 0.7847,
+        "3407": 0.7847
+      },
+      "sample_len": [
+        144
+      ]
+    },
+    "mmlu_college_chemistry/acc": {
+      "mean": 0.4633,
+      "std": 0.0252,
+      "n_seeds": 3,
+      "all_values": [
+        0.49,
+        0.46,
+        0.44
+      ],
+      "per_seed": {
+        "42": 0.49,
+        "2025": 0.46,
+        "3407": 0.44
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_college_computer_science/acc": {
+      "mean": 0.4867,
+      "std": 0.0058,
+      "n_seeds": 3,
+      "all_values": [
+        0.49,
+        0.49,
+        0.48
+      ],
+      "per_seed": {
+        "42": 0.49,
+        "2025": 0.49,
+        "3407": 0.48
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_college_mathematics/acc": {
+      "mean": 0.34,
+      "std": 0.0173,
+      "n_seeds": 3,
+      "all_values": [
+        0.33,
+        0.33,
+        0.36
+      ],
+      "per_seed": {
+        "42": 0.33,
+        "2025": 0.33,
+        "3407": 0.36
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_college_medicine/acc": {
+      "mean": 0.6435,
+      "std": 0.0088,
+      "n_seeds": 3,
+      "all_values": [
+        0.6532,
+        0.6358,
+        0.6416
+      ],
+      "per_seed": {
+        "42": 0.6532,
+        "2025": 0.6358,
+        "3407": 0.6416
+      },
+      "sample_len": [
+        173
+      ]
+    },
+    "mmlu_college_physics/acc": {
+      "mean": 0.5033,
+      "std": 0.0057,
+      "n_seeds": 3,
+      "all_values": [
+        0.5098,
+        0.5,
+        0.5
+      ],
+      "per_seed": {
+        "42": 0.5098,
+        "2025": 0.5,
+        "3407": 0.5
+      },
+      "sample_len": [
+        102
+      ]
+    },
+    "mmlu_computer_security/acc": {
+      "mean": 0.7967,
+      "std": 0.0058,
+      "n_seeds": 3,
+      "all_values": [
+        0.8,
+        0.8,
+        0.79
+      ],
+      "per_seed": {
+        "42": 0.8,
+        "2025": 0.8,
+        "3407": 0.79
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_conceptual_physics/acc": {
+      "mean": 0.5858,
+      "std": 0.0049,
+      "n_seeds": 3,
+      "all_values": [
+        0.583,
+        0.583,
+        0.5915
+      ],
+      "per_seed": {
+        "42": 0.583,
+        "2025": 0.583,
+        "3407": 0.5915
+      },
+      "sample_len": [
+        235
+      ]
+    },
+    "mmlu_econometrics/acc": {
+      "mean": 0.4854,
+      "std": 0.0051,
+      "n_seeds": 3,
+      "all_values": [
+        0.4825,
+        0.4912,
+        0.4825
+      ],
+      "per_seed": {
+        "42": 0.4825,
+        "2025": 0.4912,
+        "3407": 0.4825
+      },
+      "sample_len": [
+        114
+      ]
+    },
+    "mmlu_electrical_engineering/acc": {
+      "mean": 0.6851,
+      "std": 0.004,
+      "n_seeds": 3,
+      "all_values": [
+        0.6828,
+        0.6897,
+        0.6828
+      ],
+      "per_seed": {
+        "42": 0.6828,
+        "2025": 0.6897,
+        "3407": 0.6828
+      },
+      "sample_len": [
+        145
+      ]
+    },
+    "mmlu_elementary_mathematics/acc": {
+      "mean": 0.4198,
+      "std": 0.0031,
+      "n_seeds": 3,
+      "all_values": [
+        0.418,
+        0.418,
+        0.4233
+      ],
+      "per_seed": {
+        "42": 0.418,
+        "2025": 0.418,
+        "3407": 0.4233
+      },
+      "sample_len": [
+        378
+      ]
+    },
+    "mmlu_formal_logic/acc": {
+      "mean": 0.4947,
+      "std": 0.0046,
+      "n_seeds": 3,
+      "all_values": [
+        0.5,
+        0.4921,
+        0.4921
+      ],
+      "per_seed": {
+        "42": 0.5,
+        "2025": 0.4921,
+        "3407": 0.4921
+      },
+      "sample_len": [
+        126
+      ]
+    },
+    "mmlu_global_facts/acc": {
+      "mean": 0.35,
+      "std": 0.01,
+      "n_seeds": 3,
+      "all_values": [
+        0.35,
+        0.36,
+        0.34
+      ],
+      "per_seed": {
+        "42": 0.35,
+        "2025": 0.36,
+        "3407": 0.34
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_high_school_biology/acc": {
+      "mean": 0.7742,
+      "std": 0.0032,
+      "n_seeds": 3,
+      "all_values": [
+        0.771,
+        0.7774,
+        0.7742
+      ],
+      "per_seed": {
+        "42": 0.771,
+        "2025": 0.7774,
+        "3407": 0.7742
+      },
+      "sample_len": [
+        310
+      ]
+    },
+    "mmlu_high_school_chemistry/acc": {
+      "mean": 0.5386,
+      "std": 0.0114,
+      "n_seeds": 3,
+      "all_values": [
+        0.5517,
+        0.532,
+        0.532
+      ],
+      "per_seed": {
+        "42": 0.5517,
+        "2025": 0.532,
+        "3407": 0.532
+      },
+      "sample_len": [
+        203
+      ]
+    },
+    "mmlu_high_school_computer_science/acc": {
+      "mean": 0.6767,
+      "std": 0.0058,
+      "n_seeds": 3,
+      "all_values": [
+        0.68,
+        0.67,
+        0.68
+      ],
+      "per_seed": {
+        "42": 0.68,
+        "2025": 0.67,
+        "3407": 0.68
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_high_school_european_history/acc": {
+      "mean": 0.7717,
+      "std": 0.007,
+      "n_seeds": 3,
+      "all_values": [
+        0.7636,
+        0.7758,
+        0.7758
+      ],
+      "per_seed": {
+        "42": 0.7636,
+        "2025": 0.7758,
+        "3407": 0.7758
+      },
+      "sample_len": [
+        165
+      ]
+    },
+    "mmlu_high_school_geography/acc": {
+      "mean": 0.8013,
+      "std": 0.0029,
+      "n_seeds": 3,
+      "all_values": [
+        0.803,
+        0.798,
+        0.803
+      ],
+      "per_seed": {
+        "42": 0.803,
+        "2025": 0.798,
+        "3407": 0.803
+      },
+      "sample_len": [
+        198
+      ]
+    },
+    "mmlu_high_school_government_and_politics/acc": {
+      "mean": 0.8929,
+      "std": 0.003,
+      "n_seeds": 3,
+      "all_values": [
+        0.8964,
+        0.8912,
+        0.8912
+      ],
+      "per_seed": {
+        "42": 0.8964,
+        "2025": 0.8912,
+        "3407": 0.8912
+      },
+      "sample_len": [
+        193
+      ]
+    },
+    "mmlu_high_school_macroeconomics/acc": {
+      "mean": 0.6615,
+      "std": 0.0051,
+      "n_seeds": 3,
+      "all_values": [
+        0.6615,
+        0.6564,
+        0.6667
+      ],
+      "per_seed": {
+        "42": 0.6615,
+        "2025": 0.6564,
+        "3407": 0.6667
+      },
+      "sample_len": [
+        390
+      ]
+    },
+    "mmlu_high_school_mathematics/acc": {
+      "mean": 0.4,
+      "std": 0.0225,
+      "n_seeds": 3,
+      "all_values": [
+        0.4259,
+        0.3852,
+        0.3889
+      ],
+      "per_seed": {
+        "42": 0.4259,
+        "2025": 0.3852,
+        "3407": 0.3889
+      },
+      "sample_len": [
+        270
+      ]
+    },
+    "mmlu_high_school_microeconomics/acc": {
+      "mean": 0.7311,
+      "std": 0.0111,
+      "n_seeds": 3,
+      "all_values": [
+        0.7395,
+        0.7185,
+        0.7353
+      ],
+      "per_seed": {
+        "42": 0.7395,
+        "2025": 0.7185,
+        "3407": 0.7353
+      },
+      "sample_len": [
+        238
+      ]
+    },
+    "mmlu_high_school_physics/acc": {
+      "mean": 0.457,
+      "std": 0.0132,
+      "n_seeds": 3,
+      "all_values": [
+        0.4702,
+        0.457,
+        0.4437
+      ],
+      "per_seed": {
+        "42": 0.4702,
+        "2025": 0.457,
+        "3407": 0.4437
+      },
+      "sample_len": [
+        151
+      ]
+    },
+    "mmlu_high_school_psychology/acc": {
+      "mean": 0.8398,
+      "std": 0.0028,
+      "n_seeds": 3,
+      "all_values": [
+        0.8367,
+        0.8422,
+        0.8404
+      ],
+      "per_seed": {
+        "42": 0.8367,
+        "2025": 0.8422,
+        "3407": 0.8404
+      },
+      "sample_len": [
+        545
+      ]
+    },
+    "mmlu_high_school_statistics/acc": {
+      "mean": 0.5494,
+      "std": 0.0141,
+      "n_seeds": 3,
+      "all_values": [
+        0.5648,
+        0.5463,
+        0.537
+      ],
+      "per_seed": {
+        "42": 0.5648,
+        "2025": 0.5463,
+        "3407": 0.537
+      },
+      "sample_len": [
+        216
+      ]
+    },
+    "mmlu_high_school_us_history/acc": {
+      "mean": 0.848,
+      "std": 0.0049,
+      "n_seeds": 3,
+      "all_values": [
+        0.848,
+        0.8529,
+        0.8431
+      ],
+      "per_seed": {
+        "42": 0.848,
+        "2025": 0.8529,
+        "3407": 0.8431
+      },
+      "sample_len": [
+        204
+      ]
+    },
+    "mmlu_high_school_world_history/acc": {
+      "mean": 0.8354,
+      "std": 0.0,
+      "n_seeds": 3,
+      "all_values": [
+        0.8354,
+        0.8354,
+        0.8354
+      ],
+      "per_seed": {
+        "42": 0.8354,
+        "2025": 0.8354,
+        "3407": 0.8354
+      },
+      "sample_len": [
+        237
+      ]
+    },
+    "mmlu_human_aging/acc": {
+      "mean": 0.71,
+      "std": 0.0026,
+      "n_seeds": 3,
+      "all_values": [
+        0.7085,
+        0.713,
+        0.7085
+      ],
+      "per_seed": {
+        "42": 0.7085,
+        "2025": 0.713,
+        "3407": 0.7085
+      },
+      "sample_len": [
+        223
+      ]
+    },
+    "mmlu_human_sexuality/acc": {
+      "mean": 0.7812,
+      "std": 0.0088,
+      "n_seeds": 3,
+      "all_values": [
+        0.771,
+        0.7863,
+        0.7863
+      ],
+      "per_seed": {
+        "42": 0.771,
+        "2025": 0.7863,
+        "3407": 0.7863
+      },
+      "sample_len": [
+        131
+      ]
+    },
+    "mmlu_humanities/acc": {
+      "mean": 0.5975,
+      "std": 0.0013,
+      "n_seeds": 3,
+      "all_values": [
+        0.5983,
+        0.5983,
+        0.596
+      ],
+      "per_seed": {
+        "42": 0.5983,
+        "2025": 0.5983,
+        "3407": 0.596
+      },
+      "sample_len": [
+        4705
+      ]
+    },
+    "mmlu_international_law/acc": {
+      "mean": 0.8512,
+      "std": 0.0,
+      "n_seeds": 3,
+      "all_values": [
+        0.8512,
+        0.8512,
+        0.8512
+      ],
+      "per_seed": {
+        "42": 0.8512,
+        "2025": 0.8512,
+        "3407": 0.8512
+      },
+      "sample_len": [
+        121
+      ]
+    },
+    "mmlu_jurisprudence/acc": {
+      "mean": 0.7685,
+      "std": 0.0093,
+      "n_seeds": 3,
+      "all_values": [
+        0.7685,
+        0.7593,
+        0.7778
+      ],
+      "per_seed": {
+        "42": 0.7685,
+        "2025": 0.7593,
+        "3407": 0.7778
+      },
+      "sample_len": [
+        108
+      ]
+    },
+    "mmlu_logical_fallacies/acc": {
+      "mean": 0.7362,
+      "std": 0.0106,
+      "n_seeds": 3,
+      "all_values": [
+        0.7423,
+        0.7239,
+        0.7423
+      ],
+      "per_seed": {
+        "42": 0.7423,
+        "2025": 0.7239,
+        "3407": 0.7423
+      },
+      "sample_len": [
+        163
+      ]
+    },
+    "mmlu_machine_learning/acc": {
+      "mean": 0.5119,
+      "std": 0.0052,
+      "n_seeds": 3,
+      "all_values": [
+        0.5179,
+        0.5089,
+        0.5089
+      ],
+      "per_seed": {
+        "42": 0.5179,
+        "2025": 0.5089,
+        "3407": 0.5089
+      },
+      "sample_len": [
+        112
+      ]
+    },
+    "mmlu_management/acc": {
+      "mean": 0.8932,
+      "std": 0.0,
+      "n_seeds": 3,
+      "all_values": [
+        0.8932,
+        0.8932,
+        0.8932
+      ],
+      "per_seed": {
+        "42": 0.8932,
+        "2025": 0.8932,
+        "3407": 0.8932
+      },
+      "sample_len": [
+        103
+      ]
+    },
+    "mmlu_marketing/acc": {
+      "mean": 0.8974,
+      "std": 0.0,
+      "n_seeds": 3,
+      "all_values": [
+        0.8974,
+        0.8974,
+        0.8974
+      ],
+      "per_seed": {
+        "42": 0.8974,
+        "2025": 0.8974,
+        "3407": 0.8974
+      },
+      "sample_len": [
+        234
+      ]
+    },
+    "mmlu_medical_genetics/acc": {
+      "mean": 0.8033,
+      "std": 0.0058,
+      "n_seeds": 3,
+      "all_values": [
+        0.8,
+        0.81,
+        0.8
+      ],
+      "per_seed": {
+        "42": 0.8,
+        "2025": 0.81,
+        "3407": 0.8
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_miscellaneous/acc": {
+      "mean": 0.8365,
+      "std": 0.0022,
+      "n_seeds": 3,
+      "all_values": [
+        0.834,
+        0.8378,
+        0.8378
+      ],
+      "per_seed": {
+        "42": 0.834,
+        "2025": 0.8378,
+        "3407": 0.8378
+      },
+      "sample_len": [
+        783
+      ]
+    },
+    "mmlu_moral_disputes/acc": {
+      "mean": 0.7312,
+      "std": 0.0029,
+      "n_seeds": 3,
+      "all_values": [
+        0.7283,
+        0.7341,
+        0.7312
+      ],
+      "per_seed": {
+        "42": 0.7283,
+        "2025": 0.7341,
+        "3407": 0.7312
+      },
+      "sample_len": [
+        346
+      ]
+    },
+    "mmlu_moral_scenarios/acc": {
+      "mean": 0.4153,
+      "std": 0.0017,
+      "n_seeds": 3,
+      "all_values": [
+        0.4156,
+        0.4168,
+        0.4134
+      ],
+      "per_seed": {
+        "42": 0.4156,
+        "2025": 0.4168,
+        "3407": 0.4134
+      },
+      "sample_len": [
+        895
+      ]
+    },
+    "mmlu_nutrition/acc": {
+      "mean": 0.7669,
+      "std": 0.0019,
+      "n_seeds": 3,
+      "all_values": [
+        0.7647,
+        0.768,
+        0.768
+      ],
+      "per_seed": {
+        "42": 0.7647,
+        "2025": 0.768,
+        "3407": 0.768
+      },
+      "sample_len": [
+        306
+      ]
+    },
+    "mmlu_other/acc": {
+      "mean": 0.7303,
+      "std": 0.0009,
+      "n_seeds": 3,
+      "all_values": [
+        0.7309,
+        0.7306,
+        0.7293
+      ],
+      "per_seed": {
+        "42": 0.7309,
+        "2025": 0.7306,
+        "3407": 0.7293
+      },
+      "sample_len": [
+        3107
+      ]
+    },
+    "mmlu_philosophy/acc": {
+      "mean": 0.746,
+      "std": 0.0032,
+      "n_seeds": 3,
+      "all_values": [
+        0.7492,
+        0.7428,
+        0.746
+      ],
+      "per_seed": {
+        "42": 0.7492,
+        "2025": 0.7428,
+        "3407": 0.746
+      },
+      "sample_len": [
+        311
+      ]
+    },
+    "mmlu_prehistory/acc": {
+      "mean": 0.7284,
+      "std": 0.0031,
+      "n_seeds": 3,
+      "all_values": [
+        0.7315,
+        0.7253,
+        0.7284
+      ],
+      "per_seed": {
+        "42": 0.7315,
+        "2025": 0.7253,
+        "3407": 0.7284
+      },
+      "sample_len": [
+        324
+      ]
+    },
+    "mmlu_professional_accounting/acc": {
+      "mean": 0.4929,
+      "std": 0.0061,
+      "n_seeds": 3,
+      "all_values": [
+        0.4965,
+        0.4858,
+        0.4965
+      ],
+      "per_seed": {
+        "42": 0.4965,
+        "2025": 0.4858,
+        "3407": 0.4965
+      },
+      "sample_len": [
+        282
+      ]
+    },
+    "mmlu_professional_law/acc": {
+      "mean": 0.4635,
+      "std": 0.0041,
+      "n_seeds": 3,
+      "all_values": [
+        0.4648,
+        0.4668,
+        0.4589
+      ],
+      "per_seed": {
+        "42": 0.4648,
+        "2025": 0.4668,
+        "3407": 0.4589
+      },
+      "sample_len": [
+        1534
+      ]
+    },
+    "mmlu_professional_medicine/acc": {
+      "mean": 0.7292,
+      "std": 0.0056,
+      "n_seeds": 3,
+      "all_values": [
+        0.7353,
+        0.7243,
+        0.7279
+      ],
+      "per_seed": {
+        "42": 0.7353,
+        "2025": 0.7243,
+        "3407": 0.7279
+      },
+      "sample_len": [
+        272
+      ]
+    },
+    "mmlu_professional_psychology/acc": {
+      "mean": 0.7195,
+      "std": 0.0034,
+      "n_seeds": 3,
+      "all_values": [
+        0.7206,
+        0.7222,
+        0.7157
+      ],
+      "per_seed": {
+        "42": 0.7206,
+        "2025": 0.7222,
+        "3407": 0.7157
+      },
+      "sample_len": [
+        612
+      ]
+    },
+    "mmlu_public_relations/acc": {
+      "mean": 0.7121,
+      "std": 0.0105,
+      "n_seeds": 3,
+      "all_values": [
+        0.7182,
+        0.7,
+        0.7182
+      ],
+      "per_seed": {
+        "42": 0.7182,
+        "2025": 0.7,
+        "3407": 0.7182
+      },
+      "sample_len": [
+        110
+      ]
+    },
+    "mmlu_security_studies/acc": {
+      "mean": 0.7497,
+      "std": 0.0024,
+      "n_seeds": 3,
+      "all_values": [
+        0.751,
+        0.751,
+        0.7469
+      ],
+      "per_seed": {
+        "42": 0.751,
+        "2025": 0.751,
+        "3407": 0.7469
+      },
+      "sample_len": [
+        245
+      ]
+    },
+    "mmlu_social_sciences/acc": {
+      "mean": 0.7611,
+      "std": 0.0009,
+      "n_seeds": 3,
+      "all_values": [
+        0.7618,
+        0.7602,
+        0.7615
+      ],
+      "per_seed": {
+        "42": 0.7618,
+        "2025": 0.7602,
+        "3407": 0.7615
+      },
+      "sample_len": [
+        3077
+      ]
+    },
+    "mmlu_sociology/acc": {
+      "mean": 0.8673,
+      "std": 0.0029,
+      "n_seeds": 3,
+      "all_values": [
+        0.8706,
+        0.8657,
+        0.8657
+      ],
+      "per_seed": {
+        "42": 0.8706,
+        "2025": 0.8657,
+        "3407": 0.8657
+      },
+      "sample_len": [
+        201
+      ]
+    },
+    "mmlu_stem/acc": {
+      "mean": 0.56,
+      "std": 0.0042,
+      "n_seeds": 3,
+      "all_values": [
+        0.5649,
+        0.5579,
+        0.5572
+      ],
+      "per_seed": {
+        "42": 0.5649,
+        "2025": 0.5579,
+        "3407": 0.5572
+      },
+      "sample_len": [
+        3153
+      ]
+    },
+    "mmlu_us_foreign_policy/acc": {
+      "mean": 0.87,
+      "std": 0.0,
+      "n_seeds": 3,
+      "all_values": [
+        0.87,
+        0.87,
+        0.87
+      ],
+      "per_seed": {
+        "42": 0.87,
+        "2025": 0.87,
+        "3407": 0.87
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_virology/acc": {
+      "mean": 0.5683,
+      "std": 0.007,
+      "n_seeds": 3,
+      "all_values": [
+        0.5723,
+        0.5602,
+        0.5723
+      ],
+      "per_seed": {
+        "42": 0.5723,
+        "2025": 0.5602,
+        "3407": 0.5723
+      },
+      "sample_len": [
+        166
+      ]
+    },
+    "mmlu_world_religions/acc": {
+      "mean": 0.8246,
+      "std": 0.0,
+      "n_seeds": 3,
+      "all_values": [
+        0.8246,
+        0.8246,
+        0.8246
+      ],
+      "per_seed": {
+        "42": 0.8246,
+        "2025": 0.8246,
+        "3407": 0.8246
+      },
+      "sample_len": [
+        171
+      ]
+    },
+    "truthfulqa_mc1/acc": {
+      "mean": 0.2876,
+      "std": 0.0021,
+      "n_seeds": 3,
+      "all_values": [
+        0.2889,
+        0.2852,
+        0.2889
+      ],
+      "per_seed": {
+        "42": 0.2889,
+        "2025": 0.2852,
+        "3407": 0.2889
+      },
+      "sample_len": [
+        817
+      ]
+    },
+    "truthfulqa_mc2/acc": {
+      "mean": 0.4358,
+      "std": 0.0003,
+      "n_seeds": 3,
+      "all_values": [
+        0.4359,
+        0.4359,
+        0.4354
+      ],
+      "per_seed": {
+        "42": 0.4359,
+        "2025": 0.4359,
+        "3407": 0.4354
+      },
+      "sample_len": [
+        817
+      ]
+    }
+  },
+  "qlora": {
+    "gsm8k/exact_match,strict-match": {
+      "mean": 0.4711,
+      "std": 0.0046,
+      "n_seeds": 3,
+      "all_values": [
+        0.4716,
+        0.4754,
+        0.4663
+      ],
+      "per_seed": {
+        "42": 0.4663,
+        "2025": 0.4716,
+        "3407": 0.4754
+      },
+      "sample_len": [
+        1319
+      ]
+    },
+    "ifeval/inst_level_strict_acc": {
+      "mean": 0.1323,
+      "std": 0.003,
+      "n_seeds": 3,
+      "all_values": [
+        0.1355,
+        0.1295,
+        0.1319
+      ],
+      "per_seed": {
+        "42": 0.1319,
+        "2025": 0.1355,
+        "3407": 0.1295
+      },
+      "sample_len": [
+        541
+      ]
+    },
+    "mmlu/acc": {
+      "mean": 0.6533,
+      "std": 0.0006,
+      "n_seeds": 3,
+      "all_values": [
+        0.6528,
+        0.654,
+        0.6532
+      ],
+      "per_seed": {
+        "42": 0.6532,
+        "2025": 0.6528,
+        "3407": 0.654
+      },
+      "sample_len": [
+        14042
+      ]
+    },
+    "mmlu_abstract_algebra/acc": {
+      "mean": 0.3067,
+      "std": 0.0321,
+      "n_seeds": 3,
+      "all_values": [
+        0.33,
+        0.32,
+        0.27
+      ],
+      "per_seed": {
+        "42": 0.27,
+        "2025": 0.33,
+        "3407": 0.32
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_anatomy/acc": {
+      "mean": 0.6691,
+      "std": 0.0086,
+      "n_seeds": 3,
+      "all_values": [
+        0.6741,
+        0.6593,
+        0.6741
+      ],
+      "per_seed": {
+        "42": 0.6741,
+        "2025": 0.6741,
+        "3407": 0.6593
+      },
+      "sample_len": [
+        135
+      ]
+    },
+    "mmlu_astronomy/acc": {
+      "mean": 0.7018,
+      "std": 0.0166,
+      "n_seeds": 3,
+      "all_values": [
+        0.7171,
+        0.7039,
+        0.6842
+      ],
+      "per_seed": {
+        "42": 0.6842,
+        "2025": 0.7171,
+        "3407": 0.7039
+      },
+      "sample_len": [
+        152
+      ]
+    },
+    "mmlu_business_ethics/acc": {
+      "mean": 0.6233,
+      "std": 0.0153,
+      "n_seeds": 3,
+      "all_values": [
+        0.61,
+        0.64,
+        0.62
+      ],
+      "per_seed": {
+        "42": 0.62,
+        "2025": 0.61,
+        "3407": 0.64
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_clinical_knowledge/acc": {
+      "mean": 0.7547,
+      "std": 0.01,
+      "n_seeds": 3,
+      "all_values": [
+        0.7509,
+        0.7472,
+        0.766
+      ],
+      "per_seed": {
+        "42": 0.766,
+        "2025": 0.7509,
+        "3407": 0.7472
+      },
+      "sample_len": [
+        265
+      ]
+    },
+    "mmlu_college_biology/acc": {
+      "mean": 0.7801,
+      "std": 0.004,
+      "n_seeds": 3,
+      "all_values": [
+        0.7847,
+        0.7778,
+        0.7778
+      ],
+      "per_seed": {
+        "42": 0.7778,
+        "2025": 0.7847,
+        "3407": 0.7778
+      },
+      "sample_len": [
+        144
+      ]
+    },
+    "mmlu_college_chemistry/acc": {
+      "mean": 0.4667,
+      "std": 0.0208,
+      "n_seeds": 3,
+      "all_values": [
+        0.46,
+        0.49,
+        0.45
+      ],
+      "per_seed": {
+        "42": 0.45,
+        "2025": 0.46,
+        "3407": 0.49
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_college_computer_science/acc": {
+      "mean": 0.5033,
+      "std": 0.0115,
+      "n_seeds": 3,
+      "all_values": [
+        0.51,
+        0.49,
+        0.51
+      ],
+      "per_seed": {
+        "42": 0.51,
+        "2025": 0.51,
+        "3407": 0.49
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_college_mathematics/acc": {
+      "mean": 0.3433,
+      "std": 0.0115,
+      "n_seeds": 3,
+      "all_values": [
+        0.33,
+        0.35,
+        0.35
+      ],
+      "per_seed": {
+        "42": 0.35,
+        "2025": 0.33,
+        "3407": 0.35
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_college_medicine/acc": {
+      "mean": 0.6474,
+      "std": 0.0,
+      "n_seeds": 3,
+      "all_values": [
+        0.6474,
+        0.6474,
+        0.6474
+      ],
+      "per_seed": {
+        "42": 0.6474,
+        "2025": 0.6474,
+        "3407": 0.6474
+      },
+      "sample_len": [
+        173
+      ]
+    },
+    "mmlu_college_physics/acc": {
+      "mean": 0.5033,
+      "std": 0.0057,
+      "n_seeds": 3,
+      "all_values": [
+        0.5,
+        0.5,
+        0.5098
+      ],
+      "per_seed": {
+        "42": 0.5098,
+        "2025": 0.5,
+        "3407": 0.5
+      },
+      "sample_len": [
+        102
+      ]
+    },
+    "mmlu_computer_security/acc": {
+      "mean": 0.7867,
+      "std": 0.0058,
+      "n_seeds": 3,
+      "all_values": [
+        0.79,
+        0.79,
+        0.78
+      ],
+      "per_seed": {
+        "42": 0.78,
+        "2025": 0.79,
+        "3407": 0.79
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_conceptual_physics/acc": {
+      "mean": 0.5901,
+      "std": 0.0065,
+      "n_seeds": 3,
+      "all_values": [
+        0.583,
+        0.5915,
+        0.5957
+      ],
+      "per_seed": {
+        "42": 0.5957,
+        "2025": 0.583,
+        "3407": 0.5915
+      },
+      "sample_len": [
+        235
+      ]
+    },
+    "mmlu_econometrics/acc": {
+      "mean": 0.4737,
+      "std": 0.0088,
+      "n_seeds": 3,
+      "all_values": [
+        0.4649,
+        0.4737,
+        0.4825
+      ],
+      "per_seed": {
+        "42": 0.4825,
+        "2025": 0.4649,
+        "3407": 0.4737
+      },
+      "sample_len": [
+        114
+      ]
+    },
+    "mmlu_electrical_engineering/acc": {
+      "mean": 0.6874,
+      "std": 0.008,
+      "n_seeds": 3,
+      "all_values": [
+        0.6828,
+        0.6966,
+        0.6828
+      ],
+      "per_seed": {
+        "42": 0.6828,
+        "2025": 0.6828,
+        "3407": 0.6966
+      },
+      "sample_len": [
+        145
+      ]
+    },
+    "mmlu_elementary_mathematics/acc": {
+      "mean": 0.4189,
+      "std": 0.0015,
+      "n_seeds": 3,
+      "all_values": [
+        0.418,
+        0.4206,
+        0.418
+      ],
+      "per_seed": {
+        "42": 0.418,
+        "2025": 0.418,
+        "3407": 0.4206
+      },
+      "sample_len": [
+        378
+      ]
+    },
+    "mmlu_formal_logic/acc": {
+      "mean": 0.4974,
+      "std": 0.0092,
+      "n_seeds": 3,
+      "all_values": [
+        0.4921,
+        0.4921,
+        0.5079
+      ],
+      "per_seed": {
+        "42": 0.5079,
+        "2025": 0.4921,
+        "3407": 0.4921
+      },
+      "sample_len": [
+        126
+      ]
+    },
+    "mmlu_global_facts/acc": {
+      "mean": 0.3567,
+      "std": 0.0058,
+      "n_seeds": 3,
+      "all_values": [
+        0.35,
+        0.36,
+        0.36
+      ],
+      "per_seed": {
+        "42": 0.36,
+        "2025": 0.35,
+        "3407": 0.36
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_high_school_biology/acc": {
+      "mean": 0.771,
+      "std": 0.0032,
+      "n_seeds": 3,
+      "all_values": [
+        0.771,
+        0.7677,
+        0.7742
+      ],
+      "per_seed": {
+        "42": 0.7742,
+        "2025": 0.771,
+        "3407": 0.7677
+      },
+      "sample_len": [
+        310
+      ]
+    },
+    "mmlu_high_school_chemistry/acc": {
+      "mean": 0.5353,
+      "std": 0.0028,
+      "n_seeds": 3,
+      "all_values": [
+        0.532,
+        0.5369,
+        0.5369
+      ],
+      "per_seed": {
+        "42": 0.5369,
+        "2025": 0.532,
+        "3407": 0.5369
+      },
+      "sample_len": [
+        203
+      ]
+    },
+    "mmlu_high_school_computer_science/acc": {
+      "mean": 0.6767,
+      "std": 0.0058,
+      "n_seeds": 3,
+      "all_values": [
+        0.68,
+        0.67,
+        0.68
+      ],
+      "per_seed": {
+        "42": 0.68,
+        "2025": 0.68,
+        "3407": 0.67
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_high_school_european_history/acc": {
+      "mean": 0.7697,
+      "std": 0.0,
+      "n_seeds": 3,
+      "all_values": [
+        0.7697,
+        0.7697,
+        0.7697
+      ],
+      "per_seed": {
+        "42": 0.7697,
+        "2025": 0.7697,
+        "3407": 0.7697
+      },
+      "sample_len": [
+        165
+      ]
+    },
+    "mmlu_high_school_geography/acc": {
+      "mean": 0.7929,
+      "std": 0.0087,
+      "n_seeds": 3,
+      "all_values": [
+        0.798,
+        0.798,
+        0.7828
+      ],
+      "per_seed": {
+        "42": 0.7828,
+        "2025": 0.798,
+        "3407": 0.798
+      },
+      "sample_len": [
+        198
+      ]
+    },
+    "mmlu_high_school_government_and_politics/acc": {
+      "mean": 0.8946,
+      "std": 0.003,
+      "n_seeds": 3,
+      "all_values": [
+        0.8964,
+        0.8964,
+        0.8912
+      ],
+      "per_seed": {
+        "42": 0.8912,
+        "2025": 0.8964,
+        "3407": 0.8964
+      },
+      "sample_len": [
+        193
+      ]
+    },
+    "mmlu_high_school_macroeconomics/acc": {
+      "mean": 0.6607,
+      "std": 0.0039,
+      "n_seeds": 3,
+      "all_values": [
+        0.6564,
+        0.6615,
+        0.6641
+      ],
+      "per_seed": {
+        "42": 0.6641,
+        "2025": 0.6564,
+        "3407": 0.6615
+      },
+      "sample_len": [
+        390
+      ]
+    },
+    "mmlu_high_school_mathematics/acc": {
+      "mean": 0.3951,
+      "std": 0.0057,
+      "n_seeds": 3,
+      "all_values": [
+        0.3889,
+        0.3963,
+        0.4
+      ],
+      "per_seed": {
+        "42": 0.4,
+        "2025": 0.3889,
+        "3407": 0.3963
+      },
+      "sample_len": [
+        270
+      ]
+    },
+    "mmlu_high_school_microeconomics/acc": {
+      "mean": 0.7241,
+      "std": 0.0064,
+      "n_seeds": 3,
+      "all_values": [
+        0.7311,
+        0.7227,
+        0.7185
+      ],
+      "per_seed": {
+        "42": 0.7185,
+        "2025": 0.7311,
+        "3407": 0.7227
+      },
+      "sample_len": [
+        238
+      ]
+    },
+    "mmlu_high_school_physics/acc": {
+      "mean": 0.4459,
+      "std": 0.0076,
+      "n_seeds": 3,
+      "all_values": [
+        0.4503,
+        0.4503,
+        0.4371
+      ],
+      "per_seed": {
+        "42": 0.4371,
+        "2025": 0.4503,
+        "3407": 0.4503
+      },
+      "sample_len": [
+        151
+      ]
+    },
+    "mmlu_high_school_psychology/acc": {
+      "mean": 0.844,
+      "std": 0.0018,
+      "n_seeds": 3,
+      "all_values": [
+        0.8459,
+        0.8422,
+        0.844
+      ],
+      "per_seed": {
+        "42": 0.844,
+        "2025": 0.8459,
+        "3407": 0.8422
+      },
+      "sample_len": [
+        545
+      ]
+    },
+    "mmlu_high_school_statistics/acc": {
+      "mean": 0.5463,
+      "std": 0.0046,
+      "n_seeds": 3,
+      "all_values": [
+        0.5417,
+        0.5463,
+        0.5509
+      ],
+      "per_seed": {
+        "42": 0.5509,
+        "2025": 0.5417,
+        "3407": 0.5463
+      },
+      "sample_len": [
+        216
+      ]
+    },
+    "mmlu_high_school_us_history/acc": {
+      "mean": 0.848,
+      "std": 0.0049,
+      "n_seeds": 3,
+      "all_values": [
+        0.848,
+        0.8431,
+        0.8529
+      ],
+      "per_seed": {
+        "42": 0.8529,
+        "2025": 0.848,
+        "3407": 0.8431
+      },
+      "sample_len": [
+        204
+      ]
+    },
+    "mmlu_high_school_world_history/acc": {
+      "mean": 0.8298,
+      "std": 0.0049,
+      "n_seeds": 3,
+      "all_values": [
+        0.827,
+        0.827,
+        0.8354
+      ],
+      "per_seed": {
+        "42": 0.8354,
+        "2025": 0.827,
+        "3407": 0.827
+      },
+      "sample_len": [
+        237
+      ]
+    },
+    "mmlu_human_aging/acc": {
+      "mean": 0.7175,
+      "std": 0.0045,
+      "n_seeds": 3,
+      "all_values": [
+        0.713,
+        0.722,
+        0.7175
+      ],
+      "per_seed": {
+        "42": 0.7175,
+        "2025": 0.713,
+        "3407": 0.722
+      },
+      "sample_len": [
+        223
+      ]
+    },
+    "mmlu_human_sexuality/acc": {
+      "mean": 0.7684,
+      "std": 0.0117,
+      "n_seeds": 3,
+      "all_values": [
+        0.7786,
+        0.771,
+        0.7557
+      ],
+      "per_seed": {
+        "42": 0.7557,
+        "2025": 0.7786,
+        "3407": 0.771
+      },
+      "sample_len": [
+        131
+      ]
+    },
+    "mmlu_humanities/acc": {
+      "mean": 0.5962,
+      "std": 0.0004,
+      "n_seeds": 3,
+      "all_values": [
+        0.596,
+        0.596,
+        0.5966
+      ],
+      "per_seed": {
+        "42": 0.5966,
+        "2025": 0.596,
+        "3407": 0.596
+      },
+      "sample_len": [
+        4705
+      ]
+    },
+    "mmlu_international_law/acc": {
+      "mean": 0.8512,
+      "std": 0.0,
+      "n_seeds": 3,
+      "all_values": [
+        0.8512,
+        0.8512,
+        0.8512
+      ],
+      "per_seed": {
+        "42": 0.8512,
+        "2025": 0.8512,
+        "3407": 0.8512
+      },
+      "sample_len": [
+        121
+      ]
+    },
+    "mmlu_jurisprudence/acc": {
+      "mean": 0.7623,
+      "std": 0.0107,
+      "n_seeds": 3,
+      "all_values": [
+        0.7685,
+        0.75,
+        0.7685
+      ],
+      "per_seed": {
+        "42": 0.7685,
+        "2025": 0.7685,
+        "3407": 0.75
+      },
+      "sample_len": [
+        108
+      ]
+    },
+    "mmlu_logical_fallacies/acc": {
+      "mean": 0.7485,
+      "std": 0.0,
+      "n_seeds": 3,
+      "all_values": [
+        0.7485,
+        0.7485,
+        0.7485
+      ],
+      "per_seed": {
+        "42": 0.7485,
+        "2025": 0.7485,
+        "3407": 0.7485
+      },
+      "sample_len": [
+        163
+      ]
+    },
+    "mmlu_machine_learning/acc": {
+      "mean": 0.5119,
+      "std": 0.0052,
+      "n_seeds": 3,
+      "all_values": [
+        0.5089,
+        0.5179,
+        0.5089
+      ],
+      "per_seed": {
+        "42": 0.5089,
+        "2025": 0.5089,
+        "3407": 0.5179
+      },
+      "sample_len": [
+        112
+      ]
+    },
+    "mmlu_management/acc": {
+      "mean": 0.8835,
+      "std": 0.0,
+      "n_seeds": 3,
+      "all_values": [
+        0.8835,
+        0.8835,
+        0.8835
+      ],
+      "per_seed": {
+        "42": 0.8835,
+        "2025": 0.8835,
+        "3407": 0.8835
+      },
+      "sample_len": [
+        103
+      ]
+    },
+    "mmlu_marketing/acc": {
+      "mean": 0.8946,
+      "std": 0.0065,
+      "n_seeds": 3,
+      "all_values": [
+        0.8932,
+        0.9017,
+        0.8889
+      ],
+      "per_seed": {
+        "42": 0.8889,
+        "2025": 0.8932,
+        "3407": 0.9017
+      },
+      "sample_len": [
+        234
+      ]
+    },
+    "mmlu_medical_genetics/acc": {
+      "mean": 0.8067,
+      "std": 0.0058,
+      "n_seeds": 3,
+      "all_values": [
+        0.8,
+        0.81,
+        0.81
+      ],
+      "per_seed": {
+        "42": 0.81,
+        "2025": 0.8,
+        "3407": 0.81
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_miscellaneous/acc": {
+      "mean": 0.8361,
+      "std": 0.0032,
+      "n_seeds": 3,
+      "all_values": [
+        0.8365,
+        0.8391,
+        0.8327
+      ],
+      "per_seed": {
+        "42": 0.8327,
+        "2025": 0.8365,
+        "3407": 0.8391
+      },
+      "sample_len": [
+        783
+      ]
+    },
+    "mmlu_moral_disputes/acc": {
+      "mean": 0.7312,
+      "std": 0.0029,
+      "n_seeds": 3,
+      "all_values": [
+        0.7341,
+        0.7312,
+        0.7283
+      ],
+      "per_seed": {
+        "42": 0.7283,
+        "2025": 0.7341,
+        "3407": 0.7312
+      },
+      "sample_len": [
+        346
+      ]
+    },
+    "mmlu_moral_scenarios/acc": {
+      "mean": 0.413,
+      "std": 0.0028,
+      "n_seeds": 3,
+      "all_values": [
+        0.4156,
+        0.4101,
+        0.4134
+      ],
+      "per_seed": {
+        "42": 0.4134,
+        "2025": 0.4156,
+        "3407": 0.4101
+      },
+      "sample_len": [
+        895
+      ]
+    },
+    "mmlu_nutrition/acc": {
+      "mean": 0.7658,
+      "std": 0.0019,
+      "n_seeds": 3,
+      "all_values": [
+        0.768,
+        0.7647,
+        0.7647
+      ],
+      "per_seed": {
+        "42": 0.7647,
+        "2025": 0.768,
+        "3407": 0.7647
+      },
+      "sample_len": [
+        306
+      ]
+    },
+    "mmlu_other/acc": {
+      "mean": 0.7298,
+      "std": 0.0015,
+      "n_seeds": 3,
+      "all_values": [
+        0.728,
+        0.7306,
+        0.7306
+      ],
+      "per_seed": {
+        "42": 0.7306,
+        "2025": 0.728,
+        "3407": 0.7306
+      },
+      "sample_len": [
+        3107
+      ]
+    },
+    "mmlu_philosophy/acc": {
+      "mean": 0.7406,
+      "std": 0.0067,
+      "n_seeds": 3,
+      "all_values": [
+        0.746,
+        0.7428,
+        0.7331
+      ],
+      "per_seed": {
+        "42": 0.7331,
+        "2025": 0.746,
+        "3407": 0.7428
+      },
+      "sample_len": [
+        311
+      ]
+    },
+    "mmlu_prehistory/acc": {
+      "mean": 0.7243,
+      "std": 0.0018,
+      "n_seeds": 3,
+      "all_values": [
+        0.7253,
+        0.7222,
+        0.7253
+      ],
+      "per_seed": {
+        "42": 0.7253,
+        "2025": 0.7253,
+        "3407": 0.7222
+      },
+      "sample_len": [
+        324
+      ]
+    },
+    "mmlu_professional_accounting/acc": {
+      "mean": 0.4835,
+      "std": 0.0054,
+      "n_seeds": 3,
+      "all_values": [
+        0.4787,
+        0.4823,
+        0.4894
+      ],
+      "per_seed": {
+        "42": 0.4894,
+        "2025": 0.4787,
+        "3407": 0.4823
+      },
+      "sample_len": [
+        282
+      ]
+    },
+    "mmlu_professional_law/acc": {
+      "mean": 0.4628,
+      "std": 0.0036,
+      "n_seeds": 3,
+      "all_values": [
+        0.4589,
+        0.4661,
+        0.4635
+      ],
+      "per_seed": {
+        "42": 0.4635,
+        "2025": 0.4589,
+        "3407": 0.4661
+      },
+      "sample_len": [
+        1534
+      ]
+    },
+    "mmlu_professional_medicine/acc": {
+      "mean": 0.7243,
+      "std": 0.0037,
+      "n_seeds": 3,
+      "all_values": [
+        0.7243,
+        0.7206,
+        0.7279
+      ],
+      "per_seed": {
+        "42": 0.7279,
+        "2025": 0.7243,
+        "3407": 0.7206
+      },
+      "sample_len": [
+        272
+      ]
+    },
+    "mmlu_professional_psychology/acc": {
+      "mean": 0.7211,
+      "std": 0.0009,
+      "n_seeds": 3,
+      "all_values": [
+        0.7222,
+        0.7206,
+        0.7206
+      ],
+      "per_seed": {
+        "42": 0.7206,
+        "2025": 0.7222,
+        "3407": 0.7206
+      },
+      "sample_len": [
+        612
+      ]
+    },
+    "mmlu_public_relations/acc": {
+      "mean": 0.7152,
+      "std": 0.021,
+      "n_seeds": 3,
+      "all_values": [
+        0.6909,
+        0.7273,
+        0.7273
+      ],
+      "per_seed": {
+        "42": 0.7273,
+        "2025": 0.6909,
+        "3407": 0.7273
+      },
+      "sample_len": [
+        110
+      ]
+    },
+    "mmlu_security_studies/acc": {
+      "mean": 0.7497,
+      "std": 0.0024,
+      "n_seeds": 3,
+      "all_values": [
+        0.751,
+        0.751,
+        0.7469
+      ],
+      "per_seed": {
+        "42": 0.7469,
+        "2025": 0.751,
+        "3407": 0.751
+      },
+      "sample_len": [
+        245
+      ]
+    },
+    "mmlu_social_sciences/acc": {
+      "mean": 0.76,
+      "std": 0.001,
+      "n_seeds": 3,
+      "all_values": [
+        0.7598,
+        0.7611,
+        0.7592
+      ],
+      "per_seed": {
+        "42": 0.7592,
+        "2025": 0.7598,
+        "3407": 0.7611
+      },
+      "sample_len": [
+        3077
+      ]
+    },
+    "mmlu_sociology/acc": {
+      "mean": 0.8657,
+      "std": 0.005,
+      "n_seeds": 3,
+      "all_values": [
+        0.8607,
+        0.8706,
+        0.8657
+      ],
+      "per_seed": {
+        "42": 0.8657,
+        "2025": 0.8607,
+        "3407": 0.8706
+      },
+      "sample_len": [
+        201
+      ]
+    },
+    "mmlu_stem/acc": {
+      "mean": 0.559,
+      "std": 0.0013,
+      "n_seeds": 3,
+      "all_values": [
+        0.5588,
+        0.5604,
+        0.5579
+      ],
+      "per_seed": {
+        "42": 0.5579,
+        "2025": 0.5588,
+        "3407": 0.5604
+      },
+      "sample_len": [
+        3153
+      ]
+    },
+    "mmlu_us_foreign_policy/acc": {
+      "mean": 0.8667,
+      "std": 0.0058,
+      "n_seeds": 3,
+      "all_values": [
+        0.86,
+        0.87,
+        0.87
+      ],
+      "per_seed": {
+        "42": 0.87,
+        "2025": 0.86,
+        "3407": 0.87
+      },
+      "sample_len": [
+        100
+      ]
+    },
+    "mmlu_virology/acc": {
+      "mean": 0.5663,
+      "std": 0.006,
+      "n_seeds": 3,
+      "all_values": [
+        0.5663,
+        0.5602,
+        0.5723
+      ],
+      "per_seed": {
+        "42": 0.5723,
+        "2025": 0.5663,
+        "3407": 0.5602
+      },
+      "sample_len": [
+        166
+      ]
+    },
+    "mmlu_world_religions/acc": {
+      "mean": 0.8226,
+      "std": 0.0034,
+      "n_seeds": 3,
+      "all_values": [
+        0.8246,
+        0.8246,
+        0.8187
+      ],
+      "per_seed": {
+        "42": 0.8187,
+        "2025": 0.8246,
+        "3407": 0.8246
+      },
+      "sample_len": [
+        171
+      ]
+    },
+    "truthfulqa_mc1/acc": {
+      "mean": 0.2848,
+      "std": 0.0014,
+      "n_seeds": 3,
+      "all_values": [
+        0.284,
+        0.284,
+        0.2864
+      ],
+      "per_seed": {
+        "42": 0.2864,
+        "2025": 0.284,
+        "3407": 0.284
+      },
+      "sample_len": [
+        817
+      ]
+    },
+    "truthfulqa_mc2/acc": {
+      "mean": 0.4354,
+      "std": 0.002,
+      "n_seeds": 3,
+      "all_values": [
+        0.4353,
+        0.4335,
+        0.4375
+      ],
+      "per_seed": {
+        "42": 0.4375,
+        "2025": 0.4353,
+        "3407": 0.4335
+      },
+      "sample_len": [
+        817
+      ]
+    }
+  },
+  "_audit": {
+    "results_dir": "results_v2",
+    "n_files": 36,
+    "n_runs": 12,
+    "tasks": [
+      "gsm8k",
+      "ifeval",
+      "mmlu",
+      "mmlu_abstract_algebra",
+      "mmlu_anatomy",
+      "mmlu_astronomy",
+      "mmlu_business_ethics",
+      "mmlu_clinical_knowledge",
+      "mmlu_college_biology",
+      "mmlu_college_chemistry",
+      "mmlu_college_computer_science",
+      "mmlu_college_mathematics",
+      "mmlu_college_medicine",
+      "mmlu_college_physics",
+      "mmlu_computer_security",
+      "mmlu_conceptual_physics",
+      "mmlu_econometrics",
+      "mmlu_electrical_engineering",
+      "mmlu_elementary_mathematics",
+      "mmlu_formal_logic",
+      "mmlu_global_facts",
+      "mmlu_high_school_biology",
+      "mmlu_high_school_chemistry",
+      "mmlu_high_school_computer_science",
+      "mmlu_high_school_european_history",
+      "mmlu_high_school_geography",
+      "mmlu_high_school_government_and_politics",
+      "mmlu_high_school_macroeconomics",
+      "mmlu_high_school_mathematics",
+      "mmlu_high_school_microeconomics",
+      "mmlu_high_school_physics",
+      "mmlu_high_school_psychology",
+      "mmlu_high_school_statistics",
+      "mmlu_high_school_us_history",
+      "mmlu_high_school_world_history",
+      "mmlu_human_aging",
+      "mmlu_human_sexuality",
+      "mmlu_humanities",
+      "mmlu_international_law",
+      "mmlu_jurisprudence",
+      "mmlu_logical_fallacies",
+      "mmlu_machine_learning",
+      "mmlu_management",
+      "mmlu_marketing",
+      "mmlu_medical_genetics",
+      "mmlu_miscellaneous",
+      "mmlu_moral_disputes",
+      "mmlu_moral_scenarios",
+      "mmlu_nutrition",
+      "mmlu_other",
+      "mmlu_philosophy",
+      "mmlu_prehistory",
+      "mmlu_professional_accounting",
+      "mmlu_professional_law",
+      "mmlu_professional_medicine",
+      "mmlu_professional_psychology",
+      "mmlu_public_relations",
+      "mmlu_security_studies",
+      "mmlu_social_sciences",
+      "mmlu_sociology",
+      "mmlu_stem",
+      "mmlu_us_foreign_policy",
+      "mmlu_virology",
+      "mmlu_world_religions",
+      "truthfulqa_mc1",
+      "truthfulqa_mc2"
+    ],
+    "duplicate_files": [],
+    "sample_len_mismatch": [],
+    "mismatch_task_count": 0
+  },
+  "significance_test": {
+    "test": "Wilcoxon signed-rank (paired by seed)",
+    "comparison": "adaq vs qlora",
+    "results": {
+      "gsm8k/exact_match,strict-match": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "ifeval/inst_level_strict_acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_abstract_algebra/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_anatomy/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_astronomy/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_business_ethics/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_clinical_knowledge/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_college_biology/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_college_chemistry/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_college_computer_science/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_college_mathematics/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_college_medicine/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_college_physics/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_computer_security/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_conceptual_physics/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_econometrics/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_electrical_engineering/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_elementary_mathematics/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_formal_logic/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_global_facts/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_high_school_biology/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_high_school_chemistry/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_high_school_computer_science/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_high_school_european_history/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_high_school_geography/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_high_school_government_and_politics/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_high_school_macroeconomics/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_high_school_mathematics/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_high_school_microeconomics/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_high_school_physics/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_high_school_psychology/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_high_school_statistics/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_high_school_us_history/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_high_school_world_history/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_human_aging/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_human_sexuality/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_humanities/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_international_law/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_jurisprudence/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_logical_fallacies/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_machine_learning/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_management/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_marketing/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_medical_genetics/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_miscellaneous/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_moral_disputes/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_moral_scenarios/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_nutrition/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_other/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_philosophy/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_prehistory/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_professional_accounting/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_professional_law/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_professional_medicine/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_professional_psychology/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_public_relations/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_security_studies/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_social_sciences/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_sociology/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_stem/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_us_foreign_policy/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_virology/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "mmlu_world_religions/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "truthfulqa_mc1/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      },
+      "truthfulqa_mc2/acc": {
+        "note": "仅 3 对配对值；Wilcoxon 需 >=6 对才有效",
+        "n_pairs": 3
+      }
+    }
+  }
+}
