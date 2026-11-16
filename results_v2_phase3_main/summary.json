@@ -1,0 +1,54 @@
+{
+  "phase": "B",
+  "results_dir": "results_v2_phase3_main",
+  "groups": {
+    "adalora": {
+      "runs": [
+        "adalora_s42",
+        "adalora_s3407",
+        "adalora_s2025"
+      ],
+      "mmlu": {
+        "n": 3,
+        "mean": 0.65285,
+        "std": 0.00048,
+        "min": 0.65247,
+        "max": 0.6534,
+        "range": 0.00093
+      },
+      "gsm8k_strict": {
+        "n": 3,
+        "mean": 0.50872,
+        "std": 0.00657,
+        "min": 0.50114,
+        "max": 0.51251,
+        "range": 0.01137
+      },
+      "gsm8k_flex": {
+        "n": 3,
+        "mean": 0.51226,
+        "std": 0.00975,
+        "min": 0.50114,
+        "max": 0.51933,
+        "range": 0.0182
+      }
+    }
+  },
+  "per_run": {
+    "adalora_s42": {
+      "mmlu": 0.6526848027346532,
+      "gsm8k_strict": 0.5125094768764216,
+      "gsm8k_flex": 0.5193328278999242
+    },
+    "adalora_s3407": {
+      "mmlu": 0.6533969520011395,
+      "gsm8k_strict": 0.5011372251705838,
+      "gsm8k_flex": 0.5011372251705838
+    },
+    "adalora_s2025": {
+      "mmlu": 0.6524711579547073,
+      "gsm8k_strict": 0.5125094768764216,
+      "gsm8k_flex": 0.5163002274450341
+    }
+  }
+}
