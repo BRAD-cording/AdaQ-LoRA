@@ -199,3 +199,77 @@ AdaQ 在 GSM8K 上是五个里最差，且低于不分配（baseline）。若主
 > 14B 上 AdaQ vs QLoRA 的 GSM8K-flex 配对差方向一致（3/3 同号，均值 +8.9pt），但量级**落在 14B 自身种子噪声内**（adaq 单臂极差 14.7pt / 配对差 std 4.6pt，N >> 8B 代理 4.1pt），且由 seed42 拓扑异常 run（flex .6588，peak VRAM 6.67GB）主导。**不构成稳健正向差异。** 在 B5（chat-template 复评格式）+ B6（α=2r 重训）排除混杂前，不得写任何 14B 方向性结论。（n=3 配对 t≈3.36/p≈0.04 名义显著但脆弱：n 欠功效 + seed42 离群主导 + 格式错配 inflate 方差 + α/r 混杂，不作正向证据。）
 
 **B5 为决定性实验**（已排队 waiter 3350890）：若 14.71pt 噪声主要是格式错配，chat-template 下噪声与信号都应收窄；若 +8.87 是格式 artifact，B5 暴露之。**B11 GPU 重复（N_rep 14B）降为可选**——N_seed(14B)=14.71 已单独淹没信号，无需 N_rep；seed42 是否离群待 B5（chat-template 三种子重评）澄清。
+
+---
+
+## 第 7 节：主修订追踪表（peft §8 骨架 × 全部阴性证据 × 当前状态）
+
+> 本节把 claim-revision 从 peft §9 审计的 **16% 覆盖（4/25）** 扩到 **100% 处置**。
+> §8.1-8.8 的英文重写处方（Abstract/贡献/§3.3 Method+Lemma/§5 Discussion/Limitations L1-L10/Conclusion/标题3选/必删表）**全文在 docs/review/peft-architecture.md §8，本节不复制，只追踪状态 + 补 peft §8 成稿后新增的数据**。
+> 状态图例：✅ 已处置（措辞/文档/撤回，零GPU 完成） · 🔄 Phase-3 队列修复（GPU 自动，m05457 D→B→E→C→A） · ⏳ 待 B5/额外GPU · 📝 写作（待数据稳定落正文）
+
+### 7.1 N1-N25 阴性/矛盾证据全处置（peft §9 的 25 项）
+
+| # | 证据 | peft §9 判定 | 当前处置 | 状态 |
+|:--:|:---|:--:|:---|:--:|
+| N1 | NF4 口径 adaq 五者最差（GSM8K .4064 < base_nf4dq .4124） | ⚠️ | §8.1 Abstract + §8.4 Discussion 已给正文措辞；E1 证据链在 §1 | ✅ |
+| N2 | score 排序 99.8% 由范数决定（ρ=.998 vs ‖W‖，.144 vs ε） | ✅ | E2 + §8.3 退化引理（‖E_l‖_F=ε_l‖W_l‖_F，ε 常数⇒∝‖W‖） | ✅ |
+| N3 | 双种子六策略不可区分 + 种子反转 + seed42 .4829 未复现 | ✅ | E3 + §8.1；Phase3-D 实测噪声底 N=4.09 进一步坐实 | ✅ |
+| N4 | 噪声底「4.5 点」取自 n=1 | ⚠️ | Phase-1 改区间[0.9,11.5]（§5）；**Phase3-D 9run 实测 pooled N=max(N_seed 0.30, N_rep 4.09)=4.09pt**（8B）；B11 算出 **14B N_seed=14.71pt** | ✅ 实测 |
+| N5 | strict-match 是格式 artifact | ✅ | §8.5 L8 + eval-protocol §9 strict/flex 政策 | ✅ |
+| N6 | 14B 单种子 + 措辞上限 + 禁用句 | ✅ | §4 + **B11 下修（ccadf1e）**：14B 本地噪声 14.71 > 信号 8.87 → 不稳健正向，seed42 疑离群 | ✅ 强化 |
+| N7 | n=3 无有效 Wilcoxon（min p=0.25） | ⚠️ | §8.5 L7 已并入（主表 n=3 + 消融 n=2 均无有效检验） | ✅ |
+| N8 | AdaLoRA 实跑总秩 1024（2× 预算），剪枝从未启动 | ❌ | **Phase3-B 重训**（train_phase3 F25 动态调度 total_step=auto + 训后断言秩降 target_r）；过渡期 §8.5 L6 披露 + Gap-3 撤回（b0d4dde） | 🔄 Phase3-B |
+| N9 | 14B adaq 总秩 528 vs qlora 768；「同预算」假标签 | ❌ | §4 改述（b0d4dde）「QLoRA 获 1.45× 秩预算下 AdaQ 0.734× 参数 MMLU 不可区分」+ 声明非预算对齐；假标签已删；等预算重训=额外GPU（未排） | ✅ 披露 |
+| N10 | 等秩口径 adaq 参数反多（8B +11.5%、14B +6.8%） | ❌ | −26.5% 撤回（b0d4dde，grep 清零）；§8.2 贡献4 改「+11.5%/+6.8% 开销，参数效率主张须等参数口径」 | ✅ |
+| N11 | 训练预算三表不同（主表 21 步/消融 126/14B 255） | ❌ | **Phase3-A 主表重训 375 步**（F3 --no-packing）；过渡期 §8.1+§8.5 L5+eval-protocol §9 披露三表不可横比 | 🔄 Phase3-A |
+| N12 | H1 幂律实测失败（α∈[0.181,1.591]，median 0.436，R².802） | ❌ | §8.3「derivation status」+ §8.5 L2：Prop2 降条件命题，规则降启发式 | ✅ |
+| N13 | ε 实测 0.0936（非假设 0.02，差 4.7×） | ❌ | §8.5 L3；theory-review-report A2 + outline §3.2 的 0.02 须改 0.0936（P0-9 写作） | ✅ 待写作 |
+| N14 | Prop3b ρ=0.9836 来自合成硬编码 | ❌ | §8.3「must not be cited as a measurement」；命题3b 撤 ✅ 标（b0d4dde）；outline :91 改「合成自测」（P0-9） | ✅ |
+| N15 | 实现 score≡‖E_l‖_F ≠ 文档 ‖E‖·‖W‖ | ⚠️ | §8.3 显式声明「stored quantity = rel_error×importance = ‖E_l‖_F exactly」；outline :84 公式改（P0-2 写作） | ✅ 待写作 |
+| N16 | Scheme A 把 64 位点塌成 2 整数 | ❌ | §8.3 truncation/grouping + §8.5 L4；逐层 Scheme B 算了未训（P2-2 可选） | ✅ |
+| N17 | 六策略只有 4 种不同分配（product≡importance、error≡uniform） | ❌ | §8.1+§8.4 收敛证据；P1-1 消融表加「realised rank pattern」列（写作） | ✅ 待写作 |
+| N18 | 相关工作缺 PARA（撞名）+ AQLoRA（独立同向阴性） | ❌ | **B10 完成**：related-work-search-log.md（999d60d 锚点 + 7ab7be4 扩 24 篇 OpenAlex 核验）；§8.4 convergent evidence 引 AQLoRA | ✅ |
+| N19 | 秩预算扫描 R∈{128..1024} 标「必须」但从未跑 | ❌ | **Phase3-C 跑 R-曲线**（R∈{128,512,1024}×{adaq,qlora}×seed{42,3407}=12run，configs/rcurve/ ranks 已生成） | 🔄 Phase3-C |
+| N20 | PPL sample_len=62，全距 0.009 | ❌ | §8.5 L9：不进正文，如入附录标 n=62 + 不可解释 | ✅ |
+| N21 | 14B peak_vram 6.67GB（adaq≡qlora，<8B 14.81）物理不可信 | ❌ | train_phase3 F21 修（reset_peak_memory_stats 训前 + resumed 标志）；seed42 旧值标拓扑异常存疑；新臂用 F21 重测 | ✅ 修+待重测 |
+| N22 | 主表训练命令不可复现（无日志/无脚本）；checkpoint 漂移 | ❌ | **Phase3-A 重训**（脚本入 git + provenance）；Phase-2（311c814）已补 env lock + results_ledger.csv + main-run-provenance.md | 🔄 Phase3-A+✅入库 |
+| N23 | adaq 在 8B 主表三指标均非最优（DoRA 第一） | ⚠️ | §8.1 明写「DoRA holding the highest point estimates」；P1-3 主表补 flex 列（dora .4877>adaq .4850>adalora .4824>qlora .4809） | ✅ 待写作 |
+| N24 | Gap-3 被自家数据反驳（adalora flex≈adaq 且拿 2× 预算） | ❌ | Gap-3 整条撤回（b0d4dde，sota-protocol:16）；同 N8 | ✅ |
+| N25 | 14B seed 结果 + 预注册门无预算对齐条款 | ❌ | 三种子齐（REPORT_14B+summary_3seeds）；预注册补 R5 强制同报参数+秩预算+非预算对齐声明；B11 补 14B 本地噪声底 | ✅ |
+
+**覆盖度：peft §9 审计时 ✅4/⚠️5/❌16（完全覆盖 16%）→ 现在 ✅ 已处置 21 项 + 🔄 Phase-3 队列修复 4 项（N8/N11/N19/N22）= 25/25 全处置（100%）。**
+
+### 7.2 peft §8 成稿后新增的数据（须并入正文，peft §8 未含）
+
+| 新数据 | 值 | 影响 | 落点 |
+|:---|:---|:---|:---|
+| Phase3-D 实测噪声底（8B） | N=max(N_seed 0.30, N_rep 4.09)=**4.09pt**（9run product 配置 gsm8k-flex，mean .4939 std .0129） | 替换 peft §8 的「0.9–4.5」估计为实测；§8.5 L7 噪声区间锚定 | §8.5 L7 + §4.3 |
+| B11 14B 本地种子噪声 | **N_seed(14B,adaq)=14.71pt**（flex .6588/.5118/.5603）>> 8B 代理 4.09，且 > 信号 Δ8.87 | **14B「正向」被自身种子噪声淹没**；B1 下修为「方向一致但量级不稳健」；B5 chat-template 成决定性实验 | §4 + §8.5 L8（重写）|
+| F18 真 INT4-RTN-g128 锚 | 对称 g128 round-trip，权重 rel_err mean 0.123（吻合理论 0.124）；评测排队（bf16 后 GPU0） | PTQ 表补真 RTN 行（对照 base_nf4dq_noadapter）；坐实「baseline_nf4 非 RTN」命名更正 | PTQ 表 + eval-protocol §9 |
+| B5 chat-template 复评 | 排队（B8 后 GPU1，6run adaq+qlora×3seed + --log_samples） | 定 14B flex 信号是否格式 artifact；出数前 14B 差值禁进 abstract/intro/conclusion | §4.6（待 B5）|
+
+### 7.3 P0/P1/P2 修复清单状态（peft §10.2）
+
+**P0（不改则拒稿）**：P0-1 撤误差驱动叙事 ✅b0d4dde · P0-2 方法公式对齐 ✅§8.3+📝outline:84 · P0-3 训练预算披露 ✅eval-protocol§9+🔄Phase3-A重测 · P0-4 AdaLoRA 预算 🔄Phase3-B · P0-5 14B 预算对齐 ✅披露b0d4dde（重训=额外GPU未排）· P0-6 撤−26.5% ✅b0d4dde · P0-7 PARA/AQLoRA ✅B10 · P0-8 秩预算扫描 🔄Phase3-C · P0-9 理论降级 ✅§8.3/§8.5+📝outline:91/theory-report
+
+**P1（影响可信度）**：P1-1 消融披露策略塌缩 📝 · P1-2 噪声底改区间 ✅（实测 4.09/14.71）· P1-3 主表补 flex 列 📝（数据已在手）· P1-4 删 strict 优势主战场 ✅b0d4dde · P1-5 Params 列真值 ✅b0d4dde · P1-6 14B 三种子齐 ✅REPORT_14B · P1-7 主表可复现 🔄Phase3-A+✅Phase2入库 · P1-8 显存重测 ✅F21修+🔄新臂重测 · P1-9 PPL n=62 处置 ✅§8.5L9 · P1-10 A1/A3 升格 📝 · P1-11 图资产 📝（epsilon_distribution.png 已有）
+
+**P2（提升竞争力，返修期）**：P2-1 **成本归一化分配 r_l∝score_l/(d_in+d_out)**（peft 称「最便宜的正向实验」「阴性→诊断+修正升级关键」，⏳ 额外GPU 未排，见 §7.4）· P2-2 per-site Scheme B 跑一次（⏳ 额外GPU）· P2-3 匹配步数重跑主表 🔄Phase3-A · P2-4 PARA 式事后 SVD 对照（⏳）· P2-5 ≥6 种子（⏳）· P2-6 8-bit 鲁棒性（⏳，机制预测性验证）
+
+### 7.4 ★P2-1 成本归一化分配——B11 后仅存的正向路径（须用户决策）
+
+peft §12 总评 + §10.2 P2-1 指出：本文真正可发表资产是「机制 + 收敛阴性 + 功效边界」，但若加 **P2-1 成本归一化分配**（r_l ∝ score_l/(d_in+d_out)，等参数口径对比 uniform）拿到一个正向修正，论文可从「阴性报告」升级为「**诊断 + 修正**」双贡献，达 Q1 分析型期刊或 TMLR 可投水平。
+
+**为何 B11 后这条更重要**：14B「正向」已被本地噪声（14.71pt）淹没，全文几乎无稳健正向信号。P2-1 是 peft 认定的「最便宜的正向实验」（8B 会把 q:v 从 12:4 翻到约 4:6，等参数口径），是**唯一可能给论文一个正向贡献的低成本实验**。成本：~3 臂（cost-norm/uniform/adaq）×2-3 种子 8B 训练+评测 ≈ 与 Phase3-D 同量级（~6-10h GPU）。
+
+**决策点**：是否在 Phase-3（D→B→E→C→A）之后追加 P2-1？若追加，论文有「诊断+修正」双贡献上探 Q1/TMLR；若不追加，论文是纯「机制+阴性+功效边界」四件套，投 TMLR/Neural Networks/Neurocomputing（peft §11 评 ★★★★☆，但 TMLR 非 JCR 无影响因子，须与单位 JCR 要求核对）。
+
+### 7.5 达小修剩余路径（综合）
+
+1. **GPU 自动**（~40h，无需干预）：Phase3 E→C→A 出数 → 解 N8/N11/N19/N22 + P0-4/P0-8/P1-7；bf16/F18/B8/B5 链式自动跑 → 解 N1 锚点/F18 PTQ 锚/B8 flex 审计/B5 14B 信号真伪。
+2. **数据到后写作**（📝，零GPU）：按 §7.1-7.3 把 peft §8.1-8.8 英文处方落进 paper-outline.md 正文（Abstract/贡献/§3.3/§5/Limitations/Conclusion/标题），补 P1-1/P1-3/P1-10/P1-11 图表，N13/N14/N15 的 outline/theory-report 数值订正。
+3. **用户决策**：P2-1 成本归一化追加与否（§7.4，决定上探 Q1 还是稳投 TMLR/Q2）。
+4. **撞车优先核**（非GPU 人工，投稿前）：RA-LoRA/Bayesian-LoRA/QuAILoRA 读全文给精确 delta（related-work-search-log §5.4）。
+
+**结论**：零GPU 能做的处置已 100% 覆盖（25/25 N 项 + P0/P1 状态全标）。达小修的硬阻断 = Phase-3 + B5 的 GPU 墙钟（~40h+），出数后按 §7.5-2 落正文即达小修区间（peft 评「按 §8 骨架改完可达 Minor」）。P2-1 是上探 Q1 的可选正向实验，待用户拍板。
