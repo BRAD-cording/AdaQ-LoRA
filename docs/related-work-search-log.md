@@ -118,3 +118,28 @@
 
 ---
 *核验声明：§2 两锚点（AQLoRA 2608.23816 / PARA 2604.27796）于 2026-11-16 web_fetch 逐字打开 arXiv abs 页核验；§5 扩展 22 篇由 OpenAlex 权威索引返回 DOI（含 arXiv ID）核验可达。全部 ID 非编造、可解析；未核验 ID 不入库。*
+
+### §5.6 撞车优先核结果（2026-11-16 全文 abstract 核验，闭合 §5.4 TODO；arxiv abs + ACL Anthology 逐字）
+
+> 闭合 §5.4 TODO：读三篇最近撞车候选全文 abstract，给精确 delta。核验源：RA-LoRA=aclanthology.org/2024.findings-acl.933（HTTP 200）；Bayesian-LoRA=arxiv.org/abs/2406.13046（HTTP 200，v3 2024-10-28）；QuAILoRA=arxiv.org/abs/2410.14713（HTTP 200，v1 2024-10-09）。
+
+**① RA-LoRA**（Kim/Lee/Sung/Choi，Findings of ACL 2024，pp 15773-15786，DOI 10.18653/v1/2024.findings-acl.933，bibkey kim-etal-2024-ra）
+- 机制（摘要原文）：「dynamically adjusting the adapter's rank using **rank-subspace analysis**, optimizing performance with fewer parameters… tested on **2-bit** efficient fine-tuning… improve model accuracy」。
+- 精确 delta vs AdaQ：(a) 信号=**秩子空间分析**（rank-subspace，动态/数据驱动），AdaQ=**预计算冻结 NF4 量化误差**（零搜索零训练）；(b) **2-bit** QAT 场景，AdaQ=**4-bit NF4**；(c) **动态调秩**（训练中环），AdaQ=训前一次性分秩；(d) 结论**正向**（提升精度），AdaQ=**阴性/诊断**。
+- 撞车判定：**否**。机制（秩子空间 vs 冻结量化误差）、比特（2 vs 4）、时序（动态 vs 预计算）、结论（正 vs 阴）四重不同。RA-LoRA 是「自适应秩 for 量化 LoRA」最近邻，但走的是学习式秩子空间路径且声称有效——恰与 AdaQ「预计算误差信号无效」形成对照。
+
+**② Bayesian-LoRA**（Meo/Sycheva/Goyal/Dauwels，arXiv:2406.13046，cs.AI，v3 2024-10-28，DOI 10.48550/arXiv.2406.13046）
+- 机制（摘要原文）：「prior distribution on both **quantization levels and rank values**… **differentiable Bayesian gates**… finding the optimal rank values and quantization levels for every low-rank matrix… fine-tuning a pre-trained **DeBERTaV3 on GLUE**… on par or better than baselines while reducing bit operations ~70%」。
+- 精确 delta vs AdaQ：(a) **学习式可微贝叶斯门**（训练中联合优化秩+量化级），AdaQ=预计算固定分秩（无门无学习）；(b) **DeBERTaV3 编码器/GLUE 分类**，AdaQ=**decoder LLM**（Llama-3-8B/Qwen2.5-14B）生成任务；(c) **联合学量化级+秩**，AdaQ=固定 NF4 仅分秩；(d) 结论**正向**。
+- 撞车判定：**否**。Bayesian-LoRA 是编码器上的学习式联合量化+秩优化；AdaQ 是 decoder LLM 上的预计算冻结分秩阴性。范式（学习 vs 预计算）、模型类（编码器 vs decoder）、干预（联合 vs 仅秩）、结论全不同。
+
+**③ QuAILoRA**（Lawton/Padmakumar/Gaspers/FitzGerald/Kumar/Ver Steeg/Galstyan，arXiv:2410.14713，cs.LG/cs.CL，NeurIPS ENLSP-IV Workshop，DOI 10.48550/arXiv.2410.14713）
+- 机制（摘要原文）：「quantization-aware **initialization** for LoRA that mitigates [quantization error] by **decreasing quantization errors at initialization**… 4-bit QLoRA… 75% of validation perplexity decrease and 86% of downstream accuracy increase as doubling to 8-bit」。
+- 精确 delta vs AdaQ：(a) 干预点=**初始化**（改 LoRA init 以降量化误差），AdaQ=**秩分配**（决定每层 rank 预算，不改 init）；(b) 目标=**减小**量化误差，AdaQ=用量化误差作**分秩信号**（且发现该信号近平坦不可用）；(c) 结论**正向**（ppl/acc 提升）。
+- 撞车判定：**否**。QuAILoRA 与 AdaQ 干预点正交（初始化 vs 秩分配）。QuAILoRA 证实「量化误差有害且可经初始化降低」——与 AdaQ「量化误差跨层近平坦、作秩分配信号无效」是**互补的两个角度**（一个降误差、一个证误差不可用于分秩），非竞争。
+
+**综合判定（novelty 再确认）**：
+1. 三篇最近邻**均不撞车**：机制（秩子空间/贝叶斯门/初始化 vs 预计算冻结 NF4 误差分秩）、结论（全正向 vs AdaQ 阴性）系统性不同。
+2. **Gap-0 仍成立且更清晰**：「训前 + 冻结 NF4 基座 + 零搜索零校准 + 量化误差驱动秩分配 + 阴性结论 + 噪声底功效分析」的完整组合，24 篇检索 + 3 篇全文核验无一占据。
+3. **AdaQ 定位强化**：RA-LoRA/Bayesian-LoRA/QuAILoRA/MoLA/CTR-LoRA 等主流均主张「自适应秩/量化感知 PEFT 有效（正向）」；AdaQ 与 **AQLoRA(2608.23816)** 独立同向，构成「**误差驱动选择无效**」的阴性簇——AQLoRA 摘要原文「Choosing protected layers by quantization error is no better than random… which layers they are does not measurably change accuracy」与 AdaQ「rel_error 近平坦(CV1.48%)→product≡importance_only→六策略不可区分」机制互证。这是对主流正向叙事的可复现反例，是诊断型贡献的核心价值。
+4. **写作落点**：Related Work 须显式对比这四篇（RA-LoRA/Bayesian-LoRA/QuAILoRA 正向自适应 + AQLoRA 阴性同向），用 delta 表呈现「干预点/信号/比特/结论」四维区分；Discussion 引 AQLoRA 作 convergent evidence（§8.4 已含）。
