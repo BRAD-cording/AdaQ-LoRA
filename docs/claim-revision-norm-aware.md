@@ -166,3 +166,20 @@ AdaQ 在 GSM8K 上是五个里最差，且低于不分配（baseline）。若主
 
 **论文写法（唯一允许的因果表述）**：
 > The comparison between AdaQ and QLoRA in the main results is confounded by an α/r mismatch (AdaQ effective α/r = 1.33 for q_proj and 4.00 for v_proj, vs. 2.00 for QLoRA), a bug in the allocation code path that we identify and correct in the Phase-3 reruns. All AdaQ-vs-baseline differences reported here are therefore descriptive associations, not causal effects of rank allocation.
+---
+
+### 第 4 节更新（2026-11-16 · 3 种子出数 + 修正案 4414d9e 重判）
+
+上方 §4 正文写于「单种子 seed42」期。现 3 种子数据已出（results_v2_qwen14b/REPORT_14B.md）：
+- adaq flex mean 0.5770±0.0749，qlora 0.4882±0.0579；配对差 +13.34/+9.02/+4.25（均值 **+8.87pt**，3/3 同号）。
+- Phase3-D 实测噪声底 N=max(N_seed 0.30, N_rep 4.09)=**4.09pt**（同 product 配置 9 次独立训练，results_v2_phase3_noise/summary.json）。
+- **修正案 R1 机械套用：Δ_flex 8.87 > N 4.09 且 3/3 同号 → R1 满足**。判定措辞（红线）：「14B 上 AdaQ 相对 QLoRA 在 GSM8K-flex 观察到正向差异（均值 +8.9pt），待 chat-template 口径确认。」
+
+**但这不是因果结论** —— R1 强制附带条件 + 五条保留（详见 REPORT_14B.md 重判段）：
+1. **pending B5** chat-template 复评（格式 artifact 未排；出数前该差值禁进 abstract/intro/conclusion/图表标题）；
+2. **N 是 8B 代理**，8B→14B 外推未验证（待 B11 14B 本地噪声对）；
+3. **α/r 混杂**（14B adaq α/r 1.33/4.0 vs qlora 2.0，待 α=2r 重训）；
+4. **seed42 拓扑/显存异常**（6.67GB vs 17.6GB）且单种子扛 +13.34 主导均值；
+5. **重尾残余**（pooled N 4.09 < 单对极值 11.52）。
+
+**措辞红线（不变）**：禁写「优于/等价/打平/显著」；MMLU 写 "no difference observed; underpowered to establish equivalence"（R3）；强制同报参数量+秩预算+非预算对齐声明（R5）；strict 永不作判据（R4）。**B5/B11/α-r 重训出数前，14B 正向差异只能进附录 + 标「未排除格式与规模混杂」。**
