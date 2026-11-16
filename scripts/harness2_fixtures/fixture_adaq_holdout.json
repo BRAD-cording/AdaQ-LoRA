@@ -1,0 +1,4 @@
+{"run":"adaq_seed42","method":"adaq","task":"mmlu","task_key":"mmlu",
+ "sample_len":5700,"seed":42,"lm_eval_version":"0.4.13","num_fewshot":5,
+ "metrics":{"acc":0.6453},
+ "expected":"inconsistent-sample-len"}

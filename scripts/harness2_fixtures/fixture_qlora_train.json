@@ -1,0 +1,4 @@
+{"run":"qlora_seed42","method":"qlora","task":"mmlu","task_key":"mmlu",
+ "sample_len":14042,"seed":42,"lm_eval_version":"0.4.13","num_fewshot":5,
+ "metrics":{"acc":0.6730,"acc_stderr":0.0039},
+ "expected":"consistent"}

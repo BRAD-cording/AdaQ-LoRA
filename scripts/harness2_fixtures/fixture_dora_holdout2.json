@@ -1,0 +1,4 @@
+{"run":"dora_seed2025","method":"dora","task":"gsm8k","task_key":"gsm8k",
+ "sample_len":1319,"seed":2025,"lm_eval_version":"0.4.13","num_fewshot":4,
+ "metrics":{"exact_match,strict-match":0.44,"exact_match,flexible-extract":0.44},
+ "expected":"consistent"}
