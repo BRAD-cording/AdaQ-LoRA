@@ -81,7 +81,8 @@ def main():
     if args.verify and err_stats:
         rels = [e[1] for e in err_stats]
         print(f"[f18] 权重相对误差 ‖W'−W‖/‖W‖：min={min(rels):.5f} max={max(rels):.5f} "
-              f"mean={sum(rels)/len(rels):.5f}（INT4-RTN-g128 典型 ~0.01-0.03）")
+              f"mean={sum(rels)/len(rels):.5f}（INT4-RTN 对称 g128 理论 ~0.12=3σ/(7√12)/σ；"
+              f"GPTQ/AWQ 靠校准 Hessian 加权降低此误差，RTN 无校准故 ~0.12 属预期）")
         for nm, r in err_stats[:4]:
             print(f"    {nm}: {r}")
 
