@@ -183,3 +183,19 @@ AdaQ 在 GSM8K 上是五个里最差，且低于不分配（baseline）。若主
 5. **重尾残余**（pooled N 4.09 < 单对极值 11.52）。
 
 **措辞红线（不变）**：禁写「优于/等价/打平/显著」；MMLU 写 "no difference observed; underpowered to establish equivalence"（R3）；强制同报参数量+秩预算+非预算对齐声明（R5）；strict 永不作判据（R4）。**B5/B11/α-r 重训出数前，14B 正向差异只能进附录 + 标「未排除格式与规模混杂」。**
+
+---
+
+### §4 增补：B11 14B 本地噪声底复核（2026-11-16，零 GPU 现有数据）→ B1 结论诚实下修
+
+§4 的「修正案 R1 机械套用：Δ_flex 8.87 > N 4.09 → R1 满足」用的是 **8B 代理** N=4.09pt（保留②明列 8B→14B 外推未验证）。B11 用现有 adaq×3 种子 flex 零 GPU 算出 **14B 本地噪声底**：
+
+- adaq flex 三种子 .6588/.5118/.5603 → **N_seed(14B,adaq) = 极差 14.71pt**（std 7.49）
+- 配对差 三种子 +13.34/+9.02/+4.25 → 极差 9.09pt，std 4.57，SE 2.64（n=3）
+
+**发现：14B 本地种子噪声（14.71pt）>> 8B 代理（4.09pt），且 > Δ_flex（8.87pt）**。14B（Qwen2.5-14B-Instruct）gsm8k-flex 无 chat-template 下跨种子极不稳（几乎肯定 F11 格式错配 inflate；对比 8B Phase3-D N_seed 仅 0.30pt）。
+
+**下修后 14B 结论（替代 §4「R1 满足→观察到正向差异」）**：
+> 14B 上 AdaQ vs QLoRA 的 GSM8K-flex 配对差方向一致（3/3 同号，均值 +8.9pt），但量级**落在 14B 自身种子噪声内**（adaq 单臂极差 14.7pt / 配对差 std 4.6pt，N >> 8B 代理 4.1pt），且由 seed42 拓扑异常 run（flex .6588，peak VRAM 6.67GB）主导。**不构成稳健正向差异。** 在 B5（chat-template 复评格式）+ B6（α=2r 重训）排除混杂前，不得写任何 14B 方向性结论。（n=3 配对 t≈3.36/p≈0.04 名义显著但脆弱：n 欠功效 + seed42 离群主导 + 格式错配 inflate 方差 + α/r 混杂，不作正向证据。）
+
+**B5 为决定性实验**（已排队 waiter 3350890）：若 14.71pt 噪声主要是格式错配，chat-template 下噪声与信号都应收窄；若 +8.87 是格式 artifact，B5 暴露之。**B11 GPU 重复（N_rep 14B）降为可选**——N_seed(14B)=14.71 已单独淹没信号，无需 N_rep；seed42 是否离群待 B5（chat-template 三种子重评）澄清。
