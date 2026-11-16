@@ -142,3 +142,27 @@ AdaQ 在 GSM8K 上是五个里最差，且低于不分配（baseline）。若主
 **论文写法（唯一允许的表述）**：`We find no evidence that the product of quantization error and weight importance outperforms either signal alone; the difference is within run-to-run noise, and the product is dominated by the importance term.`
 
 **禁止**：任何"product 最优/更好/有协同"的表述；任何以 seed42 单种子 `.4829 > .4435` 为依据的结论（该单种子结果未能复现）。
+
+---
+
+## 第 6 节：α/r 混杂披露与因果降级（B6，2026-11-16 新增）
+
+**事实（实测，见 review/fair-baseline.md + review/rank-budget.md）**：全部 18 个 adaq adapter（8B 主表 3 seed + 14B 3 seed + 消融 6 策略）使用 `lora_alpha=16` + `alpha_pattern={}`（per_module_type 方案A），故有效缩放 α/r 为：
+- q_proj：16/12 = **1.333**
+- v_proj：16/4 = **4.000**
+
+而对照臂 qlora/dora 为 α=2r=**2.000**（均匀），adalora 为 α/r=**1.000**。这**违反方法自身文档的「铁律2 α=2r」**（scripts/train.py L103-104）——成因是 train.py L87-89 的 per_module_type 分支设 alpha_pattern=None（退回全局 α=16），此前未被发现。
+
+**影响证据**：adapter 权重 max|w| 实测 adaq **0.2471** vs qlora **0.1250**（1.98×）。α/r 失配直接改变 adapter 权重的有效学习率与前向缩放 → adaq 与 qlora 两臂在训练优化起点上即不对等。
+
+**后果（因果降级）**：所有 adaq vs qlora/dora 的比较（8B 主表、14B、NF4 表）都被 **α/r 混杂**。「秩分配」不是唯一变量，差异**不能干净归因于秩分配**——可能部分或全部来自 α/r 缩放差异。因此：
+- 任何「秩分配 → 精度差异」的因果主张**降级为描述性关联**；
+- 14B GSM8K flex 配对差（+8.87pt）即便通过 Phase3-D 噪声底重判，**仍存 F11（无 chat-template 格式漂移）与 F15（α/r 混杂）两个未排除的替代解释**，不得写「AdaQ 秩分配优于 QLoRA」。
+
+**修复**：
+- ✅ scripts/train_phase3.py 已修（F15）：per_module_type 分支默认 `alpha_pattern={mod: 2r}`（α=2r，混杂消除），仅 `--legacy-alpha16` 复刻旧行为。**Phase-3 全部重训臂（D 噪声底 / A 主表 / C R曲线 / E 基线）均为 α=2r 干净配置。**
+- ⚠️ 现有 adapter（主表 12 + 14B 6 + 消融 12）**保留 α/r 混杂**，仅作描述性阴性结论用；因果主张须以 Phase-3 α=2r 重训数据为准。
+- TODO：14B 臂 α=2r 重训（B6 重训，GPU 排队）后，14B 比较才是干净的等-α 比较。
+
+**论文写法（唯一允许的因果表述）**：
+> The comparison between AdaQ and QLoRA in the main results is confounded by an α/r mismatch (AdaQ effective α/r = 1.33 for q_proj and 4.00 for v_proj, vs. 2.00 for QLoRA), a bug in the allocation code path that we identify and correct in the Phase-3 reruns. All AdaQ-vs-baseline differences reported here are therefore descriptive associations, not causal effects of rank allocation.
