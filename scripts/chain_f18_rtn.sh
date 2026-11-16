@@ -20,16 +20,19 @@ LOG=$BASE/logs/f18_rtn_eval.log
 mkdir -p "$OUT" "$BASE/logs"
 export HF_HUB_OFFLINE=1 HF_DATASETS_OFFLINE=1 NLTK_DATA=/home/ubuntu/nltk_data HF_ENDPOINT=https://hf-mirror.com
 
-# 等 bf16 完成（GPU0 释放）
-while ! grep -q "\[bf16-baseline\] DONE" "$BF16LOG" 2>/dev/null; do
-  echo "[f18-eval] $(date -u '+%F %T') waiting for bf16-baseline DONE ..."; sleep 300
+# gate：等 bf16 **真实完成**（6/6 .done 产物，免疫 logs 里残留的旧假 DONE 行）→ GPU0 释放。
+# ★教训：不可 grep "[bf16-baseline] DONE" 日志字符串——logs/baseline_bf16.log 有 b148 时代保留的
+#   旧假 DONE 行（曾为 phase3 reboot 门），会让本 gate 立即假通过→在 GPU0 撞 phase3。改用真实 .done 计数。
+while true; do
+  nbf=$(find "$BASE"/results_v2/baseline_bf16_seed* -name '.done_*' 2>/dev/null | wc -l)
+  if [ "$nbf" -ge 6 ]; then echo "[f18-eval] $(date -u '+%F %T') bf16 real .done=$nbf ≥6 → GPU0 free"; break; fi
+  echo "[f18-eval] $(date -u '+%F %T') waiting bf16 real done (.done=$nbf/6) ..."; sleep 300
 done
 
-# 确保 RTN 模型已量化（CPU 量化应已完成；幂等兜底）
-if [ ! -f "$RTN_MODEL/config.json" ]; then
-  echo "[f18-eval] $(date -u '+%F %T') RTN 模型缺失，先跑 CPU 量化 round-trip"
-  $PY scripts/run_f18_rtn_baseline.py --quantize --verify >> "$LOG" 2>&1
-fi
+# 等 RTN 模型量化完成（由 run_f18_rtn_baseline.py --quantize 在 CPU 独立跑；不自启第二个 quantize 避免写竞态）
+while [ ! -f "$RTN_MODEL/config.json" ]; do
+  echo "[f18-eval] $(date -u '+%F %T') waiting RTN model quantize (CPU) done ..."; sleep 60
+done
 # provenance 拷进 results（models/ 被 gitignore，provenance 须随 results 入库）
 cp -f "$RTN_MODEL/rtn_provenance.json" "$OUT/rtn_provenance.json" 2>/dev/null || true
 
