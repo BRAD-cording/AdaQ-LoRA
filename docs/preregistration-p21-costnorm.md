@@ -75,3 +75,50 @@
 
 - 本预注册 commit 时间 = P2-1 冻结点。冻结时：Phase3-E 评测进行中（baselines .done=10），Phase3-C/A 未跑，P2-1 ranks 未生成、训练未启动、results_v2_p21/ 不存在。揭盲（读 cost_norm flex 值）必晚于此 commit。
 - 揭盲后：只填 §6 的 c_s/u_s/r_s 实测值 + 套 R1/R2/R3，不改 N、不改判据、不改臂定义。
+
+---
+
+## 10. Pre-unblind 修正案（2026-11-16，冻结点 4107552 后、任何训练前）
+
+> 合法性：本修正案在 P2-1 **训练数据产生前**（仅 ranks 已生成，results_v2_p21/ 仍不存在）细化 §2 预先声明的条件臂与 §6 判据，非看数后改规则。冻结点 4107552 的 §2 已预声明「若 cost_norm 与 uniform 参数差 >5% 追加 uniform_pm」——gen_p21_ranks.py 实跑确认条件触发，本修正案执行该预声明。
+
+### 10.1 条件触发确认（gen_p21_ranks.py 实测，configs/p21/）
+
+| 臂 | 分配 score | budget | sum_ranks | params | q:v 中位 | 参数 vs uniform |
+|:---|:---|:--:|:--:|:--:|:--:|:--:|
+| cost_norm | score_l/c_l | 512 | 512 | **3,693,568** | 11:5 | 1.0838× |
+| raw_score | score_l | 512 | 512 | 3,782,656 | 12:4 | 1.1100× |
+| uniform | 1.0 | 512 | 512 | 3,407,872 | 8:8 | 1.0000× |
+| **uniform_pm** | 1.0 | **576** | 576 | **3,833,856** | 9:9 | 1.1250× |
+
+- 触发：cost_norm 1.0838 > 1.05、raw_score 1.1100 > 1.05 → §2 条件臂 **uniform_pm 启用**（等秩 r=9，budget 576）。
+- ★关键公平性质：**cost_norm params 3,693,568 = 0.9634× uniform_pm 3,833,856**（cost_norm 比等参数对照**更省 3.7%**）。⇒ cost_norm vs uniform_pm 是「**更少参数 vs 更多参数的 flat 分配**」对照——若 cost_norm 性能 ≥ uniform_pm，即「等（更省）参数下，成本归一化集中分配胜过均匀分配」=分配本身生效的强阳性，排除参数量混杂（fair-baseline F6/M3 铁律满足）。
+- 成本归一化效果实证：q:v 中位从 raw_score 的 12:4 → cost_norm 的 11:5（秩从宽层 q 转向窄层 v，如 §1 假设；peft 预估「翻到约 4:6」偏大，实测为温和再分配，因 per-layer score 仍 q 主导）。
+
+### 10.2 §6 判据精化（绑死等参数对照 + 两阶段确认）
+
+设四种子值（GSM8K flexible-extract，s∈{42,3407,2025}）：c_s=cost_norm, p_s=uniform_pm, u_s=uniform, r_s=raw_score。配对差：dPM_s=c_s−p_s（等参数主对照），dU_s=c_s−u_s（等秩和次对照）。噪声底 N=4.09pt（Phase3-D 实测 N_rep）。
+
+- **R1（阳性，支撑 KBS「诊断+修正」，须同时满足）**：
+  1. **3/3 种子 dPM_s > 0**（cost_norm 各种子均胜 uniform_pm，同号；sign-test 单侧 p=0.125）；**且**
+  2. **mean(dPM_s) > N（4.09pt）**（效应踩过实测噪声底，非噪声可解释）；**且**
+  3. cost_norm params < uniform_pm params（已满足，0.9634×，更省参数）。
+  → 判「成本归一化分配在**更省 3.7% 参数**下，GSM8K-flex 稳定胜过等参数均匀分配 +mean(dPM)pt（>实测噪声底 4.09），3/3 种子同号」=分配集中度在等参数口径生效的阳性证据。
+- **R1-confirm（两阶段，防 14B n=3 覆辙）**：R1 命中后**不直接定稿 KBS**——n=3 欠功效（stats 评审），须 pre-register 扩 **6 seeds**（追加 3 seed）复跑 cost_norm+uniform_pm，6/6 或 ≥5/6 同号且 mean(dPM) 仍 >N 才升「确证阳性」。R1 命中但 confirm 失败 → 降「初步阳性，n=3 提示，需更多种子」（不进 abstract 主claim）。
+- **R2（阴性）**：R1 任一条不满足（mean(dPM)≤N 或 符号不一致）→ 判「成本归一化修正未观察到超出噪声底的一致增益；范数信号的宽度修正不足以产生可检出效应」→ 维持「机制+阴性+功效边界」四件套，venue 退 TMLR/Neural Networks/Neurocomputing（接受纯阴性）。
+- **R1b（次，等秩和）**：mean(dU_s)>N 且 3/3 dU_s>0 → 佐证（但 dU 含参数量差 cost_norm 1.0838×uniform，须与 R1 等参数结论一致才可引；若 R1 阴 R1b 阳，归因参数量非分配，禁作阳性）。
+- **R3（vs raw_score）**：mean(c_s−r_s) 描述性报告「成本归一化 vs 原始范数分配」，同 R1 判据（次要）。
+- **R4/R5**：沿用 §6（参数效率红线 + 强制披露 params/秩预算/N来源/n=3欠功效）。
+
+### 10.3 臂数与成本更新
+
+- 4 臂（cost_norm/raw_score/uniform/uniform_pm）× 3 seeds = **12 run**（原 §2 估 9 run + uniform_pm 3 run）。
+- 训练 ~40min/run（375步）× 12 ÷ 2卡 ≈ 4h；评测 mmlu(~25min)+gsm8k-flex(~70min) × 12 ÷ 2卡 ≈ 9.5h → 合计 ~13-15h（略超原估 6-10h，因加 uniform_pm 臂 + 全 mmlu/gsm8k）。
+- 若 R1 命中触发 R1-confirm：再 +2 臂（cost_norm/uniform_pm）× 3 新 seed = 6 run ≈ +7h。
+
+### 10.4 产物路径（4 臂）
+
+- ranks：configs/p21/ranks_{cost_norm,raw_score,uniform,uniform_pm}.json（✅ 已生成，本修正案同 commit 入库）。
+- adapters：outputs/p21/{arm}_s{42,3407,2025}/。
+- 评测：results_v2_p21/{arm}_s{seed}/。
+- 聚合：results_v2_p21/summary.json + REPORT_p21.md（aggregate_p21.py，4 臂×3 种子表 + dPM/dU/dR 配对差 + R1/R1b/R2/R3 判定 + 参数对照 + 噪声底 N=4.09 引用 + n=3 欠功效声明 + R1-confirm 触发标志）。
