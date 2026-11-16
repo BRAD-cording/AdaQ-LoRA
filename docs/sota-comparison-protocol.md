@@ -13,7 +13,7 @@
 |:---|:---|:---|
 | Gap-1 | 量化与低秩适配的耦合被忽视——现有 PEFT 方法不根据量化误差分配秩 | 待 scholar 核查 |
 | Gap-2 | 4-bit 量化误差补偿仅做初始化（LoftQ）或幅度缩放（QA-LoRA），未做秩分配 | 待 scholar 核查 |
-| Gap-3 | AdaLoRA 的重要性分数在量化基座上不可靠，缺乏量化感知的重要性度量 | 待 scholar 核查 |
+| Gap-3 | 【已撤回 F16】AdaLoRA 剪枝从未触发（total_step=200≫实际21步），「重要性分数在量化基座不可靠」零证据（见 review/fair-baseline.md） | 待 scholar 核查 |
 | Gap-4 | 层间异质性（NF4 对不同模块的误差差异）未被利用为分配信号 | 待 scholar 核查 |
 
 ### 检索协议
@@ -182,7 +182,7 @@ python -m lm_eval --model hf --model_args pretrained=<base>,peft=<adapter_path>,
 - 手册 §6.4 的预期数值表只能写进实验设计文档
 - **绝不允许出现在论文里**
 - 论文数值以实验为准
-- 若优势不及预期，转向"零额外开销下的参数效率 Pareto 前沿"叙事
+- 若优势不及预期，转向"机制解释 + 阴性结论 + 可检测效应边界"叙事（见 claim-revision-norm-aware.md），放弃参数效率/Pareto 主张
 
 ---
 

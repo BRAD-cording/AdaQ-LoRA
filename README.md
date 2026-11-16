@@ -1,8 +1,8 @@
-# AdaQ-LoRA: 量化感知自适应秩分配 LLM 微调研究项目
+# AdaQ-LoRA: 范数感知自适应秩分配 LLM 微调研究项目
 
-围绕 NVIDIA A10 24GB 单卡训练服务器，目标产出 Q2+（中科院二区+/顶会）论文。
+围绕 2×NVIDIA RTX 4090D 24GB 训练服务器（双卡），目标产出 Q2+（中科院二区+/顶会）论文。
 
-**核心方法**：AdaQ-LoRA（量化感知自适应秩分配）—— 预计算 NF4 逐层量化误差，用误差驱动 LoRA 秩预算分配，在零额外显存开销下提升参数效率。
+**核心方法**：AdaQ-LoRA（范数感知自适应秩分配）—— 预计算 NF4 逐层量化误差与权重范数，以 score=rel_error×‖W‖_F 分配 LoRA 秩预算。实测该 score 99.8% 由权重范数驱动（rel_error 跨层近常数，系 NF4 per-block absmax 定标的结构性后果），故方法本质为范数/重要性感知而非量化误差感知；主要结论为阴性：等秩预算下未观察到一致优于 QLoRA 的精度增益（详见 docs/claim-revision-norm-aware.md）。
 
 ## 三条铁律（不可违反）
 
@@ -19,7 +19,7 @@ AdaQ-LoRA/
 │   ├── references/                   # 三大支柱参考文档
 │   │   ├── theory-review.md          #   理论审查清单与高风险点
 │   │   ├── sota-comparison.md        #   SOTA 对比与公平评测协议
-│   │   └── training-optimization.md  #   A10 训练效率优化
+│   │   └── training-optimization.md  #   RTX 4090D 训练效率优化
 │   └── scripts/                      # 管线核心脚本
 │       ├── adaq_precompute.py        #   预计算：量化误差 + 秩分配
 │       └── run_benchmarks.sh         #   标准评测命令生成
@@ -125,7 +125,7 @@ python run_pipeline.py --step all
 - 评测：MMLU(5-shot)/GSM8K(4-shot)/TruthfulQA(0-shot)/IFEval(0-shot)
 - 统计：≥3 种子，Wilcoxon 符号秩检验，逐任务 bootstrap
 
-### 支柱三：A10 训练效率优化
+### 支柱三：RTX 4090D 训练效率优化
 
 **产出**：[docs/training-optimization-plan.md](docs/training-optimization-plan.md)
 
@@ -176,8 +176,8 @@ python run_pipeline.py --step all
 
 ```bibtex
 @software{adaq-lora,
-  title={AdaQ-LoRA: Quantization-Aware Adaptive Rank Allocation for PEFT},
+  title={AdaQ-LoRA: Norm-Aware Adaptive Rank Budgeting for LoRA Fine-Tuning on NF4-Quantized LLMs},
   year={2026},
-  note={Research pipeline for A10 single-GPU LLM fine-tuning}
+  note={Research pipeline for dual RTX 4090D LLM fine-tuning}
 }
 ```
