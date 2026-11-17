@@ -1,0 +1,21 @@
+{
+  "method": "INT4-RTN symmetric group-128 round-to-nearest (no calibration)",
+  "base": "/home/ubuntu/AdaQ-LoRA/models/Meta-Llama-3-8B",
+  "n_linear_quantized": 224,
+  "lm_head_skipped": [
+    "lm_head"
+  ],
+  "int4_range": [
+    -8,
+    7
+  ],
+  "group_size": 128,
+  "scale": "max|w_group| / 7 (symmetric)",
+  "roundtrip_dtype": "bf16",
+  "weight_rel_err": {
+    "min": 0.11779,
+    "max": 0.15718,
+    "mean": 0.12344897321428572
+  },
+  "why_not_auto_gptq": "auto-gptq sdist build failed (build-isolation no torch) + archived + incompatible w/ transformers 4.57.6; auto-gptq is GPTQ (calibration) not RTN; pure RTN = explicit symmetric round-trip (this script)."
+}
