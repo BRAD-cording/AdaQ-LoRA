@@ -273,3 +273,12 @@ peft §12 总评 + §10.2 P2-1 指出：本文真正可发表资产是「机制 
 4. **撞车优先核**（非GPU 人工，投稿前）：RA-LoRA/Bayesian-LoRA/QuAILoRA 读全文给精确 delta（related-work-search-log §5.4）。
 
 **结论**：零GPU 能做的处置已 100% 覆盖（25/25 N 项 + P0/P1 状态全标）。达小修的硬阻断 = Phase-3 + B5 的 GPU 墙钟（~40h+），出数后按 §7.5-2 落正文即达小修区间（peft 评「按 §8 骨架改完可达 Minor」）。P2-1 是上探 Q1 的可选正向实验，待用户拍板。
+
+## 8. B8 flex 抽取器审计结果（2026-11-17 执行，F8/P0-4 闭合）
+
+- 双臂 κ(A vs B)=0.7015(adaq)/0.7535(qlora)，均 **FAIL<0.95** → flex 抽取器与模型意图判断系统性不一致，flex 指标本身不可靠。
+- **双臂差异抽取偏差**：flex 漏抽率（输出含 gold 但抓错）adaq 18.0%(144/800) vs qlora 26.5%(212/800) → flex 对 qlora 压得更低 → **14B flex +8.87pt 差值方向上被抽取偏差放大**，在 B5 chat-template 出数前不得作为任何方向证据。
+- 失败机制实证（doc_id 0）：instruct 无 chat-template 生成后泄漏 fewshot 续写（"### Human:" 污染区），flex 正则抓到 '2.' 而非意图答案 $18；strict==gold 仅 .1775/.1200（instruct 不输出 #### 格式）。
+- 处置：14B 所有 flex 差值禁入 abstract/intro/conclusion（与修正案 4414d9e R1-pending-B5 一致）；B8 全套数字见 docs/b8-flex-audit-results.md；评测口径节须写入「flex 抽取器审计不通过（κ=0.70/0.75）」。
+- 诚实边界：双标注为机械规则（A保守=flex==gold且gold以数字边界现于输出；B宽松=A或末300字符含答案表述），κ 是可标注性代理非人工双盲；人工复核可改 annotA/annotB 列重跑 kappa。
+

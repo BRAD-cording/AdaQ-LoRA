@@ -68,7 +68,7 @@
 | 阈值校准修正案（原 4.5pt 作废，改实测 pooled 噪声底 N=max(N_seed,N_rep)） | jcr B1, stats | ✅ 4414d9e | pre-unblind 冻结（D results=0） |
 | Phase3-D 实测噪声底（product 配置×3seed×3rep=9run GSM8K flex 极差 + 方差分解） | stats, fair F8, jcr B1 | 🔄 Phase3-D | 评测跑中 ~07:00 UTC 出 |
 | B1 重判 14B flex +8.87pt（套修正案：Δ>N 且 3/3 同号 且 pending B5） | jcr B1 | 🔄 待 D 出数 | 出数即解 |
-| flex 抽取器人工审计（adaq+qlora seed42 各 400 docs 双标 κ≥0.95，查差别抽取偏差） | jcr B8, stats | ✅ 工具 81b539f / 🔄 采样排队 | run_b8_flex_audit.sh waiter 1849739，Phase3 后 GPU1 |
+| flex 抽取器人工审计（adaq+qlora seed42 各 400 docs 双标 κ≥0.95，查差别抽取偏差） | jcr B8, stats | ✅ 工具 81b539f / 🔄 采样排队 | run_b8_flex_audit.sh waiter 1849739，Phase3 后 GPU1 | ✅已执行(2026-11-17: κ双臂FAIL 0.70/0.75，漏抽率 adaq 18.0%/qlora 26.5% 差异偏差实锤 → docs/b8-flex-audit-results.md)
 | TOST 等价检验 + bootstrap CI（MMLU「no difference;underpowered」） | jcr B11, stats | ⏳ 分析（待数据） | 零GPU 但需 Phase3 数据；B11 14B 本地噪声对需 GPU |
 | n=3 无有效 Wilcoxon（min p=0.25）→ 全结果降描述性 | stats, jcr | ✅ 落档 | claim-revision §5 + stats §6 英文段 |
 | eval seed 口径统一 42（主表曾 seed=训练seed 混合方差） | repro F3, stats F3 | 🔄 Phase3 | run_eval_phase3 固定 seed42 |
@@ -111,7 +111,7 @@
 
 | 项 | 来源 | 状态 | 说明 |
 |---|---|---|---|
-| strict/flex 政策（strict 对 instruct 不可用，flex 主判据 + 人工审计） | quant, jcr B8, fair F7 | ✅ b0d4dde | eval-protocol §9 |
+| strict/flex 政策（strict 对 instruct 不可用，flex 主判据 + 人工审计） | quant, jcr B8, fair F7 | ✅ b0d4dde | eval-protocol §9 | ✅已执行(2026-11-17: κ双臂FAIL 0.70/0.75，漏抽率 adaq 18.0%/qlora 26.5% 差异偏差实锤 → docs/b8-flex-audit-results.md)
 | BF16/NF4 双协议标注 + 禁跨表比 + 补锚 | quant | ✅ b0d4dde | 同 adaq adapter BF16 .4766 vs NF4 .4064 差 7 点纯协议效应 |
 | B5 chat-template GSM8K 14B 复评（6×70min，格式漂移 artifact 排除） | jcr B5, fair F11 | ⏳ 额外 GPU | 待拍板；出数前 14B 差值禁进 abstract/intro/conclusion |
 | fewshot 机读核查（configs[task].num_fewshot）+ sample_len 断言 | fair F10 | ✅ 部署 | run_eval_phase3 继承 |
