@@ -1,12 +1,9 @@
 #!/bin/bash
-# P2-1 成本归一化秩分配训练。用法: bash scripts/run_p21_train.sh
-# 4 臂 × 3 seed = 12 run（train.py α=2r，375 优化步，--no-packing）。
-#   cost_norm  r_l ∝ score_l/c_l   budget512  configs/p21/ranks_cost_norm.json   （主判据臂）
-#   raw_score  r_l ∝ score_l       budget512  configs/p21/ranks_raw_score.json   （= AdaQ 现状对照）
-#   uniform    r_l 常数            budget512  configs/p21/ranks_uniform.json     （等秩和基线）
-#   uniform_pm r_l 常数            budget576  configs/p21/ranks_uniform_pm.json  （参数匹配条件臂，触发于 cost_norm 1.0838×>1.05）
-# Scheme B per-layer 守恒；双卡 2 进程一波；adapter_config.json+safetensors 齐则 SKIP（幂等）。
-# F4 预算强约束/F15 α=2r 由 train.py 内部执行。预注册 docs/preregistration-p21-costnorm.md（4107552+448330a）。
+# P2-1 成本归一化秩分配训练（参数化）。
+# 主跑: bash scripts/run_p21_train.sh   （SEEDS="42 3407 2025" ARMS="cost_norm raw_score uniform uniform_pm" = 12 run）
+# confirm: SEEDS="1337 7 2024" ARMS="cost_norm uniform_pm" bash scripts/run_p21_train.sh  （6 run）
+# train.py α=2r，375 优化步，--no-packing；Scheme B per-layer 守恒；双卡 2 进程一波；adapter 齐则 SKIP（幂等）。
+# F4 预算强约束/F15 α=2r 由 train.py 内部执行。预注册 4107552+448330a+§10.5。
 set -uo pipefail
 cd /home/ubuntu/AdaQ-LoRA
 export HF_ENDPOINT=https://hf-mirror.com
@@ -15,14 +12,17 @@ MODEL=/home/ubuntu/AdaQ-LoRA/models/Meta-Llama-3-8B
 LOGDIR=logs/p21
 mkdir -p "$LOGDIR"
 COMMON="--max-length 1024 --batch-size 4 --grad-accum 4 --epochs 3 --dataset-size 2000 --lr 2e-4 --no-packing"
-SEEDS3="42 3407 2025"
+SEEDS="${SEEDS:-42 3407 2025}"
+ARMS="${ARMS:-cost_norm raw_score uniform uniform_pm}"
+# 每臂预算（uniform_pm=576 参数匹配条件臂，余=512）
+budget_of(){ case "$1" in uniform_pm) echo 576 ;; *) echo 512 ;; esac; }
 
 JOBS=()   # 每条 "OUTDIR|ARGS"
-for s in $SEEDS3; do
-  JOBS+=("outputs/p21/cost_norm_s${s}|--method adaq --seed $s --rank-scheme per_layer --ranks-file configs/p21/ranks_cost_norm.json --budget 512")
-  JOBS+=("outputs/p21/raw_score_s${s}|--method adaq --seed $s --rank-scheme per_layer --ranks-file configs/p21/ranks_raw_score.json --budget 512")
-  JOBS+=("outputs/p21/uniform_s${s}|--method adaq --seed $s --rank-scheme per_layer --ranks-file configs/p21/ranks_uniform.json --budget 512")
-  JOBS+=("outputs/p21/uniform_pm_s${s}|--method adaq --seed $s --rank-scheme per_layer --ranks-file configs/p21/ranks_uniform_pm.json --budget 576")
+for s in $SEEDS; do
+  for arm in $ARMS; do
+    bud=$(budget_of "$arm")
+    JOBS+=("outputs/p21/${arm}_s${s}|--method adaq --seed $s --rank-scheme per_layer --ranks-file configs/p21/ranks_${arm}.json --budget $bud")
+  done
 done
 
 train_one() {
@@ -46,7 +46,7 @@ train_one() {
 }
 
 n=${#JOBS[@]}; i=0
-echo "=== [p21-train] $n jobs $(date -u) ==="
+echo "=== [p21-train] $n jobs SEEDS=[$SEEDS] ARMS=[$ARMS] $(date -u) ==="
 while [ $i -lt $n ]; do
   IFS='|' read -r out0 args0 <<< "${JOBS[$i]}"
   j=$((i+1))

@@ -122,3 +122,18 @@
 - adapters：outputs/p21/{arm}_s{42,3407,2025}/。
 - 评测：results_v2_p21/{arm}_s{seed}/。
 - 聚合：results_v2_p21/summary.json + REPORT_p21.md（aggregate_p21.py，4 臂×3 种子表 + dPM/dU/dR 配对差 + R1/R1b/R2/R3 判定 + 参数对照 + 噪声底 N=4.09 引用 + n=3 欠功效声明 + R1-confirm 触发标志）。
+
+
+### 10.5 R1-confirm 确认种子冻结（揭盲前，防 HARKing）
+
+冻结时间：2026-11-16（P2-1 主跑 outputs/p21 尚未生成、results_v2_p21 空，仍 pre-unblind）。本条仅指定 §10.2 R1-confirm 已预注册协议的具体种子与判定阈值，不新增/不修改任何判据逻辑。
+
+- **确认种子（追加 3 个，与主跑 {42,3407,2025} 互斥）**：`{1337, 7, 2024}`。合计 6 seeds = {42, 3407, 2025, 1337, 7, 2024}。
+- **确认臂**：仅 `cost_norm` + `uniform_pm`（等参数主对照 R1 的两臂）；raw_score/uniform 不重训（confirm 只验主对照稳健性）。= 2 臂 × 3 新 seed = **6 run**（≈+7h，接 P2-1 主跑后）。
+- **确认判定（机械套用 §10.2 R1-confirm，只填数）**：设 6 seed 的 dPM_s = cost_norm_flex_s − uniform_pm_flex_s：
+  - **确证阳性（→ KBS Q1 主claim）**：≥5/6 种子 dPM_s > 0 **且** mean(dPM over 6) > N(4.09pt) **且** cost_norm params < uniform_pm params（恒成立 0.9634×）。
+  - **初步阳性（n=3 提示，降级）**：R1（n=3）命中但 confirm 失败（≤4/6 同号 或 mean(dPM over 6) ≤ N）→ 判「初步阳性，n=3 提示，需更多种子；不进 abstract/intro 主claim，仅附录」。
+  - 噪声底 N 仍取 Phase3-D 实测 4.09pt（confirm 不重估 N；若届时 Phase3-D 数据有更新，以更新值为准并记录）。
+- **触发条件**：仅当主跑 aggregate_p21.py 输出 `"R1": true` 时自动触发（chain_p21_confirm.sh gate）；R2 阴性则 confirm 永不启动（should_run 门控），省 GPU。
+- **产物**：outputs/p21/{cost_norm,uniform_pm}_s{1337,7,2024}/；results_v2_p21/ 追加；aggregate_p21_confirm.py → results_v2_p21/summary_confirm.json + REPORT_p21_confirm.md。
+- **诚信声明**：confirm 是 §10.2 预注册的两阶段设计，种子在此冻结于揭盲前；无论 confirm 结果如何均如实报告，阴性/降级不隐藏（防 14B n=3 单种子扛均值覆辙）。

@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
-"""P2-1 评测 wrapper：复用 run_eval_ablation 的调度/校验/分卡逻辑。
-4 臂 × 3 seed = 12 run，ADAPTER_DIR=outputs/p21, OUT=results_v2_p21。
-评测基座 BF16（与主表/消融一致），seed42 固定。
+"""P2-1 评测 wrapper（参数化）：复用 run_eval_ablation 调度/校验/分卡。
+主跑: TASKS=mmlu,gsm8k python run_eval_p21.py  （4臂×3seed=12run）
+confirm: SEEDS=1337,7,2024 ARMS=cost_norm,uniform_pm TASKS=gsm8k python run_eval_p21.py
+ADAPTER_DIR=outputs/p21, OUT=results_v2_p21；评测基座 BF16，seed42 固定。
 
 环境变量:
+  SEEDS   逗号分隔，默认 42,3407,2025
+  ARMS    逗号分隔，默认 cost_norm,raw_score,uniform,uniform_pm
   TASKS   逗号分隔，默认 mmlu,gsm8k（主判据 gsm8k-flex；mmlu 仅报告）
   GPUS    默认 0,1
   LIMIT   留空=全量
@@ -17,12 +20,12 @@ ROOT = "/home/ubuntu/AdaQ-LoRA"
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 
 TASKS = os.environ.get("TASKS", "mmlu,gsm8k")
-SEEDS3 = [42, 3407, 2025]
-ARMS = ["cost_norm", "raw_score", "uniform", "uniform_pm"]
+SEEDS = [int(x) for x in os.environ.get("SEEDS", "42,3407,2025").split(",") if x.strip()]
+ARMS = [x.strip() for x in os.environ.get("ARMS", "cost_norm,raw_score,uniform,uniform_pm").split(",") if x.strip()]
 
 adir = "outputs/p21"
 odir = "results_v2_p21"
-runs = [f"{arm}_s{s}" for arm in ARMS for s in SEEDS3]
+runs = [f"{arm}_s{s}" for arm in ARMS for s in SEEDS]
 
 import run_eval_ablation as base  # noqa: E402
 
@@ -36,7 +39,7 @@ if not base.SPECS:
     sys.exit(2)
 
 print(f"[p21-eval] ADAPTER_DIR={base.ADAPTER_DIR} OUT={base.OUT} "
-      f"TASKS={sorted(base.SPECS)} runs={len(runs)}", flush=True)
+      f"TASKS={sorted(base.SPECS)} SEEDS={SEEDS} ARMS={ARMS} runs={len(runs)}", flush=True)
 if os.environ.get("DRYRUN"):
     print("[DRYRUN] STRATEGIES=", base.STRATEGIES)
     print("[DRYRUN] SPECS keys=", sorted(base.SPECS))
