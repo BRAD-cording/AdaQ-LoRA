@@ -1,0 +1,180 @@
+{
+  "_meta": {
+    "generated": "2026-11-18 23:09:08 UTC",
+    "prereg": "docs/preregistration-p21-costnorm.md (4107552+448330a)",
+    "noise_floor_N_pt": 4.094,
+    "noise_floor_n_runs": 9,
+    "noise_floor_src": "Phase3-D 实测",
+    "primary_metric": "gsm8k_flex",
+    "n_seeds": 3,
+    "seeds": [
+      42,
+      3407,
+      2025
+    ]
+  },
+  "arms": {
+    "cost_norm": {
+      "gsm8k_flex": {
+        "n": 3,
+        "mean": 50.1643,
+        "std": 0.845,
+        "min": 48.9765,
+        "max": 50.8719,
+        "range": 1.8954,
+        "values": [
+          48.9765,
+          50.6444,
+          50.8719
+        ]
+      },
+      "gsm8k_strict": {
+        "n": 3,
+        "mean": 48.3447,
+        "std": 1.3763,
+        "min": 46.3988,
+        "max": 49.3556,
+        "range": 2.9568,
+        "values": [
+          46.3988,
+          49.2798,
+          49.3556
+        ]
+      },
+      "mmlu": null,
+      "params": 3693568
+    },
+    "raw_score": {
+      "gsm8k_flex": {
+        "n": 3,
+        "mean": 50.4675,
+        "std": 0.8849,
+        "min": 49.2798,
+        "max": 51.4026,
+        "range": 2.1228,
+        "values": [
+          50.7202,
+          51.4026,
+          49.2798
+        ]
+      },
+      "gsm8k_strict": {
+        "n": 3,
+        "mean": 48.1425,
+        "std": 1.0578,
+        "min": 46.9295,
+        "max": 49.5072,
+        "range": 2.5777,
+        "values": [
+          47.9909,
+          49.5072,
+          46.9295
+        ]
+      },
+      "mmlu": null,
+      "params": 3782656
+    },
+    "uniform": {
+      "gsm8k_flex": {
+        "n": 3,
+        "mean": 49.5072,
+        "std": 0.1637,
+        "min": 49.3556,
+        "max": 49.7346,
+        "range": 0.379,
+        "values": [
+          49.3556,
+          49.4314,
+          49.7346
+        ]
+      },
+      "gsm8k_strict": {
+        "n": 3,
+        "mean": 47.8393,
+        "std": 0.5289,
+        "min": 47.1569,
+        "max": 48.4458,
+        "range": 1.2889,
+        "values": [
+          47.1569,
+          47.9151,
+          48.4458
+        ]
+      },
+      "mmlu": null,
+      "params": 3407872
+    },
+    "uniform_pm": {
+      "gsm8k_flex": {
+        "n": 3,
+        "mean": 49.3556,
+        "std": 0.9286,
+        "min": 48.2183,
+        "max": 50.4928,
+        "range": 2.2745,
+        "values": [
+          50.4928,
+          48.2183,
+          49.3556
+        ]
+      },
+      "gsm8k_strict": {
+        "n": 3,
+        "mean": 46.8031,
+        "std": 0.5265,
+        "min": 46.1713,
+        "max": 47.4602,
+        "range": 1.2889,
+        "values": [
+          47.4602,
+          46.1713,
+          46.7779
+        ]
+      },
+      "mmlu": null,
+      "params": 3833856
+    }
+  },
+  "paired_gsm8k_flex": {
+    "dPM_cost_norm_minus_uniform_pm": {
+      "diffs": [
+        -1.5163,
+        2.4261,
+        1.5163
+      ],
+      "n_pos": 2,
+      "mean": 0.8087
+    },
+    "dU_cost_norm_minus_uniform": {
+      "diffs": [
+        -0.3791,
+        1.213,
+        1.1373
+      ],
+      "n_pos": 2,
+      "mean": 0.6571
+    },
+    "dR_cost_norm_minus_raw_score": {
+      "diffs": [
+        -1.7437,
+        -0.7582,
+        1.5921
+      ],
+      "n_pos": 1,
+      "mean": -0.3033
+    }
+  },
+  "params": {
+    "cost_norm": 3693568,
+    "uniform_pm": 3833856,
+    "cost_norm_cheaper": true,
+    "ratio_cn_over_pm": 0.9634
+  },
+  "decision": {
+    "R1": false,
+    "R1_sign_3of3": false,
+    "R1_mean_gt_N": false,
+    "R1b": false,
+    "verdict": "R2（阴性）：cost_norm 未稳定超过 uniform_pm（参数匹配）→ 维持「机制+阴性+功效边界」四件套，退 TMLR/Neural Networks/Neurocomputing"
+  }
+}
