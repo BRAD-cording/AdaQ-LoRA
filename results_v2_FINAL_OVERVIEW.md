@@ -1,6 +1,6 @@
 # AdaQ-LoRA 全实验环节最终总览
 
-生成：2026-11-17 00:00:24 UTC  
+生成：2026-11-18 23:15:42 UTC  
 连接：2×RTX 4090D；基座 Llama-3-8B（主）/ Qwen2.5-14B-Instruct（规模）
 
 > 本文件由 watchdog 在全链完成时自动生成，汇总所有实验环节的关键数字与预注册判定。诚实呈现阴性/降级。
@@ -12,13 +12,13 @@
 | phase3 D 噪声底 | logs/phase3/.done_D | ✅ |
 | phase3 B adalora | logs/phase3/.done_B | ✅ |
 | phase3 E 基线 | logs/phase3/.done_E | ✅ |
-| phase3 C R曲线 | logs/phase3/.done_C | ⏳/✗ |
-| phase3 A 主表重训 | logs/phase3/.done_A | ⏳/✗ |
-| bf16 锚点 | 产物计数 | ⏳/✗ |
-| B8 flex审计采样 | 产物计数 | ⏳/✗ |
-| B5 chat-template | 产物计数 | ⏳/✗ |
-| F18 INT4-RTN | 产物计数 | ⏳/✗ |
-| P2-1 成本归一化 | logs/p21/.done_p21 | ⏳/✗ |
+| phase3 C R曲线 | logs/phase3/.done_C | ✅ |
+| phase3 A 主表重训 | logs/phase3/.done_A | ✅ |
+| bf16 锚点 | 产物计数 | ✅ |
+| B8 flex审计采样 | 产物计数 | ✅ |
+| B5 chat-template | 产物计数 | ✅ |
+| F18 INT4-RTN | 产物计数 | ✅ |
+| P2-1 成本归一化 | logs/p21/.done_p21 | ✅ |
 | P2-1 confirm | logs/p21/.done_p21confirm | ⏳/✗ |
 
 ## 1. 主表 — 等秩 512 BF16（n=3 seed）
@@ -56,16 +56,18 @@ _注：phase3-A 重训（α=2r, 375步 no-packing）替换原 21步 packing 主�
 - GSM8K-flex 配对差 mean ≈ +0.0887（3/3 同号，但 < 14B 本地噪声 14.71pt → 不稳健）
 - 参数：adaq 4,620,288（秩528）vs qlora 6,291,456（秩768，1.45×预算）→ 非预算对齐，描述性参数效率成立，因果「略胜」不成立
 - **B5 chat-template 复评**（决定性，证伪格式 artifact）：
-  - ⏳ 待 B5 完成
+  - REPORT_14B_chattemplate.md 已生成（见该文件 chat vs 非chat flex 配对差 + R1 判定）
 
 ## 5. P2-1 成本归一化秩分配（KBS 唯一正向路径）
 
-_⏳ P2-1 未完成_
+- 主跑判定：**R2（阴性）：cost_norm 未稳定超过 uniform_pm（参数匹配）→ 维持「机制+阴性+功效边界」四件套，退 TMLR/Neural Networks/Neurocomputing**
+- R1=False R1b=False dPM_mean=0.8087 N=4.094
+- R1-confirm：⏳（仅 R1=true 触发）
 
 ## 6. PTQ 基线锚点
 
-- bf16 干净基座（F2/M1）：results_v2/baseline_bf16_seed* — ⏳
-- F18 INT4-RTN-g128：⏳
+- bf16 干净基座（F2/M1）：results_v2/baseline_bf16_seed* — ✅ 6/6
+- F18 INT4-RTN-g128（真 PTQ 锚，rel_err 0.123 吻合理论）：MMLU 61.138 GSM8K-strict None
 
 ## 7. Venue 路由（依结果）
 
