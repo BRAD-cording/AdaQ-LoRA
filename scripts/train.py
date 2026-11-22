@@ -226,7 +226,7 @@ def main():
     ap.add_argument("--dataset-size", type=int, default=2000)
     ap.add_argument("--no-packing", dest="packing", action="store_false", default=True)
     # --- Phase-3 修复 flags ---
-    ap.add_argument("--legacy-alpha16", action="store_true",
+    ap.add_argument("--no-quant", action="store_true", help="Skip BitsAndBytes 4bit quantization (for pre-quantized models e.g. INT4-RTN)");    ap.add_argument("--legacy-alpha16", action="store_true",
                     help="F15: 复刻旧方案A行为（α=16 恒定，不写 alpha_pattern）；默认 α=2r")
     ap.add_argument("--allow-budget-mismatch", action="store_true",
                     help="F4 逃生门：预算不符不 exit 2，仅记 budget_ok=false")
@@ -249,22 +249,30 @@ def main():
     from peft import get_peft_model, prepare_model_for_kbit_training
     from trl import SFTTrainer, SFTConfig
 
-    # --- 量化配置（所有方法统一） ---
-    bnb_config = BitsAndBytesConfig(
-        load_in_4bit=True,
-        bnb_4bit_quant_type="nf4",
-        bnb_4bit_compute_dtype=torch.bfloat16,
-        bnb_4bit_use_double_quant=True,
-    )
-
-    print(f"=== Loading model: {args.model} ===")
-    model = AutoModelForCausalLM.from_pretrained(
-        args.model,
-        quantization_config=bnb_config,
-        device_map="auto",
-        attn_implementation="sdpa",
-    )
-    model = prepare_model_for_kbit_training(model)
+    # --- 模型加载（RTN 跨量化器：跳过 NF4 量化） ---
+    if getattr(args, "no_quant", False):
+        print(f"=== Loading model (no_quant, bf16): {args.model} ===")
+        model = AutoModelForCausalLM.from_pretrained(
+            args.model,
+            torch_dtype=torch.bfloat16,
+            device_map={"": 0},
+            attn_implementation="sdpa",
+        )
+    else:
+        bnb_config = BitsAndBytesConfig(
+            load_in_4bit=True,
+            bnb_4bit_quant_type="nf4",
+            bnb_4bit_compute_dtype=torch.bfloat16,
+            bnb_4bit_use_double_quant=True,
+        )
+        print(f"=== Loading model (NF4 quant): {args.model} ===")
+        model = AutoModelForCausalLM.from_pretrained(
+            args.model,
+            quantization_config=bnb_config,
+            device_map={"": 0},
+            attn_implementation="sdpa",
+        )
+        model = prepare_model_for_kbit_training(model)
     model.config.use_cache = False
 
     tokenizer = AutoTokenizer.from_pretrained(args.model, trust_remote_code=True)

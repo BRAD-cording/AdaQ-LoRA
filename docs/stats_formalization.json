@@ -1,0 +1,71 @@
+{
+  "forest_plot": [
+    {
+      "quantizer": "NF4",
+      "metric": "MMLU",
+      "n": 3,
+      "delta_pt": -0.14,
+      "ci_lo_pt": -0.97,
+      "ci_hi_pt": 0.69,
+      "cohens_d": -0.421,
+      "p": 0.5421,
+      "signif": "ns"
+    },
+    {
+      "quantizer": "NF4",
+      "metric": "GSM8K_flex",
+      "n": 3,
+      "delta_pt": -0.66,
+      "ci_lo_pt": -2.89,
+      "ci_hi_pt": 1.58,
+      "cohens_d": -0.731,
+      "p": 0.333,
+      "signif": "ns"
+    },
+    {
+      "quantizer": "INT8",
+      "metric": "MMLU",
+      "n": 3,
+      "delta_pt": 0.46,
+      "ci_lo_pt": -1.22,
+      "ci_hi_pt": 2.14,
+      "cohens_d": 0.686,
+      "p": 0.3569,
+      "signif": "ns"
+    },
+    {
+      "quantizer": "INT8",
+      "metric": "GSM8K_flex",
+      "n": 3,
+      "delta_pt": 1.97,
+      "ci_lo_pt": -1.93,
+      "ci_hi_pt": 5.87,
+      "cohens_d": 1.257,
+      "p": 0.1614,
+      "signif": "ns"
+    },
+    {
+      "quantizer": "INT4-RTN",
+      "metric": "MMLU",
+      "n": 2,
+      "delta_pt": -0.12,
+      "ci_lo_pt": -1.46,
+      "ci_hi_pt": 1.21,
+      "cohens_d": -0.842,
+      "p": 0.4448,
+      "signif": "ns"
+    },
+    {
+      "quantizer": "INT4-RTN",
+      "metric": "GSM8K_flex",
+      "n": 2,
+      "delta_pt": -0.19,
+      "ci_lo_pt": -1.65,
+      "ci_hi_pt": 1.28,
+      "cohens_d": -1.138,
+      "p": 0.3541,
+      "signif": "ns"
+    }
+  ],
+  "timestamp": "2026-11-20"
+}

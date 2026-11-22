@@ -43,3 +43,13 @@ __pycache__/
 scripts/*.bak.*
 !results_v2/README.md
 !results_v2/summary.pre-repair.json
+
+# --- Paper and experiment artefacts (2026-11-22) ---
+results_v2_rtn/
+results_v2_int8/
+results_v2_norm_aware/
+results_v2_phase3_chat/
+*.jsonl
+scripts/train.py.bak*
+paper/*.pdf
+paper/*.png
