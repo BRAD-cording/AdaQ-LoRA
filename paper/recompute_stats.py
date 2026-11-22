@@ -241,6 +241,25 @@ def load_b16_rtn_gsm8k():
     return out
 
 
+def load_b16_mmlu():
+    """Per-seed MMLU accuracy of the uniform-protocol INT4-RTN rerun (batch 4).
+
+    Source: rtn_b16_mmlu.csv, produced on the training host by
+    scripts/collect_mmlu_b16.py from results_v2_rtn_b16/*/mmlu/results_*.json.
+    """
+    path = ROOT / "rtn_b16_mmlu.csv"
+    if not path.exists():
+        return {}
+    out = {}
+    with path.open(encoding="utf-8-sig") as fh:
+        for row in csv.DictReader(fh):
+            try:
+                out.setdefault(int(row["seed"]), {})[row["method"]] = float(row["mmlu"])
+            except (KeyError, TypeError, ValueError):
+                continue
+    return out
+
+
 def load_b16_flex():
     """Same as load_b16_rtn_gsm8k but for the flexible-extract score."""
     path = ROOT / "rtn_b16_gsm8k.csv"
@@ -296,6 +315,16 @@ def main():
                 r16.update(quantizer="INT4-RTN", metric="GSM8K-strict",
                            metric_key=c["metric_key"], protocol="5-shot, batch 16 (uniform)")
                 cells[i] = r16
+        q_all = bh_fdr([c["p"] for c in cells])
+
+    # replace the INT4-RTN MMLU cell with the uniform-protocol rerun (5-shot, batch 4)
+    r16m = summarize_map(load_b16_mmlu())
+    if r16m:
+        for i, c in enumerate(cells):
+            if c["quantizer"] == "INT4-RTN" and c["metric"] == "MMLU":
+                r16m.update(quantizer="INT4-RTN", metric="MMLU",
+                            metric_key=c["metric_key"], protocol="5-shot, batch 4 (uniform)")
+                cells[i] = r16m
         q_all = bh_fdr([c["p"] for c in cells])
 
     for c, q in zip(cells, q_all):

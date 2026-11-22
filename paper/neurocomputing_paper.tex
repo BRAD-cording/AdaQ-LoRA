@@ -188,7 +188,7 @@ Table~\ref{tab:main_results} reports the primary comparison, computed from per-s
 \midrule
 NF4      & MMLU  & 3 & $-0.07$ & [$-$0.16, $+$0.02] & $-2.02$ & 0.202 & 0.11 \\
 NF4      & GSM8K & 3 & $-0.55$ & [$-$1.52, $+$0.42] & $-1.41$ & 0.202 & 1.21 \\
-INT4-RTN & MMLU  & 3 & $-0.12$ & [$-$0.38, $+$0.15] & $-1.10$ & 0.236 & 0.33 \\
+INT4-RTN & MMLU  & 3 & $-0.05$ & [$-$0.23, $+$0.14] & $-0.60$ & 0.487 & 0.23 \\
 INT4-RTN & GSM8K & 12 & $-0.64$ & [$-$1.52, $+$0.23] & $-0.47$ & 0.202 & 1.22 \\
 INT8     & MMLU  & 5 & $+0.02$ & [$-$0.34, $+$0.37] & $+0.06$ & 0.907 & 0.48 \\
 INT8     & GSM8K & 5 & $+1.46$ & [$-$0.24, $+$3.15] & $+1.07$ & 0.202 & 2.27 \\
@@ -206,7 +206,7 @@ Under NF4 the four arms are indistinguishable: MMLU 0.6533, 0.6540, 0.6538 and 0
 \subsection{What the design resolves}
 \label{sec:power}
 
-Since the interesting claim is an absence, we state resolution explicitly instead of resting on non-significance. On MMLU the 95\% intervals lie inside $\pm 0.5$ points for all three quantizers (NF4 $[-0.16,+0.02]$, INT4-RTN $[-0.38,+0.15]$, INT8 $[-0.34,+0.37]$), so we conclude equivalence within half a point, a stronger statement than the absence of a significant difference. This margin is read off the observed interval rather than pre-specified, so we treat it as a descriptive equivalence bound rather than a confirmatory TOST rejection. On GSM8K the intervals support equivalence within $\pm 2$ points for both 4-bit schemes and within $\pm 3.2$ points for INT8, so a two-point effect is excluded for the 4-bit quantizers but not for INT8. Given the observed within-cell variability, a pre-planned TOST at $\delta = 1$ point with 80\% power needs at most 3 seeds on MMLU (already met), about 14 on GSM8K for either 4-bit scheme, and five for INT8 at $\delta = 2$ points. Repeating the GSM8K cells under flexible answer extraction leaves the conclusions unchanged (INT4-RTN $\Delta = -0.61$, $q = 0.15$; INT8 $\Delta = +0.85$, $q = 0.39$), so the null result is not an artefact of the stricter scorer.
+Since the interesting claim is an absence, we state resolution explicitly instead of resting on non-significance. On MMLU the 95\% intervals lie inside $\pm 0.5$ points for all three quantizers (NF4 $[-0.16,+0.02]$, INT4-RTN $[-0.23,+0.14]$, INT8 $[-0.34,+0.37]$), so we conclude equivalence within half a point, a stronger statement than the absence of a significant difference. This margin is read off the observed interval rather than pre-specified, so we treat it as a descriptive equivalence bound rather than a confirmatory TOST rejection. On GSM8K the intervals support equivalence within $\pm 2$ points for both 4-bit schemes and within $\pm 3.2$ points for INT8, so a two-point effect is excluded for the 4-bit quantizers but not for INT8. Given the observed within-cell variability, a pre-planned TOST at $\delta = 1$ point with 80\% power needs at most 3 seeds on MMLU (already met), about 14 on GSM8K for either 4-bit scheme, and five for INT8 at $\delta = 2$ points. Repeating the GSM8K cells under flexible answer extraction leaves the conclusions unchanged (INT4-RTN $\Delta = -0.61$, $q = 0.15$; INT8 $\Delta = +0.85$, $q = 0.39$), so the null result is not an artefact of the stricter scorer.
 
 %% =============================================================================
 \section{Discussion}
