@@ -23,7 +23,7 @@ python analyze_b16.py          # prints the 12-seed cell and its equivalence bou
 
 Both scripts are pure standard library (the Student-t CDF is implemented
 directly), so they run without scipy. `recompute_stats.py` reads
-`rtn_b16_gsm8k.csv`; the NF4 and INT8 cells are typed in from
+`rtn_b16_gsm8k.csv` (GSM8K) and `rtn_b16_mmlu.csv` (MMLU); the NF4 and INT8 cells are typed in from
 `results_v2/summary.json` and `epsilon_and_tables.txt` of the experiment tree.
 
 ## Where the per-seed results live
