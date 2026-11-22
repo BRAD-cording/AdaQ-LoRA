@@ -30,8 +30,8 @@
 
 \begin{frontmatter}
 
-\title{Error-Aware Rank Allocation Collapses to Norm-Aware Allocation in 4--8-Bit LoRA:\\
-A Cross-Quantizer Empirical Audit}
+\title{Error-Scaled Rank Allocation Collapses to Norm-Proportional Allocation in 4--8-Bit LoRA:\\
+A Cross-Quantizer Audit of One Instantiation}
 
 \author[inst1]{Yibo Zhang\corref{cor1}}
 \ead{zhang_yibo@ahsgs.uum.edu.my}
@@ -42,11 +42,11 @@ A Cross-Quantizer Empirical Audit}
 06010 UUM Sintok, Kedah Darul Aman, Malaysia}
 
 \begin{abstract}
-Error-aware rank allocation assigns LoRA ranks in proportion to the product of per-layer quantization error and parameter importance, assuming that layers losing more information to compression benefit from larger ranks. We audit this assumption on Llama-3-8B across NF4, INT4-RTN and INT8 quantization with three to twelve training seeds per configuration. First, the allocation score is algebraically identical to the Frobenius norm of the quantization error matrix; because per-layer relative error is nearly constant at 4 bits (coefficient of variation 1.48\% for NF4, 0.48\% for INT4-RTN), the score correlates with the weight norm at $\rho = 0.998$ and the realised allocation is norm-proportional. Second, seed-matched paired analysis with Benjamini--Hochberg control shows no significant difference between error-aware and uniform allocation on MMLU or GSM8K ($q \geq 0.20$); equivalence testing bounds the MMLU difference within $\pm 0.5$ percentage points for all three quantizers, and the GSM8K difference within $\pm 2$ points for both 4-bit schemes. Relative error becomes forty times more dispersed under INT8 without regaining discriminative power, because it stays uncorrelated with weight norm ($|\rho| < 0.09$). Within the effect range our design resolves, error-aware rank allocation offers no measurable gain over uniform allocation; we state the sample sizes needed to settle smaller effects.
+We audit one explicit instantiation: ranks assigned in proportion to $\varepsilon_l\|W_l\|_F$, the product of per-layer quantization error and weight norm, on the premise that layers losing more information benefit from larger ranks. The audit runs on Llama-3-8B across NF4, INT4-RTN and INT8 with three to twelve seeds per configuration. First, the allocation score is algebraically identical to the Frobenius norm of the quantization error matrix; because per-layer relative error is nearly constant at 4 bits (coefficient of variation 1.49\% for NF4, 0.49\% for INT4-RTN), the score correlates with the weight norm at $\rho = 0.998$ and the realised allocation is norm-proportional. Second, seed-matched paired analysis with Benjamini--Hochberg control shows no significant difference between error-aware and uniform allocation on MMLU or GSM8K ($q \geq 0.20$); equivalence bounds place the MMLU difference within $\pm 0.5$ percentage points for all three quantizers, and the GSM8K difference within $\pm 2$ points for both 4-bit schemes. Relative error becomes forty times more dispersed under INT8 without regaining discriminative power, because it stays uncorrelated with weight norm ($|\rho| < 0.09$). Within the effect range our design resolves, error-aware rank allocation offers no measurable gain over uniform allocation; we state the sample sizes needed to settle smaller effects.
 \end{abstract}
 
 \begin{keyword}
-quantized fine-tuning \sep LoRA \sep rank allocation \sep negative result \sep equivalence testing
+quantized fine-tuning \sep LoRA \sep rank allocation \sep negative result \sep equivalence bounds
 \end{keyword}
 
 \end{frontmatter}
@@ -64,7 +64,7 @@ We ask a diagnostic question instead of proposing another rule: \emph{does error
     \item a cross-quantizer measurement of per-layer relative error on Llama-3-8B, showing near-constant 4-bit profiles (CV 1.48\% and 0.48\%) and a far more dispersed INT8 profile (CV 61.1\%) that stays uncorrelated with weight norm;
     \item the identity $s_l \equiv \|E_l\|_F$, making the rule a monotone transform of the error norm and, under the measured constancy of $\varepsilon_l$, a norm-proportional rule;
     \item a seed-matched audit over three quantizers and two benchmarks ($n = 3$--$12$) with false-discovery-rate control: no cell is significant ($q \geq 0.20$) and MMLU differences are equivalent within $\pm 0.5$ points;
-    \item a cell-by-cell account of what the design resolves (minimum detectable effects 0.11--6.12 points) and the seeds needed to test a one-point effect (up to 26).
+    \item a cell-by-cell account of what the design resolves (minimum detectable effects 0.11--2.27 points) and the seeds needed to test a one-point effect (about 14).
 \end{enumerate}
 
 The practical form of this result is a one-line diagnostic---the rank correlation between a candidate allocation statistic and the weight norm---which any method in this family can report before training.
@@ -77,7 +77,7 @@ The practical form of this result is a one-line diagnostic---the rank correlatio
 
 \textbf{Quantized fine-tuning.} Post-training quantization compresses frozen weights~\citep{nagel2021whitepaper,gholami2021survey}; representative schemes are LLM.int8() \citep{dettmers2022llmint8}, GPTQ \citep{frantar2023gptq}, AWQ \citep{lin2024awq}, SmoothQuant \citep{xiao2023smoothquant}, ZeroQuant \citep{yao2022zeroquant} and QuIP \citep{chee2023quip}. QLoRA~\citep{dettmers2023qlora} pairs 4-bit NormalFloat storage with LoRA training and is the setting in which error-aware allocation has been proposed; LoftQ \citep{li2024loftq} instead reduces the mismatch between quantisation and low-rank training by alternating optimisation. Our audit fixes the storage scheme and varies only the allocation rule.
 
-\textbf{Error-aware adaptation.} RA-LoRA~\citep{kim2024ralora} allocates rank for 2-bit models, RILQ~\citep{lee2025rilq} compensates quantization error with a rank-insensitive branch and reports that some layers tolerate rank reduction, and AQLoRA~\citep{islam2026aqlora}---despite the similar name---ranks layers to save \emph{time} rather than to improve accuracy. These results support a belief that quantization error carries usable per-layer signal at low bit-widths. We test whether that signal exists between four and eight bits, separating two questions that are often conflated: whether the score carries information beyond the weight norm (it does not), and whether the resulting allocation changes measured accuracy (it does not, within half a point on MMLU).
+\textbf{Error-aware adaptation.} RA-LoRA~\citep{kim2024ralora} allocates rank for 2-bit models, RILQ~\citep{lee2025rilq} compensates quantization error with a rank-insensitive branch and reports that some layers tolerate rank reduction, and AQLoRA~\citep{islam2026aqlora}---despite the similar name---ranks layers to save \emph{time}; its controls already report that error-based layer selection is no better than random on five models, the closest published evidence to our conclusion; it differs from us in selecting whole layers for fp16 retention rather than a rank budget. These results support a belief that quantization error carries usable per-layer signal at low bit-widths. We test whether that signal exists between four and eight bits, separating two questions that are often conflated: whether the score carries information beyond the weight norm (it does not), and whether the resulting allocation changes measured accuracy (it does not, within half a point on MMLU).
 
 %% =============================================================================
 \section{Background}
@@ -115,7 +115,7 @@ Fig.~\ref{fig:framework} summarises the protocol and Algorithm~\ref{alg:audit} s
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.78\linewidth]{audit_framework.png}
+\includegraphics[width=0.71\linewidth]{audit_framework.png}
 \caption{Audit protocol. Frozen weights are quantized once per scheme, per-layer diagnostics decide whether the score carries information beyond the weight norm, and the arms are trained identically and compared with seed-matched paired inference. $E_l = W_l-\hat{W}_l$; $\varepsilon_l$: relative error; $s_l = \varepsilon_l\|W_l\|_F$; CV: coefficient of variation.}
 \label{fig:framework}
 \end{figure}
@@ -155,21 +155,22 @@ Fig.~\ref{fig:framework} summarises the protocol and Algorithm~\ref{alg:audit} s
 \subsection{Per-layer error is near-constant at 4 bits}
 \label{sec:obs1}
 
-Fig.~\ref{fig:epsilon} gives the error profiles. Under NF4 and INT4-RTN relative error is essentially flat across the 64 query projections (mean $0.094$ and $0.090$, CV 1.48\% and 0.48\%, max/min 1.09 and 1.03). Under INT8, over all 226 linear layers, the mean falls to $0.065$ while dispersion rises sharply (CV 61.1\%, max/min 12.2); because this layer set also includes embeddings and the output head, its dispersion is not directly comparable with the 4-bit rows. The two 4-bit schemes rank layers consistently: their per-layer errors correlate at $\rho = 0.887$ ($p = 1.9\times10^{-22}$, $n = 64$).
+Fig.~\ref{fig:epsilon} gives the error profiles. Under NF4 and INT4-RTN relative error is essentially flat across the 64 query projections (mean $0.094$ and $0.090$, CV 1.49\% and 0.49\%, max/min 1.09 and 1.03). Under INT8, over all 226 linear layers, the mean falls to $0.065$ while dispersion rises sharply (CV 61.1\%, max/min 12.2); because this layer set also includes embeddings and the output head, its dispersion is not directly comparable with the 4-bit rows. The two 4-bit schemes rank layers consistently: their per-layer errors correlate at $\rho = 0.887$ ($p = 1.9\times10^{-22}$, $n = 64$).
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.62\linewidth]{epsilon_cross_quantizer.png}
-\caption{Per-layer relative error $\varepsilon_l$ on Llama-3-8B. (a) NF4, CV = 1.48\%. (b) INT4-RTN, CV = 0.48\%. (c) Overlay on the shared query projections. (d) Cross-quantizer scatter, $\rho = 0.887$ ($n = 64$). Panels (c)--(d) use the 64-layer common subset; the INT8 statistics use all 226 linear layers.}
+\caption{Per-layer relative error $\varepsilon_l$ on Llama-3-8B. (a) NF4, CV = 1.49\%. (b) INT4-RTN, CV = 0.49\%. Both share one vertical range. (c) Query projections alone ($n = 32$), $\rho = 0.796$. (d) All 64 modules, $\rho = 0.887$ ($n = 64$). INT8 statistics use all 226 linear layers and are not plotted here.}
 \label{fig:epsilon}
 \end{figure}
 
-The flatness follows from three properties of 4-bit weight quantization: block-wise absmax scaling removes inter-block scale variation, pre-trained weights are close to Gaussian within a block, and the NF4 and INT4 codebooks are designed to be near-optimal for Gaussian inputs. When all three hold, codebook resolution governs relative error, not layer statistics. The mechanism also predicts where the regularity breaks---layers that are not Gaussian, such as embeddings and the output head, which is what the wider INT8 layer set exposes.
+The flatness follows from three properties of 4-bit weight quantization: block-wise absmax scaling removes inter-block scale variation, pre-trained weights are close to Gaussian within a block, and the NF4 and INT4 codebooks are designed to be near-optimal for Gaussian inputs. When all three hold, codebook resolution governs relative error, not layer statistics. The mechanism also predicts where regularity breaks---non-Gaussian layers such as embeddings and the output head, which the wider INT8 set exposes.
 
 \subsection{The score collapses to the error norm}
 \label{sec:obs2}
 
 Eq.~\eqref{eq:degeneracy} fixes the score to $\|E_l\|_F$; the measurement shows what this does to the ranking. The Spearman correlation between $s_l$ and $\|W_l\|_F$ is $0.998$ for both 4-bit schemes, while the correlation with $\varepsilon_l$ is $0.144$ (NF4) and $-0.084$ (INT4-RTN); regressing out the norm leaves $R^2_{\Delta\varepsilon} < 0.0005$. Under INT8, where dispersion is much larger, the score still does not separate from the norm because $\varepsilon_l$ is uncorrelated with $\|W_l\|_F$ ($|\rho| < 0.09$). Error-aware allocation is, in this regime, norm-aware allocation.
+The realised allocation makes this concrete: with 512 ranks over 64 modules, $r_l \in [4,13]$ (mean 8.0, s.d. 3.85), departing from the uniform $r=8$ by up to five ranks (62\%), so the intervention is not a null perturbation. But the variation lies between projection types, not between layers---$q$-projections average $11.8 \pm 0.6$, $v$-projections $4.2 \pm 0.5$, with a layer-to-layer spread of two ranks. The flat profile does not reorder layers; it recovers the larger norm of query projections.
 
 \subsection{No significant difference from uniform allocation}
 \label{sec:main}
@@ -206,7 +207,7 @@ Under NF4 the four arms are indistinguishable: MMLU 0.6533, 0.6540, 0.6538 and 0
 \subsection{What the design resolves}
 \label{sec:power}
 
-Since the interesting claim is an absence, we state resolution explicitly instead of resting on non-significance. On MMLU the 95\% intervals lie inside $\pm 0.5$ points for all three quantizers (NF4 $[-0.16,+0.02]$, INT4-RTN $[-0.23,+0.14]$, INT8 $[-0.34,+0.37]$), so we conclude equivalence within half a point, a stronger statement than the absence of a significant difference. This margin is read off the observed interval rather than pre-specified, so we treat it as a descriptive equivalence bound rather than a confirmatory TOST rejection. On GSM8K the intervals support equivalence within $\pm 2$ points for both 4-bit schemes and within $\pm 3.2$ points for INT8, so a two-point effect is excluded for the 4-bit quantizers but not for INT8. Given the observed within-cell variability, a pre-planned TOST at $\delta = 1$ point with 80\% power needs at most 3 seeds on MMLU (already met), about 14 on GSM8K for either 4-bit scheme, and five for INT8 at $\delta = 2$ points. Repeating the GSM8K cells under flexible answer extraction leaves the conclusions unchanged (INT4-RTN $\Delta = -0.61$, $q = 0.15$; INT8 $\Delta = +0.85$, $q = 0.39$), so the null result is not an artefact of the stricter scorer.
+Since the interesting claim is an absence, we state resolution explicitly instead of resting on non-significance. On MMLU the 95\% intervals lie inside $\pm 0.5$ points for all three quantizers (NF4 $[-0.16,+0.02]$, INT4-RTN $[-0.23,+0.14]$, INT8 $[-0.34,+0.37]$), so we conclude equivalence within half a point, a stronger statement than the absence of a significant difference. Because $\delta$ was fixed after the MMLU pilot rather than pre-registered, we report these as descriptive bounds rather than as a confirmatory TOST rejection. On GSM8K the intervals support equivalence within $\pm 2$ points for both 4-bit schemes and within $\pm 3.2$ points for INT8, so a two-point effect is excluded for the 4-bit quantizers but not for INT8. Given the observed within-cell variability, a pre-planned TOST at $\delta = 1$ point with 80\% power needs at most 3 seeds on MMLU (already met), about 3 seeds on GSM8K for NF4 but about 14 for INT4-RTN and INT8 at $\delta = 1$ point; at $\delta = 2$ points those fall to 3 and 5. Repeating the GSM8K cells under flexible answer extraction leaves the conclusions unchanged (INT4-RTN $\Delta = -0.61$, $q = 0.15$; INT8 $\Delta = +0.85$, $q = 0.39$), so the null result is not an artefact of the stricter scorer.
 
 %% =============================================================================
 \section{Discussion}
@@ -214,9 +215,9 @@ Since the interesting claim is an absence, we state resolution explicitly instea
 
 \textbf{Why the rule has no room to act.} An allocation rule helps only if the quantity it ranks by varies enough to change the realised ranks, and if marginal return to rank depends on that quantity. At 4 bits the first condition fails: relative error varies by under 1.5\% across layers, so the induced ranking is the norm ranking up to pairs whose norms agree to within a few percent. This follows from block-wise scaling plus near-Gaussian weights, which is why two independent 4-bit schemes give flat profiles correlating at $\rho = 0.887$; it is not specific to NF4 or to one implementation. INT8 seems to offer an escape, but there the second condition fails: the layers with the largest relative error are not those with the largest norm ($|\rho| < 0.09$), so the error term adds a component uncorrelated with the importance proxy it is meant to modulate. Dispersion in a direction that carries no information about adaptation benefit does not create signal: variance is necessary but not sufficient, it must align with marginal return to rank.
 
-\textbf{Implications.} First, \emph{norm-aware is the appropriate baseline}: because the score equals the error norm and, at 4 bits, tracks the weight norm closely, a comparison against uniform allocation alone cannot separate error-awareness from norm-awareness. Adaptive-rank papers should report the correlation between their statistic and the weight norm, a one-line diagnostic that would have exposed this degeneracy before any training run. Second, \emph{bit-width determines whether the signal exists}: results at 2 bits, where error is large and heterogeneous~\citep{kim2024ralora,lee2025rilq,chee2023quip}, do not transfer automatically to 4--8 bits, so papers proposing per-layer signals should state the bit-width range at which the signal was verified. Third, \emph{reporting the resolution achieved is what makes a null result usable}: our bounds exclude differences beyond 0.5 points on MMLU and 2 points on GSM8K, which is the part a reader can build on.
+\textbf{Implications.} First, \emph{norm-aware is the appropriate baseline}: because the score equals the error norm and, at 4 bits, tracks the weight norm closely, a comparison against uniform allocation alone cannot separate error-awareness from norm-awareness. Adaptive-rank papers should report the correlation between their statistic and the weight norm, a one-line diagnostic that would have exposed this degeneracy before any training run. Second, \emph{bit-width determines whether the signal exists}: results at 2 bits, where error is large and heterogeneous~\citep{kim2024ralora,lee2025rilq,chee2023quip}, do not transfer automatically to 4--8 bits, so papers proposing per-layer signals should state the bit-width range at which the signal was verified.
 
-\textbf{Threats to validity.} All experiments use Llama-3-8B; architectures with different weight statistics may show less flat profiles, and while the mechanism predicts which models are at risk, we have not tested that prediction. Three to twelve seeds resolve MMLU to half a point and GSM8K to between 2 and 3.2 points, so smaller effects remain untested and we do not claim they are absent. For AdaLoRA and DoRA we reproduce the allocation rule inside a shared pipeline rather than the complete published method, so those arms characterise allocation behaviour under matched conditions rather than the published methods at their best. MMLU and GSM8K probe knowledge and multi-step reasoning; generation quality, instruction following~\citep{zhou2023ifeval} and domain adaptation are outside our evidence, and instruction-tuned evaluation was avoided because the base model degrades under chat templates. 
+\textbf{Threats to validity.} All experiments use Llama-3-8B; architectures with different weight statistics may show less flat profiles, and while the mechanism predicts which models are at risk, we have not tested it. Three to twelve seeds resolve MMLU to half a point and GSM8K to between 2 and 3.2 points, so smaller effects remain untested and we do not claim they are absent. For AdaLoRA and DoRA we reproduce the allocation rule inside a shared pipeline rather than the complete published method, so those arms characterise allocation behaviour under matched conditions rather than the published methods at their best. MMLU and GSM8K probe knowledge and multi-step reasoning; generation quality, instruction following~\citep{zhou2023ifeval} and domain adaptation are outside our evidence, and instruction-tuned evaluation was avoided because the base model degrades under chat templates. 
 
 %% =============================================================================
 \section{Conclusion}
@@ -250,7 +251,6 @@ Table~\ref{tab:training_config} lists the configuration shared by all arms; only
 \toprule
 \textbf{Parameter} & \textbf{Value} \\
 \midrule
-Base model    & Meta-Llama-3-8B (base, no chat template) \\
 Quantization  & NF4 bnb 4-bit (group 64) / INT4-RTN g128 (pre-quantised, loaded in bf16) / INT8 per-channel \\
 Adapters      & q\_proj and v\_proj, 64 modules, $\alpha=2r$; budget 512 per-layer from \texttt{ranks.json}, uniform arms rank 8 per module \\
 Optimisation  & $2\times10^{-4}$ AdamW, cosine schedule, 3\% warmup, 3 epochs (63 packed steps); batch 1 $\times$ accumulation 16 (NF4 arm: 4 $\times$ 4, same effective batch) \\
