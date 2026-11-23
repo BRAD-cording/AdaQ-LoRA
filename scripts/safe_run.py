@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+﻿#!/usr/bin/env python
 """safe_run.py -- run a training or evaluation command with OOM protection.
 
 Three protections, none of which existed before:
@@ -23,7 +23,8 @@ import subprocess
 import sys
 import time
 
-OOM_MARKERS = ("OutOfMemoryError", "CUDA out of memory", "out of memory")
+OOM_MARKERS = ("OutOfMemoryError", "CUDA out of memory", "out of memory",
+               "CUBLAS_STATUS")
 
 
 def gpu_free(gpu):
