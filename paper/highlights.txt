@@ -1,4 +1,4 @@
-﻿Error-scaled LoRA rank allocation reduces to the weight-norm rule at 4-8 bits
+Error-scaled LoRA rank allocation reduces to the weight-norm rule at 4-8 bits
 The allocation score equals the Frobenius error norm, so importance cancels
 Paired seed audits on NF4, INT4-RTN and INT8 find no significant difference
 MMLU differences are bounded within 0.5 points and GSM8K within 2 points
